@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+
+    <script type="text/javascript">
+        var smartDonations_arrow_closed="images/arrow_right.png";
+        var smartDonations_arrow_open="images/arrow_down.png";
+    </script>
+
+
+    <link href="css/mainStyle.css" rel="stylesheet"/>
+    <link href="css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css" rel="stylesheet"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/smartDonationsSettings.js"></script>
+    <script type="text/javascript" src="js/donationGenerator.js"></script>
+    <script type="text/javascript" src="js/donationConfiguration.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script>
+    <script type="text/javascript" src="js/raphael-min.js"></script>
+
+
+
+
+</head>
+
+<body>
+</body>
+<div id="rednaoSmartDonaitions">
+
+
+
+    <div class="treeDiv" id="smartDonationsBasic">
+        <img class="treeButton" src="images/arrow_down.png" alt=""/>
+        <h2 class="treeTitle">Basic</h2>
+    </div>
+    <div  id="smartDonationsBasicDetail">
+        <hr/>
+        <div class="category">
+            <span>Name</span>
+            <input type="text"/>
+            <span class="description"> *The name of the donation, this name is displayed in the donations list</span>
+            <br/>
+            <span>Email</span>
+            <input type="text"/>
+            <span class="description"> *Email Used for the donation</span>
+        </div>
+    </div>
+
+
+    <br/>
+
+
+
+    <div class="treeDiv" id="smartDonationsAdvanced">
+        <img class="treeButton" src="images/arrow_right.png" alt=""/>
+        <h2 class="treeTitle">Advanced Options</h2>
+    </div>
+    <div  id="smartDonationsAdvancedDetail">
+        <hr/>
+        <div class="category" >
+            <span>Returning Url</span>
+            <input type="text"/>
+            <span class="description">*Page displayed after he does a donation</span>
+        </div>
+    </div>
+    
+
+
+
+
+
+    <!--Item Container--->
+    <br/>
+    <br/>
+    <div id="smartdonationsItemsContainer">
+        <div id="smartDonationsItemsContainerHeader">
+            <span>Select a Donation Type</span>
+        </div>
+        <div id="smartDonationsItemsContainerBody">
+            <div id="smartDonationsSlideAnimation">
+                <div id="smartDonationsItemsList">
+                    <div class="smartDonationsItem">
+                        <input type="hidden" name="type" value="classic"/>
+                        <img src="images/classic_donation.png" alt="" >
+                    </div>
+        
+                    <div class="smartDonationsItem">
+                        <input type="hidden" name="type" value="textbox"/>
+                        <img src="images/text_box_donation.png" alt="">
+                    </div>
+        
+                    <div class="smartDonationsItem">
+                        <input type="hidden" name="type" value="threeButtons"/>
+                        <img src="images/three_buttons_donation.png" alt="">
+                    </div>
+        
+                    <div class="smartDonationsItem">
+                        <input type="hidden" name="type" value="slider"/>
+                        <img src="images/slider_donation.png" alt="">
+                    </div>
+                </div>
+
+
+
+
+                <div id="smartDonationsConfiguration">
+                       <img id="smartDonationsBackFromConfiguration" src="images/arrow_back.png" alt="">
+                       <span id="smartDonationsItemTitle">Test</span>
+
+
+                        <div id="smartDonationsCustomFields">
+
+                        </div>
+
+
+                        <div id="smartDonationsPreview" >
+                            <span id="smartDonationsPreviewText">Preview (Using my Donation Account)</span>
+
+                            <div id="smartDonationsPreviewContainer"></div>
+
+
+                        </div>
+                </div>
+
+
+
+            </div>
+            
+            
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+        <br/><br/>
+
+
+<script type="text/javascript" language="javascript">
+
+    var paper;
+    var min=100;
+    var max=400;
+    var value=250;
+    $(function(){
+        var smileDiv=$(".smartDonationsSmile");
+        $(".smartDonationsSlide").slider({
+            range: "min",
+            value: value,
+            min: min,
+            max: max,
+            slide: slide
+        });
+        paper = Raphael(smileDiv[0], 50, 50);
+
+
+        $('.smartDonationsAmount').text('$'+value);
+        value=value-min;
+        value=value*0.7/(max-min);
+        printSmile(value +.3);
+    });
+
+    function slide(event,ui)
+    {
+        var value=ui.value;
+        $('.smartDonationsAmount').text('$'+value);
+
+        value=value-min;
+
+        value=value*0.7/(max-min);
+
+        printSmile(value +.3);
+
+    }
+
+
+    function printSmile(smilePercentage)
+    {
+
+        paper.clear();
+
+        //interpolation
+        paper.circle(25, 25, 24);
+
+        paper.circle(16, 17, 5);
+        paper.circle(34, 17, 5);
+
+        circle = paper.circle(70, 10, 7);
+        circle.attr("fill", "black");
+        paper.path("M" + interpolate(15, 10, smilePercentage) + " "
+                + interpolate(35, 25, smilePercentage) + ",  C"
+                + interpolate(15, 15, smilePercentage) + " "
+                + interpolate(35, 45, smilePercentage) + "  ,  "
+                + interpolate(35, 35, smilePercentage) + " "
+                + interpolate(35, 45, smilePercentage) + ",    "
+                + interpolate(35, 41, smilePercentage) + " "
+                + interpolate(35, 25, smilePercentage));
+
+
+        // paper.path("M0," + originY + " C" + smileSizeX.toString() + " " +(originY+smileSizeY).toString() + ", " + (100 - smileSizeX).toString() + " " + (originY+ smileSizeY).toString() + ",50 " + originY ).attr({ stroke: "red" });
+    }
+
+    function interpolate(start,end,smilePercentage) {
+        return (start + ((end - start) * smilePercentage)).toString();
+    }
+
+
+
+    function changed() {
+
+        printSmile(document.getElementById("text").value);
+    }
+</script>
+<div  class="smartDonationsSlider" >
+    <table>
+        <tr>
+            <td><span>Current Donation:</span><strong style="margin-left: 5px" class="smartDonationsAmount">$10</strong></td>
+            <td rowspan="2"><div class="smartDonationsSmile" style="display: inline-block; margin-left:8px;"></div></td>
+        </tr>
+        <tr>
+            <td><div class="smartDonationsSlide" style="display: inline-block;width:160px"></div></td>
+            <td></td>
+
+        </tr>
+    </table>
+
+
+
+</div>
+</html>
