@@ -1,5 +1,3 @@
-
-
 <?php
 /**
  * Created by JetBrains PhpStorm.
@@ -39,11 +37,11 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
         set_transient("rednao_smart_donations_donation_$id",$options,60*60*24*31);
     }
     wp_enqueue_script('jquery');
-    wp_enqueue_script('isolated-slider',plugins_url('/smartdonations/js/rednao-isolated-jq.js'));
-    wp_enqueue_script('smart-donations-generator',plugins_url('/smartdonations/js/donationGenerator.js'),array('isolated-slider'));
-    wp_enqueue_script('smart-donations-raphael',plugins_url('/smartdonations/js/raphael-min.js'),array('isolated-slider'));
-    wp_enqueue_style('smart-donations-main-style',plugins_url('/smartdonations/css/mainStyle.css'));
-    wp_enqueue_style('smart-donations-Slider',plugins_url('/smartdonations/css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css'));
+    wp_enqueue_script('isolated-slider',plugins_url('/smart-donations/js/rednao-isolated-jq.js'));
+    wp_enqueue_script('smart-donations-generator',plugins_url('/smart-donations/js/donationGenerator.js'),array('isolated-slider'));
+    wp_enqueue_script('smart-donations-raphael',plugins_url('/smart-donations/js/raphael-min.js'),array('isolated-slider'));
+    wp_enqueue_style('smart-donations-main-style',plugins_url('/smart-donations/css/mainStyle.css'));
+    wp_enqueue_style('smart-donations-Slider',plugins_url('/smart-donations/css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css'));
     $random=rand();
 
     if($returnComponent==false)
@@ -52,7 +50,7 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
     <div id="donationContainer<?php echo $random?>"></div>
 
     <script>
-        var smartDonationsRootPath="<?php echo plugins_url("/smartdonations/")?>";
+        var smartDonationsRootPath="<?php echo plugins_url("/smart-donations/")?>";
         jQuery(function()
         {
             smartDonationsLoadDonation(<?php echo $options?> ,"donationContainer<?php echo $random?>")
@@ -62,7 +60,7 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
     }else{
         return "<div id='donationContainer$random'></div>
             <script>
-                var smartDonationsRootPath=\"".plugins_url('/smartdonations/')."\";
+                var smartDonationsRootPath=\"".plugins_url('/smart-donations/')."\";
                 jQuery(function()
                 {
                     smartDonationsLoadDonation($options,'donationContainer$random')
