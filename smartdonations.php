@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Smart Donations
- * Plugin URI: https://rednao/product/smartdonations/
+ * Plugin URI: http://rednao.com/smart-donations/
  * Description: Place diferent form of donations on your blog...
  * Author: RedNao
  * Author URI: http://rednao.com
