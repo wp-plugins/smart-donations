@@ -430,7 +430,7 @@ function smartDonationsSliderDonationGenerator(containerName,options){
         this.smartDonationsMinValue=options.smartDonationsMinValue;
         this.smartDonationsMaxValue=options.smartDonationsMaxValue;
         this.smartDonationsDefaultValue=options.smartDonationsDefaultValue;
-        this.smartDonationInCrementOf=options.smartDonationInCrementOf;
+        this.smartDonationIncrementOf=options.smartDonationIncrementOf;
         this.currentValue=options.smartDonationsDefaultValue;
     }else{
         this.smartDonationText="If you like it, please donate.";
