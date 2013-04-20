@@ -11,14 +11,14 @@
 if(!defined('ABSPATH'))
     die('Forbidden');
 wp_enqueue_script('jquery');
-wp_enqueue_script('isolated-slider',plugins_url('/smartdonations/js/rednao-isolated-jq.js'));
-wp_enqueue_script('smart-donations-settings',plugins_url('/smartdonations/js/smartDonationsSettings.js'),array('isolated-slider'));
-wp_enqueue_script('smart-donations-generator',plugins_url('/smartdonations/js/donationGenerator.js'),array('isolated-slider'));
-wp_enqueue_script('smart-donations-configuration',plugins_url('/smartdonations/js/donationConfiguration.js'),array('isolated-slider'));
-wp_enqueue_script('smart-donations-raphael',plugins_url('/smartdonations/js/raphael-min.js'),array('isolated-slider'));
+wp_enqueue_script('isolated-slider',plugins_url('/smart-donations/js/rednao-isolated-jq.js'));
+wp_enqueue_script('smart-donations-settings',plugins_url('/smart-donations/js/smartDonationsSettings.js'),array('isolated-slider'));
+wp_enqueue_script('smart-donations-generator',plugins_url('/smart-donations/js/donationGenerator.js'),array('isolated-slider'));
+wp_enqueue_script('smart-donations-configuration',plugins_url('/smart-donations/js/donationConfiguration.js'),array('isolated-slider'));
+wp_enqueue_script('smart-donations-raphael',plugins_url('/smart-donations/js/raphael-min.js'),array('isolated-slider'));
 
-wp_enqueue_style('smart-donations-main-style',plugins_url('/smartdonations/css/mainStyle.css'));
-wp_enqueue_style('smart-donations-Slider',plugins_url('/smartdonations/css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css'));
+wp_enqueue_style('smart-donations-main-style',plugins_url('/smart-donations/css/mainStyle.css'));
+wp_enqueue_style('smart-donations-Slider',plugins_url('/smart-donations/css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css'));
 
 ?>
 
@@ -27,10 +27,10 @@ wp_enqueue_style('smart-donations-Slider',plugins_url('/smartdonations/css/smart
 
 
     <script type="text/javascript">
-        var smartDonations_arrow_closed="<?php echo plugins_url('/smartdonations/')?>images/arrow_right.png";
-        var smartDonations_arrow_open="<?php echo plugins_url('/smartdonations/')?>images/arrow_down.png";
+        var smartDonations_arrow_closed="<?php echo plugins_url('/smart-donations/')?>images/arrow_right.png";
+        var smartDonations_arrow_open="<?php echo plugins_url('/smart-donations/')?>images/arrow_down.png";
 
-        var smartDonationsRootPath="<?php echo plugins_url("/smartdonations/")?>";
+        var smartDonationsRootPath="<?php echo plugins_url("/smart-donations/")?>";
 
         jQuery(function()
         {
@@ -69,7 +69,7 @@ wp_enqueue_style('smart-donations-Slider',plugins_url('/smartdonations/css/smart
             button.attr('disabled', 'disabled');
             button.text("Saving...");
 
-            var donationsOptions=rnJQuery("#smart_donations_component_options").serialize();
+            var donationsOptions=rnJQuery("#smart_donations_component_options, #smart_donations_component_options form").serialize();
 
             var data={
                 action:"rednao_smart_donations_save",
@@ -135,7 +135,7 @@ wp_enqueue_style('smart-donations-Slider',plugins_url('/smartdonations/css/smart
 
         <div  >
           <div class="treeDiv" id="smartDonationsBasic" style="display: inline-block">
-            <img class="treeButton" src="<?php echo plugins_url('/smartdonations/')?>images/arrow_down.png" alt=""/>
+            <img class="treeButton" src="<?php echo plugins_url('/smart-donations/')?>images/arrow_down.png" alt=""/>
             <h2 class="treeTitle">Basic</h2>
           </div>
             <button style="margin-left: 530px;width:100px;cursor: hand;cursor: pointer;" id="smartDonationsSaveButton" >Save</button>
@@ -159,7 +159,7 @@ wp_enqueue_style('smart-donations-Slider',plugins_url('/smartdonations/css/smart
 
 
         <div class="treeDiv" id="smartDonationsAdvanced">
-            <img class="treeButton" src="<?php echo plugins_url('/smartdonations/')?>images/arrow_right.png" alt=""/>
+            <img class="treeButton" src="<?php echo plugins_url('/smart-donations/')?>images/arrow_right.png" alt=""/>
             <h2 class="treeTitle">Advanced Options</h2>
         </div>
         <div  id="smartDonationsAdvancedDetail">
@@ -188,22 +188,22 @@ wp_enqueue_style('smart-donations-Slider',plugins_url('/smartdonations/css/smart
                     <div id="smartDonationsItemsList">
                         <div class="smartDonationsItem">
                             <input type="hidden"  value="classic"/>
-                            <img src="<?php echo plugins_url('/smartdonations/')?>images/classic_donation.png" alt="" >
+                            <img src="<?php echo plugins_url('/smart-donations/')?>images/classic_donation.png" alt="" >
                         </div>
 
                         <div class="smartDonationsItem">
                             <input type="hidden"  value="textbox"/>
-                            <img src="<?php echo plugins_url('/smartdonations/')?>images/text_box_donation.png" alt="">
+                            <img src="<?php echo plugins_url('/smart-donations/')?>images/text_box_donation.png" alt="">
                         </div>
 
                         <div class="smartDonationsItem">
                             <input type="hidden"  value="threeButtons"/>
-                            <img src="<?php echo plugins_url('/smartdonations/')?>images/three_buttons_donation.png" alt="">
+                            <img src="<?php echo plugins_url('/smart-donations/')?>images/three_buttons_donation.png" alt="">
                         </div>
 
                         <div class="smartDonationsItem">
                             <input type="hidden"  value="slider"/>
-                            <img src="<?php echo plugins_url('/smartdonations/')?>images/slider_donation.png" alt="">
+                            <img src="<?php echo plugins_url('/smart-donations/')?>images/slider_donation.png" alt="">
                         </div>
                     </div>
 
@@ -211,7 +211,7 @@ wp_enqueue_style('smart-donations-Slider',plugins_url('/smartdonations/css/smart
 
 
                     <div id="smartDonationsConfiguration">
-                        <img id="smartDonationsBackFromConfiguration" src="<?php echo plugins_url('/smartdonations/')?>images/arrow_back.png" alt="">
+                        <img id="smartDonationsBackFromConfiguration" src="<?php echo plugins_url('/smart-donations/')?>images/arrow_back.png" alt="">
                         <span id="smartDonationsItemTitle">Test</span>
 
 

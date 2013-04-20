@@ -1,17 +1,17 @@
 <?php
 /**
  * Plugin Name: Smart Donations
- * Plugin URI: https://rednao/product/smartdonations/
+ * Plugin URI: http://rednao.com/smart-donations/
  * Description: Place diferent form of donations on your blog...
  * Author: RedNao
  * Author URI: http://rednao.com
- * Version: 3.0.4
+ * Version: 0.5.1
  * Text Domain: SmartDonations
  * Domain Path: /languages/
  * Network: true
  * License: GPLv3
  * License URI: http://www.gnu.org/licenses/gpl-3.0
- * Slug: backwpup
+ * Slug: smartdonations
  */
 
 

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=edsev
 Tags: donations, donate, donation buttons, donation widget
 Requires at least: 3.0.1
 Tested up to: 3.5
-Stable tag: 1.0
+Stable tag: 0.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,9 +56,10 @@ For now you can edit the css file smartdonations/css/mainStyle.css, i have plans
 
 == Changelog ==
 
-= 1.0 =
+= 0.5 =
 * Initial release
-
+= 0.5.1 =
+* Fixing a bug with the slider (thanks Dave!)
 
 
 == Upgrade Notice ==
