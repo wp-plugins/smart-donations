@@ -27,11 +27,11 @@
             <div style="text-align: center; margin-left:15px;">
                 <p style="font-size:18px; margin:0;padding: 0 0 5px 0;font-weight: bold; ">Author</p>
                 <div>
-                    <img  src="<?php echo plugins_url("/smart-donations/")?>images/myPhoto.jpg" style="display: block"/>
+                    <img  src="<?php echo plugin_dir_url(__FILE__)?>images/myPhoto.jpg" style="display: block"/>
                     <div style="text-align: right;">
-                       <a href="https://twitter.com/edgarerojas" target="_blank"> <img  src="<?php echo plugins_url("/smart-donations/")?>images/twitter.png"/></a>
-                       <a href="https://plus.google.com/117324787123318950809" target="_blank"> <img  src="<?php echo plugins_url("/smart-donations/")?>images/google.png"/></a>
-                       <a href="https://www.facebook.com/RedNAOSoft" target="_blank"> <img  src="<?php echo plugins_url("/smart-donations/")?>images/facebook.png"/> </a>
+                       <a href="https://twitter.com/edgarerojas" target="_blank"> <img  src="<?php echo plugin_dir_url(__FILE__)?>images/twitter.png"/></a>
+                       <a href="https://plus.google.com/117324787123318950809" target="_blank"> <img  src="<?php echo plugin_dir_url(__FILE__)?>images/google.png"/></a>
+                       <a href="https://www.facebook.com/RedNAOSoft" target="_blank"> <img  src="<?php echo plugin_dir_url(__FILE__)?>images/facebook.png"/> </a>
                     </div>
 
                     <p style="text-align: left; margin: 0;padding: 0; font-size: 14px;"> <strong>Name: </strong>Edgar Rojas</p>
