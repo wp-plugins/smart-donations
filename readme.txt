@@ -15,7 +15,7 @@ This plugin lets you pick different styles of donations that you can add to your
 Smart Donations
 =
 
- This plugin lets you pick different styles of donations and add them to your posts (as a shortcode) or to any sidebar (as a widget). Currently it supports four different styles:
+ This plugin lets you pick different styles of donations and add them to your posts (as a shortcode) or to any sidebar (as a widget). Currently it supports paypal and we pay and four different styles:
  
  *  **Classic**.- The classic paypal button.
    
