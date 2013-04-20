@@ -12,10 +12,14 @@ if(!defined('ABSPATH'))
     die('Forbidden');
 wp_enqueue_script('jquery');
 wp_enqueue_script('isolated-slider',plugins_url('/smart-donations/js/rednao-isolated-jq.js'));
-wp_enqueue_script('smart-donations-settings',plugins_url('/smart-donations/js/smartDonationsSettings.js'),array('isolated-slider'));
-wp_enqueue_script('smart-donations-generator',plugins_url('/smart-donations/js/donationGenerator.js'),array('isolated-slider'));
 wp_enqueue_script('smart-donations-configuration',plugins_url('/smart-donations/js/donationConfiguration.js'),array('isolated-slider'));
+wp_enqueue_script('smart-donations-configuration-wepay',plugins_url('/smart-donations/js/donationConfiguration_wepay.js'),array('isolated-slider','smart-donations-configuration'));
+wp_enqueue_script('smart-donations-donation-provider',plugins_url('/smart-donations/js/donationProvider.js'),array('isolated-slider'));
+wp_enqueue_script('smart-donations-generator',plugins_url('/smart-donations/js/donationGenerator.js'),array('isolated-slider','smart-donations-donation-provider'));
+wp_enqueue_script('smart-donations-generator-wepay',plugins_url('/smart-donations/js/donationGenerator_wepay.js'),array('smart-donations-generator'));
 wp_enqueue_script('smart-donations-raphael',plugins_url('/smart-donations/js/raphael-min.js'),array('isolated-slider'));
+wp_enqueue_script('smart-donations-settings',plugins_url('/smart-donations/js/smartDonationsSettings.js'),array('isolated-slider','smart-donations-configuration','smart-donations-configuration-wepay','smart-donations-generator','smart-donations-donation-provider'));
+
 
 wp_enqueue_style('smart-donations-main-style',plugins_url('/smart-donations/css/mainStyle.css'));
 wp_enqueue_style('smart-donations-Slider',plugins_url('/smart-donations/css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css'));
@@ -32,7 +36,32 @@ wp_enqueue_style('smart-donations-Slider',plugins_url('/smart-donations/css/smar
 
         var smartDonationsRootPath="<?php echo plugins_url("/smart-donations/")?>";
 
-        jQuery(function()
+        function providerChanged() {
+            SmartDonations_backFromConfiguration();
+            var newProvider=rnJQuery(this).val()
+            $("#smartDonationsProvider").val(newProvider);
+            switch(newProvider)
+            {
+                case 'wepay':
+                    rnJQuery('#smartDonationsImageClassic').attr('src','<?php echo plugins_url('/smart-donations/')?>images/classic_donation_wepay.png');
+                    rnJQuery('#smartDonationsImageTextBox').attr('src','<?php echo plugins_url('/smart-donations/')?>images/text_box_donation_wepay.png');
+                    rnJQuery('#smartDonationsImageSlider').attr('src','<?php echo plugins_url('/smart-donations/')?>images/slider_donation_wepay.png');
+                    rnJQuery('#emailText').text("Donation Id");
+                    rnJQuery('#imgEmailQuestion').show();
+                    break;
+                case 'paypal':
+                    rnJQuery('#smartDonationsImageClassic').attr('src','<?php echo plugins_url('/smart-donations/')?>images/classic_donation.png');
+                    rnJQuery('#smartDonationsImageTextBox').attr('src','<?php echo plugins_url('/smart-donations/')?>images/text_box_donation.png');
+                    rnJQuery('#smartDonationsImageSlider').attr('src','<?php echo plugins_url('/smart-donations/')?>images/slider_donation.png');
+                    rnJQuery('#emailText').text("Email");
+                    rnJQuery('#imgEmailQuestion').hide();
+
+
+            }
+
+
+        }
+        function SmartDonationsInitialize()
         {
             rnJQuery("#smartDonationsSaveButton").click(SmartDonationsSave);
 
@@ -56,11 +85,40 @@ wp_enqueue_style('smart-donations-Slider',plugins_url('/smart-donations/css/smar
                 rnJQuery('#smartDonationsDonationId').val(smartDonationsSavedId);
             }
 
+            if(typeof smartDonationsDonationProvider!='undefined')
+            {
+                rnJQuery("#rednao_smart_donations_provider").val(smartDonationsDonationProvider);
+            }
+
             if(typeof smartDonationsSavedOptions!='undefined')
             {
                 SmartDonations_donationTypeClicked(null,smartDonationsSavedOptions);
             }
-        });
+
+            rnJQuery("#rednao_smart_donations_provider").change(providerChanged);
+
+            rnJQuery("#imgEmailQuestion").click(function()
+            {
+                var dialog= rnJQuery("#emailQuestionDialog").dialog({
+                    width:720,
+                    height:480,
+                    modal:true,
+                    draggable:false,
+                    resizable:false,
+                    create: function(event, ui){
+                        $('.ui-dialog').wrap('<div class="smartDonationsSlider" />');
+                    },
+                    open: function(event, ui){
+                        $('.ui-widget-overlay').wrap('<div class="smartDonationsSlider" />');
+                    }
+                });
+
+
+            });
+
+        };
+
+
         function SmartDonationsSave()
         {
             event.preventDefault();
@@ -68,8 +126,19 @@ wp_enqueue_style('smart-donations-Slider',plugins_url('/smart-donations/css/smar
             button.focus();
             button.attr('disabled', 'disabled');
             button.text("Saving...");
+            var businessElement=rnJQuery('#smart_donations_component_options input[name="business"]');
+            if(businessElement.length<=0)
+            {
+                rnJQuery('#smart_donations_component_options').append('<input type="hidden" name="business" value="'+rnJQuery("#smartDonationsEmail").val()+'"/>');
 
-            var donationsOptions=rnJQuery("#smart_donations_component_options").serialize();
+            }else
+                businessElement.val(rnJQuery("#smartDonationsEmail").val());
+
+
+            var donationProviderElement=rnJQuery('#smart_donations_component_options input[name="donation_provider"]');
+            donationProviderElement.val(rnJQuery("#rednao_smart_donations_provider").val());
+
+            var donationsOptions=rnJQuery("#smart_donations_component_options, #smart_donations_component_options form").serialize();
 
             var data={
                 action:"rednao_smart_donations_save",
@@ -78,6 +147,7 @@ wp_enqueue_style('smart-donations-Slider',plugins_url('/smart-donations/css/smar
                 email:rnJQuery("#smartDonationsEmail").val(),
                 donationId:rnJQuery("#smartDonationsDonationId").val(),
                 donationType:rnJQuery("#smartDonationsType").val(),
+                donation_Provider:rnJQuery("#rednao_smart_donations_provider").val(),
                 donationOptions:donationsOptions
             };
 
@@ -143,13 +213,23 @@ wp_enqueue_style('smart-donations-Slider',plugins_url('/smart-donations/css/smar
         <div  id="smartDonationsBasicDetail">
             <hr/>
             <div class="category">
+                <span>Donation Provider</span>
+                <select name="smartDonationsProvider" id="rednao_smart_donations_provider" style="margin-bottom:5px;">
+                    <option value="paypal" selected="sel">PayPal</option>
+                    <option value="wepay">WePay</option>
+                </select>
+                <br/>
                 <span>Name</span>
                 <input type="text" name="smartDonationsName" id="smartDonationsName"/>
-                <span class="description"> *The name of the donation, this name is displayed in the donations list</span>
+                <span class="description" style="margin-bottom:5px;"> *The name of the donation, this name is displayed in the donations list</span>
                 <br/>
-                <span>Email</span>
-                <input type="text" name="business" id="smartDonationsEmail"/>
-                <span class="description"> *Email Used for the donation</span>
+                <div>
+                    <span id="emailText">Email</span>
+                    <input type="text" name="business" id="smartDonationsEmail"/>
+                    <img id="imgEmailQuestion" src="<?php echo plugins_url('/smart-donations/')?>images/questionMark_small.jpg" style="vertical-align: middle; cursor: hand; cursor: pointer; display: none;">
+
+                    <span class="description"> *Email Used for the donation</span>
+                </div>
             </div>
         </div>
 
@@ -178,6 +258,8 @@ wp_enqueue_style('smart-donations-Slider',plugins_url('/smart-donations/css/smar
 
         <!--Item Container--->
         <input type="hidden" id="smartDonationsType" name="smartDonationsType"/>
+        <input type="hidden" id="smartDonationsProvider" name="donation_provider"/>
+
 
         <div id="smartdonationsItemsContainer">
             <div id="smartDonationsItemsContainerHeader">
@@ -188,22 +270,22 @@ wp_enqueue_style('smart-donations-Slider',plugins_url('/smart-donations/css/smar
                     <div id="smartDonationsItemsList">
                         <div class="smartDonationsItem">
                             <input type="hidden"  value="classic"/>
-                            <img src="<?php echo plugins_url('/smart-donations/')?>images/classic_donation.png" alt="" >
+                            <img id="smartDonationsImageClassic" src="<?php echo plugins_url('/smart-donations/')?>images/classic_donation.png" alt="" >
                         </div>
 
                         <div class="smartDonationsItem">
                             <input type="hidden"  value="textbox"/>
-                            <img src="<?php echo plugins_url('/smart-donations/')?>images/text_box_donation.png" alt="">
+                            <img id="smartDonationsImageTextBox" src="<?php echo plugins_url('/smart-donations/')?>images/text_box_donation.png" alt="">
                         </div>
 
                         <div class="smartDonationsItem">
                             <input type="hidden"  value="threeButtons"/>
-                            <img src="<?php echo plugins_url('/smart-donations/')?>images/three_buttons_donation.png" alt="">
+                            <img  src="<?php echo plugins_url('/smart-donations/')?>images/three_buttons_donation.png" alt="">
                         </div>
 
                         <div class="smartDonationsItem">
                             <input type="hidden"  value="slider"/>
-                            <img src="<?php echo plugins_url('/smart-donations/')?>images/slider_donation.png" alt="">
+                            <img  id="smartDonationsImageSlider" src="<?php echo plugins_url('/smart-donations/')?>images/slider_donation.png" alt="">
                         </div>
                     </div>
 
@@ -240,6 +322,14 @@ wp_enqueue_style('smart-donations-Slider',plugins_url('/smart-donations/css/smar
     </div>
 
 </form>
+
+
+
+    <div id="emailQuestionDialog" title="We Pay Id" style="display: none">
+        <p>You can get the donation id on the code that you get when you create a donation button</p>
+        <img src="<?php echo plugins_url('/smart-donations/')?>images/wepay_demo.png">
+    </div>
+
 
 
 

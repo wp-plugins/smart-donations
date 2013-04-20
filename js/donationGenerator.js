@@ -1,22 +1,65 @@
+rnJQuery(function()
+{
+    if( window.smartDonationsItemsToLoad)
+        for(var i=0;i< window.smartDonationsItemsToLoad.length;i++)
+            smartDonationsLoadDonation(window.smartDonationsItemsToLoad[i].options,window.smartDonationsItemsToLoad[i].element);
+    else
+        SmartDonationsInitialize();
+});
+if (Object.create === undefined) {
+    Object.create = function (o) {
+        function F() { }
+        F.prototype = o;
+        return new F();
+    };
+}
 
 /***Base Object*******/
 function smartDonationsLoadDonation(options,containerName)
 {
     var donationTypeSelected= options.smartDonationsType;
+    if(!options.donation_provider)
+        options.donation_provider='paypal';
+
     var aux;
-    if(donationTypeSelected=='classic')
-        aux=new smartDonationsClassicDonationGenerator(containerName,options);
-    if(donationTypeSelected=='textbox')
-        aux=new smartDonationsTextBoxDonationGenerator(containerName,options);
-    if(donationTypeSelected=="threeButtons")
-        aux=new smartDonationsThreeButtonsDonationGenerator(containerName,options);
-    if(donationTypeSelected=="slider")
-        aux=new smartDonationsSliderDonationGenerator(containerName,options);
+
+    if(options.donation_provider=='paypal')
+    {
+        if(donationTypeSelected=='classic')
+            aux=new smartDonationsClassicDonationGenerator(containerName,options);
+        if(donationTypeSelected=='textbox')
+            aux=new smartDonationsTextBoxDonationGenerator(containerName,options);
+        if(donationTypeSelected=="threeButtons")
+            aux=new smartDonationsThreeButtonsDonationGenerator(containerName,options);
+        if(donationTypeSelected=="slider")
+            aux=new smartDonationsSliderDonationGenerator(containerName,options);
+    }
+
+    if(options.donation_provider=='wepay')
+    {
+        if(donationTypeSelected=='classic')
+            aux=new smartDonationsClassicDonationGenerator_wepay(containerName,options);
+        if(donationTypeSelected=='textbox')
+            aux=new smartDonationsTextBoxDonationGenerator_wepay(containerName,options);
+        if(donationTypeSelected=="threeButtons")
+            aux=new smartDonationsThreeButtonsDonationGenerator_wepay(containerName,options);
+        if(donationTypeSelected=="slider")
+            aux=new smartDonationsSliderDonationGenerator_wepay(containerName,options);
+    }
+
+
     aux.GenerateDonationItem();
+
+
+
 }
 
 
-function smartDonationsBaseGenerator(containerName2,options){
+function smartDonationsBaseGenerator(containerName2,options,donationProvider){
+    if(donationProvider)
+        this.donationProvider=donationProvider;
+    else
+        this.donationProvider=new smartDonationsPayPalProvider();
     this.containerName=containerName2;
     if(options)
     {
@@ -26,13 +69,18 @@ function smartDonationsBaseGenerator(containerName2,options){
 
 }
 
+smartDonationsBaseGenerator.prototype.GetRootContainer=function()
+{
+    return rnJQuery('#'+this.containerName);
+}
+
 smartDonationsBaseGenerator.prototype.DonationGeneratedCode=function(){};
 
 smartDonationsBaseGenerator.prototype.GenerateDonationItem=function()
 {
     var generator=this;
-    rnJQuery('#'+this.containerName).html(this.DonationGeneratedCode());
-    rnJQuery('#'+this.containerName).find(".donationForm").submit(function(){generator.SubmitFired(generator)});
+    this.GetRootContainer().html('').append(this.DonationGeneratedCode());
+    this.GetRootContainer().find(".donationForm").submit(function(){generator.SubmitFired(generator)});
     this.GenerationCompleted();
 }
 
@@ -48,22 +96,7 @@ smartDonationsBaseGenerator.prototype.SubmitFired=function(generator)
 
 smartDonationsBaseGenerator.prototype.GetStartOfDonationForm=function(defaultQuantity)
 {
-    var donationText= '<div class="smartDonationsDonationGeneratedItem"  >\
-                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="donationForm" target="_blank">      \
-                <input type="hidden" name="cmd" value="_donations">\
-                <input type="hidden" name="business" value="'+this.business+'">\
-                <input type="hidden" name="lc" value="US">                       \
-                <input type="hidden" name="no_note" value="0">                    \
-                <input type="hidden" name="currency_code" value="USD">             \
-                <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">';
-
-    if(this.returningUrl)
-        donationText+='<input type="hidden" name="return" class="amountToDonate" value="'+this.returningUrl+'">';
-
-    if(defaultQuantity)
-        donationText+='<input type="hidden" name="amount" class="amountToDonate" value="'+defaultQuantity+'">';
-
-    return donationText;
+    return this.donationProvider.GetStartOfDonationForm(this, defaultQuantity);
 
 
 };
@@ -74,7 +107,7 @@ smartDonationsBaseGenerator.prototype.ChangeAmountToDonate=function(amount)
     try
     {
         var amount=parseFloat(amount);
-        rnJQuery('#'+this.containerName).find(".amountToDonate").val(amount);
+        this.GetRootContainer().find(".amountToDonate").val(amount);
     }catch(exception)
     {
 
@@ -84,20 +117,24 @@ smartDonationsBaseGenerator.prototype.ChangeAmountToDonate=function(amount)
 
 smartDonationsBaseGenerator.prototype.GetEndOfDonationForm=function()
 {
-    return '</form>\
-             </div>';
+    return this.donationProvider.GetEndOfDonationForm();
 };
 
 
 
-/****Classic Generator***************************************/
-function smartDonationsClassicDonationGenerator(containerName,options){
-    smartDonationsBaseGenerator.call(this,containerName,options);
+
+/************************************************************************************* Classic Generator ***************************************************************************************************/
+
+
+function smartDonationsClassicDonationGenerator(containerName,options,donationProvider){
+    smartDonationsBaseGenerator.call(this,containerName,options,donationProvider);
     if(options)
     {
         this.smartDonationsdisplaycreditlogo=options.smartDonationsdisplaycreditlogo;
     }else
+    {
         this.smartDonationsdisplaycreditlogo=false;
+    }
 }
 
 smartDonationsClassicDonationGenerator.prototype=Object.create(smartDonationsBaseGenerator.prototype);
@@ -122,9 +159,14 @@ smartDonationsClassicDonationGenerator.prototype.DonationGeneratedCode=function(
 
 
 
-/****Text Box Generator***************************************/
-function smartDonationsTextBoxDonationGenerator(containerName,options){
-    smartDonationsBaseGenerator.call(this,containerName,options);
+
+
+/************************************************************************************* Text Box  ***************************************************************************************************/
+
+
+
+function smartDonationsTextBoxDonationGenerator(containerName,options,donationProvider){
+    smartDonationsBaseGenerator.call(this,containerName,options,donationProvider);
 
     if(options)
     {
@@ -133,9 +175,9 @@ function smartDonationsTextBoxDonationGenerator(containerName,options){
         this.smartDonationsStyle=options.smartDonationsStyle;
     }else
     {
-        this.smartDonationsComment='If you like this plugin, please donate';
-        this.smartDonationsRecommendedDonation=15;
-        this.smartDonationsStyle=2;
+        this.smartDonationsComment="";
+        this.smartDonationsRecommendedDonation=0;
+        this.smartDonationsStyle=1;
     }
 }
 
@@ -229,9 +271,14 @@ smartDonationsTextBoxDonationGenerator.prototype.DonationGeneratedCode=function(
 }
 
 
-    /****Three buttons Generator***************************************/
-    function smartDonationsThreeButtonsDonationGenerator(containerName,options){
-        smartDonationsBaseGenerator.call(this,containerName,options);
+
+
+/************************************************************************************* Three Buttons  ***************************************************************************************************/
+
+
+
+    function smartDonationsThreeButtonsDonationGenerator(containerName,options,donationProvider){
+        smartDonationsBaseGenerator.call(this,containerName,options,donationProvider);
 
 
         if(options)
@@ -252,18 +299,18 @@ smartDonationsTextBoxDonationGenerator.prototype.DonationGeneratedCode=function(
         }else
         {
             this.smartDonationButtonStyle1="threeButtonsStyle1.png";
-            this.smartDonationButtonText1="Thank you (&#36;5)";
-            this.smartdonationsDonationquantity1=5;
+            this.smartDonationButtonText1="";
+            this.smartdonationsDonationquantity1=0;
 
             this.smartDonationButtonStyle2="threeButtonsStyle1.png";
-            this.smartDonationButtonText2="Wow, Thanks!(&#36;15)";
-            this.smartdonationsDonationquantity2=15;
+            this.smartDonationButtonText2="";
+            this.smartdonationsDonationquantity2=0;
 
             this.smartDonationButtonStyle3="threeButtonsStyle1.png";
-            this.smartDonationButtonText3="You... Just Rock(&#36;25)";
-            this.smartdonationsDonationquantity3=25;
+            this.smartDonationButtonText3="";
+            this.smartdonationsDonationquantity3=0;
 
-            this.smartDonationSameSize=true;
+            this.smartDonationSameSize=true;;
         }
 
 
@@ -272,8 +319,8 @@ smartDonationsTextBoxDonationGenerator.prototype.DonationGeneratedCode=function(
 
     smartDonationsThreeButtonsDonationGenerator.prototype.AdjustSize=function(image,span,generator)
     {
-        var image = rnJQuery('#'+this.containerName).find(image);
-        var text = rnJQuery('#'+this.containerName).find(span);
+        var image = this.GetRootContainer().find(image);
+        var text = this.GetRootContainer().find(span);
 
         this.ResizeImage(image, text,generator);
         this.CenterTextInImage(image, text);
@@ -291,7 +338,7 @@ smartDonationsTextBoxDonationGenerator.prototype.DonationGeneratedCode=function(
 
          if(this.smartDonationSameSize)
          {
-             var spans=rnJQuery('#'+generator.containerName).find('.smartDonationsThreeButtonSpan1,.smartDonationsThreeButtonSpan2,.smartDonationsThreeButtonSpan3');
+             var spans=generator.GetRootContainer().find('.smartDonationsThreeButtonSpan1,.smartDonationsThreeButtonSpan2,.smartDonationsThreeButtonSpan3');
              for(var i=0;i<spans.length;i++)
              {
                  var spanToCheck=rnJQuery(spans[i]);
@@ -358,71 +405,67 @@ smartDonationsTextBoxDonationGenerator.prototype.DonationGeneratedCode=function(
 
 
 
-
-
-    smartDonationsThreeButtonsDonationGenerator.prototype.DonationGeneratedCode=function()
-    {
-        return '<div class="smartDonationsThreeButtonsDiv1" >'+ this.GetStartOfDonationForm(this.smartdonationsDonationquantity1)+
-            '<div class="smartdonationsThreeButtonStyle"> \
-                <image class="smartDonationsThreeButtonImage1 smartDonationsThreeButton" src="" />\
-                <span class="smartDonationsThreeButtonSpan1 smartDonationsThreeButtonSpan" >'+this.smartDonationButtonText1+'</span>\
+smartDonationsThreeButtonsDonationGenerator.prototype.DonationGeneratedCode=function()
+{
+    return '<div class="smartDonationsThreeButtonsDiv1" >'+ this.GetStartOfDonationForm(this.smartdonationsDonationquantity1)+
+        '<div class="smartdonationsThreeButtonStyle"> \
+            <image class="smartDonationsThreeButtonImage1 smartDonationsThreeButton" src="" />\
+            <span class="smartDonationsThreeButtonSpan1 smartDonationsThreeButtonSpan" >'+this.smartDonationButtonText1+'</span>\
              </div>'+this.GetEndOfDonationForm()+
-            this.GetStartOfDonationForm(this.smartdonationsDonationquantity2)+
-            '<div class="smartdonationsThreeButtonStyle smartDonationsThreeButtonMiddleDiv" > \
-                <image class="smartDonationsThreeButtonImage2 smartDonationsThreeButton" src=""/>\
-                <span class="smartDonationsThreeButtonSpan2 smartDonationsThreeButtonSpan" >'+this.smartDonationButtonText2+'</span>\
+        this.GetStartOfDonationForm(this.smartdonationsDonationquantity2)+
+        '<div class="smartdonationsThreeButtonStyle smartDonationsThreeButtonMiddleDiv" > \
+            <image class="smartDonationsThreeButtonImage2 smartDonationsThreeButton" src=""/>\
+            <span class="smartDonationsThreeButtonSpan2 smartDonationsThreeButtonSpan" >'+this.smartDonationButtonText2+'</span>\
              </div>'+this.GetEndOfDonationForm()+
-            this.GetStartOfDonationForm(this.smartdonationsDonationquantity3)+
-            '<div class="smartdonationsThreeButtonStyle"> \
-                <image class="smartDonationsThreeButtonImage3 smartDonationsThreeButton" src="" />\
-                <span class="smartDonationsThreeButtonSpan3 smartDonationsThreeButtonSpan" >'+this.smartDonationButtonText3+'</span>\
+        this.GetStartOfDonationForm(this.smartdonationsDonationquantity3)+
+        '<div class="smartdonationsThreeButtonStyle"> \
+            <image class="smartDonationsThreeButtonImage3 smartDonationsThreeButton" src="" />\
+            <span class="smartDonationsThreeButtonSpan3 smartDonationsThreeButtonSpan" >'+this.smartDonationButtonText3+'</span>\
              </div>'+this.GetEndOfDonationForm()+'</div>';
 
 
-    }
+}
 
 
-    smartDonationsThreeButtonsDonationGenerator.prototype.GenerationCompleted=function()
+smartDonationsThreeButtonsDonationGenerator.prototype.GenerationCompleted=function()
+{
+    var generator=this;
+
+    rnJQuery(function()
     {
-        var generator=this;
+        generator.GetRootContainer().find('.smartDonationsDonationGeneratedItem').css('display','inline-block');
+    })
 
-        rnJQuery(function()
-        {
-            rnJQuery('#'+generator.containerName).find('.smartDonationsDonationGeneratedItem').css('display','inline-block');
-        })
-
-        rnJQuery(function(){
-            generator.CreateAndLayoutImage('.smartDonationsThreeButtonImage1','.smartDonationsThreeButtonSpan1',generator.smartDonationButtonStyle1);
-            generator.CreateAndLayoutImage('.smartDonationsThreeButtonImage2','.smartDonationsThreeButtonSpan2',generator.smartDonationButtonStyle2);
-            generator.CreateAndLayoutImage('.smartDonationsThreeButtonImage3','.smartDonationsThreeButtonSpan3',generator.smartDonationButtonStyle3);
-        });
+    rnJQuery(function(){
+        generator.CreateAndLayoutImage('.smartDonationsThreeButtonImage1','.smartDonationsThreeButtonSpan1',generator.smartDonationButtonStyle1);
+        generator.CreateAndLayoutImage('.smartDonationsThreeButtonImage2','.smartDonationsThreeButtonSpan2',generator.smartDonationButtonStyle2);
+        generator.CreateAndLayoutImage('.smartDonationsThreeButtonImage3','.smartDonationsThreeButtonSpan3',generator.smartDonationButtonStyle3);
+    });
 
 
-    }
+}
 
-    smartDonationsThreeButtonsDonationGenerator.prototype.CreateAndLayoutImage=function(image,span,imageName)
-    {
-        var generator=this;
-        rnJQuery('#'+generator.containerName).find(image).attr('src',smartDonationsRootPath+'/images/'+imageName).load(function(){generator.AdjustSize(image,span,generator)});
-        rnJQuery('#'+generator.containerName).find(image+','+span).click(function(){
-            rnJQuery(this).parent().parent().submit();
-        });
-    }
+smartDonationsThreeButtonsDonationGenerator.prototype.CreateAndLayoutImage=function(image,span,imageName)
+{
+    var generator=this;
+    rnJQuery('#'+generator.containerName).find(image).attr('src',smartDonationsRootPath+'/images/'+imageName).load(function(){generator.AdjustSize(image,span,generator)});
+    rnJQuery('#'+generator.containerName).find(image+','+span).click(function(){
+        rnJQuery(this).parent().parent().submit();
+    });
+}
 
 
 
 
 
 
+/************************************************************************************* Slider ***************************************************************************************************/
 
 
 
 
-
-
-/****Slider Generator******************************************************************************************/
-function smartDonationsSliderDonationGenerator(containerName,options){
-    smartDonationsBaseGenerator.call(this,containerName,options);
+function smartDonationsSliderDonationGenerator(containerName,options,donationProvider){
+    smartDonationsBaseGenerator.call(this,containerName,options,donationProvider);
 
     if(options)
     {
@@ -432,18 +475,15 @@ function smartDonationsSliderDonationGenerator(containerName,options){
         this.smartDonationsDefaultValue=options.smartDonationsDefaultValue;
         this.smartDonationIncrementOf=options.smartDonationIncrementOf;
         this.currentValue=options.smartDonationsDefaultValue;
-    }else{
-        this.smartDonationText="If you like it, please donate.";
-        this.smartDonationsMinValue=5;
-        this.smartDonationsMaxValue=50;
-        this.smartDonationsDefaultValue=25;
-        this.smartDonationInCrementOf=5;
-        this.currentValue=this.smartDonationsDefaultValue;
+    }else
+    {
+        this.smartDonationText="";
+        this.smartDonationsMinValue=0;
+        this.smartDonationsMaxValue=10;
+        this.smartDonationsDefaultValue=5;
+        this.smartDonationIncrementOf=1
+        this.currentValue=5;
     }
-
-
-
-
 }
 
 smartDonationsSliderDonationGenerator.prototype=Object.create(smartDonationsBaseGenerator.prototype);
@@ -457,7 +497,8 @@ smartDonationsSliderDonationGenerator.prototype.slide=function(event,ui,generato
 
     generator.currentValue=value;
 
-    rnJQuery('#'+generator.containerName).find('.smartDonationsAmount').text(value);
+    generator.GetRootContainer().find('.smartDonationsAmount').text(value);
+    generator.ValueUpdated(generator,value);
 
     value=value-generator.smartDonationsMinValue;
 
@@ -465,8 +506,11 @@ smartDonationsSliderDonationGenerator.prototype.slide=function(event,ui,generato
 
     generator.printSmile(value +.3);
 
+
+
 }
 
+smartDonationsSliderDonationGenerator.prototype.ValueUpdated=function(generator,value){}
 
 smartDonationsSliderDonationGenerator.prototype.printSmile=function(smilePercentage)
 {
@@ -541,14 +585,14 @@ smartDonationsSliderDonationGenerator.prototype.GenerationCompleted=function()
     generator.value=generator.smartDonationsDefaultValue;
 
     rnJQuery(function(){
-        var smileDiv=rnJQuery('#'+generator.containerName).find(".smartDonationsSmile");
+        var smileDiv=generator.GetRootContainer().find(".smartDonationsSmile");
         if(generator.paper)
         {
             generator.paper.clear();
             smileDiv.html('');
 
         }
-        rnJQuery('#'+generator.containerName).find(".smartDonationsSlide").slider({
+        generator.GetRootContainer().find(".smartDonationsSlide").slider({
             range: "min",
             value: generator.smartDonationsDefaultValue,
             min: generator.smartDonationsMinValue,
@@ -559,7 +603,7 @@ smartDonationsSliderDonationGenerator.prototype.GenerationCompleted=function()
         generator.paper = Raphael(smileDiv[0], 50, 50);
 
 
-        rnJQuery('#'+generator.containerName).find('.smartDonationsAmount').text(generator.value);
+        generator.GetRootContainer().find('.smartDonationsAmount').text(generator.value);
         generator.value=generator.value-generator.smartDonationsMinValue;
         generator.value=generator.value*0.7/(generator.smartDonationsMaxValue-generator.smartDonationsMinValue);
         generator.slide(null,null,generator);

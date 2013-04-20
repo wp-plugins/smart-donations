@@ -1,6 +1,6 @@
-/*! jQuery UI - v1.10.2 - 2013-03-21
+/*! jQuery UI - v1.10.2 - 2013-04-14
 * http://jqueryui.com
-* Includes: jquery.smartDonationsSlider .ui.core.css, jquery.smartDonationsSlider .ui.slider.css
+* Includes: jquery.smartDonationsSlider .ui.core.css, jquery.smartDonationsSlider .ui.resizable.css, jquery.smartDonationsSlider .ui.button.css, jquery.smartDonationsSlider .ui.dialog.css, jquery.smartDonationsSlider .ui.slider.css
 * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Trebuchet%20MS%2CTahoma%2CVerdana%2CArial%2Csans-serif&fwDefault=bold&fsDefault=1.1em&cornerRadius=4px&bgColorHeader=f6a828&bgTextureHeader=gloss_wave&bgImgOpacityHeader=35&borderColorHeader=e78f08&fcHeader=ffffff&iconColorHeader=ffffff&bgColorContent=eeeeee&bgTextureContent=highlight_soft&bgImgOpacityContent=100&borderColorContent=dddddd&fcContent=333333&iconColorContent=222222&bgColorDefault=f6f6f6&bgTextureDefault=glass&bgImgOpacityDefault=100&borderColorDefault=cccccc&fcDefault=1c94c4&iconColorDefault=ef8c08&bgColorHover=fdf5ce&bgTextureHover=glass&bgImgOpacityHover=100&borderColorHover=fbcb09&fcHover=c77405&iconColorHover=ef8c08&bgColorActive=ffffff&bgTextureActive=glass&bgImgOpacityActive=65&borderColorActive=fbd850&fcActive=eb8f00&iconColorActive=ef8c08&bgColorHighlight=ffe45c&bgTextureHighlight=highlight_soft&bgImgOpacityHighlight=75&borderColorHighlight=fed22f&fcHighlight=363636&iconColorHighlight=228ef1&bgColorError=b81900&bgTextureError=diagonals_thick&bgImgOpacityError=18&borderColorError=cd0a0a&fcError=ffffff&iconColorError=ffd27a&bgColorOverlay=666666&bgTextureOverlay=diagonals_thick&bgImgOpacityOverlay=20&opacityOverlay=50&bgColorShadow=000000&bgTextureShadow=flat&bgImgOpacityShadow=10&opacityShadow=20&thicknessShadow=5px&offsetTopShadow=-5px&offsetLeftShadow=-5px&cornerRadiusShadow=5px
 * Copyright 2013 jQuery Foundation and other contributors Licensed MIT */
 
@@ -86,6 +86,237 @@
 	width: 100%;
 	height: 100%;
 }
+.smartDonationsSlider .ui-resizable {
+	position: relative;
+}
+.smartDonationsSlider .ui-resizable-handle {
+	position: absolute;
+	font-size: 0.1px;
+	display: block;
+}
+.smartDonationsSlider .ui-resizable-disabled .ui-resizable-handle,
+.smartDonationsSlider .ui-resizable-autohide .ui-resizable-handle {
+	display: none;
+}
+.smartDonationsSlider .ui-resizable-n {
+	cursor: n-resize;
+	height: 7px;
+	width: 100%;
+	top: -5px;
+	left: 0;
+}
+.smartDonationsSlider .ui-resizable-s {
+	cursor: s-resize;
+	height: 7px;
+	width: 100%;
+	bottom: -5px;
+	left: 0;
+}
+.smartDonationsSlider .ui-resizable-e {
+	cursor: e-resize;
+	width: 7px;
+	right: -5px;
+	top: 0;
+	height: 100%;
+}
+.smartDonationsSlider .ui-resizable-w {
+	cursor: w-resize;
+	width: 7px;
+	left: -5px;
+	top: 0;
+	height: 100%;
+}
+.smartDonationsSlider .ui-resizable-se {
+	cursor: se-resize;
+	width: 12px;
+	height: 12px;
+	right: 1px;
+	bottom: 1px;
+}
+.smartDonationsSlider .ui-resizable-sw {
+	cursor: sw-resize;
+	width: 9px;
+	height: 9px;
+	left: -5px;
+	bottom: -5px;
+}
+.smartDonationsSlider .ui-resizable-nw {
+	cursor: nw-resize;
+	width: 9px;
+	height: 9px;
+	left: -5px;
+	top: -5px;
+}
+.smartDonationsSlider .ui-resizable-ne {
+	cursor: ne-resize;
+	width: 9px;
+	height: 9px;
+	right: -5px;
+	top: -5px;
+}
+.smartDonationsSlider .ui-button {
+	display: inline-block;
+	position: relative;
+	padding: 0;
+	line-height: normal;
+	margin-right: .1em;
+	cursor: pointer;
+	vertical-align: middle;
+	text-align: center;
+	overflow: visible; /* removes extra width in IE */
+}
+.smartDonationsSlider .ui-button,
+.smartDonationsSlider .ui-button:link,
+.smartDonationsSlider .ui-button:visited,
+.smartDonationsSlider .ui-button:hover,
+.smartDonationsSlider .ui-button:active {
+	text-decoration: none;
+}
+/* to make room for the icon, a width needs to be set here */
+.smartDonationsSlider .ui-button-icon-only {
+	width: 2.2em;
+}
+/* button elements seem to need a little more width */
+button.smartDonationsSlider .ui-button-icon-only {
+	width: 2.4em;
+}
+.smartDonationsSlider .ui-button-icons-only {
+	width: 3.4em;
+}
+button.smartDonationsSlider .ui-button-icons-only {
+	width: 3.7em;
+}
+
+/* button text element */
+.smartDonationsSlider .ui-button .ui-button-text {
+	display: block;
+	line-height: normal;
+}
+.smartDonationsSlider .ui-button-text-only .ui-button-text {
+	padding: .4em 1em;
+}
+.smartDonationsSlider .ui-button-icon-only .ui-button-text,
+.smartDonationsSlider .ui-button-icons-only .ui-button-text {
+	padding: .4em;
+	text-indent: -9999999px;
+}
+.smartDonationsSlider .ui-button-text-icon-primary .ui-button-text,
+.smartDonationsSlider .ui-button-text-icons .ui-button-text {
+	padding: .4em 1em .4em 2.1em;
+}
+.smartDonationsSlider .ui-button-text-icon-secondary .ui-button-text,
+.smartDonationsSlider .ui-button-text-icons .ui-button-text {
+	padding: .4em 2.1em .4em 1em;
+}
+.smartDonationsSlider .ui-button-text-icons .ui-button-text {
+	padding-left: 2.1em;
+	padding-right: 2.1em;
+}
+/* no icon support for input elements, provide padding by default */
+input.smartDonationsSlider .ui-button {
+	padding: .4em 1em;
+}
+
+/* button icon element(s) */
+.smartDonationsSlider .ui-button-icon-only .ui-icon,
+.smartDonationsSlider .ui-button-text-icon-primary .ui-icon,
+.smartDonationsSlider .ui-button-text-icon-secondary .ui-icon,
+.smartDonationsSlider .ui-button-text-icons .ui-icon,
+.smartDonationsSlider .ui-button-icons-only .ui-icon {
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+}
+.smartDonationsSlider .ui-button-icon-only .ui-icon {
+	left: 50%;
+	margin-left: -8px;
+}
+.smartDonationsSlider .ui-button-text-icon-primary .ui-button-icon-primary,
+.smartDonationsSlider .ui-button-text-icons .ui-button-icon-primary,
+.smartDonationsSlider .ui-button-icons-only .ui-button-icon-primary {
+	left: .5em;
+}
+.smartDonationsSlider .ui-button-text-icon-secondary .ui-button-icon-secondary,
+.smartDonationsSlider .ui-button-text-icons .ui-button-icon-secondary,
+.smartDonationsSlider .ui-button-icons-only .ui-button-icon-secondary {
+	right: .5em;
+}
+
+/* button sets */
+.smartDonationsSlider .ui-buttonset {
+	margin-right: 7px;
+}
+.smartDonationsSlider .ui-buttonset .ui-button {
+	margin-left: 0;
+	margin-right: -.3em;
+}
+
+/* workarounds */
+/* reset extra padding in Firefox, see h5bp.com/l */
+input.smartDonationsSlider .ui-button::-moz-focus-inner,
+button.smartDonationsSlider .ui-button::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+.smartDonationsSlider .ui-dialog {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: .2em;
+	outline: 0;
+}
+.smartDonationsSlider .ui-dialog .ui-dialog-titlebar {
+	padding: .4em 1em;
+	position: relative;
+}
+.smartDonationsSlider .ui-dialog .ui-dialog-title {
+	float: left;
+	margin: .1em 0;
+	white-space: nowrap;
+	width: 90%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.smartDonationsSlider .ui-dialog .ui-dialog-titlebar-close {
+	position: absolute;
+	right: .3em;
+	top: 50%;
+	width: 21px;
+	margin: -10px 0 0 0;
+	padding: 1px;
+	height: 20px;
+}
+.smartDonationsSlider .ui-dialog .ui-dialog-content {
+	position: relative;
+	border: 0;
+	padding: .5em 1em;
+	background: none;
+	overflow: auto;
+}
+.smartDonationsSlider .ui-dialog .ui-dialog-buttonpane {
+	text-align: left;
+	border-width: 1px 0 0 0;
+	background-image: none;
+	margin-top: .5em;
+	padding: .3em 1em .5em .4em;
+}
+.smartDonationsSlider .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+	float: right;
+}
+.smartDonationsSlider .ui-dialog .ui-dialog-buttonpane button {
+	margin: .5em .4em .5em 0;
+	cursor: pointer;
+}
+.smartDonationsSlider .ui-dialog .ui-resizable-se {
+	width: 12px;
+	height: 12px;
+	right: -5px;
+	bottom: -5px;
+	background-position: 16px 16px;
+}
+.smartDonationsSlider .ui-draggable .ui-dialog-titlebar {
+	cursor: move;
+}
 .smartDonationsSlider .ui-slider {
 	position: relative;
 	text-align: left;
@@ -168,7 +399,7 @@
 }
 .smartDonationsSlider .ui-widget-content {
 	border: 1px solid #dddddd;
-	background: #eeeeee url(images/ui-bg_highlight-soft_100_eeeeee_1x100.png) 50% top repeat-x;
+	background: #eeeeee url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-bg_highlight-soft_100_eeeeee_1x100.png) 50% top repeat-x;
 	color: #333333;
 }
 .smartDonationsSlider .ui-widget-content a {
@@ -176,7 +407,7 @@
 }
 .smartDonationsSlider .ui-widget-header {
 	border: 1px solid #e78f08;
-	background: #f6a828 url(images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
+	background: #f6a828 url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
 	color: #ffffff;
 	font-weight: bold;
 }
@@ -190,7 +421,7 @@
 .smartDonationsSlider .ui-widget-content .ui-state-default,
 .smartDonationsSlider .ui-widget-header .ui-state-default {
 	border: 1px solid #cccccc;
-	background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+	background: #f6f6f6 url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
 	font-weight: bold;
 	color: #1c94c4;
 }
@@ -207,7 +438,7 @@
 .smartDonationsSlider .ui-widget-content .ui-state-focus,
 .smartDonationsSlider .ui-widget-header .ui-state-focus {
 	border: 1px solid #fbcb09;
-	background: #fdf5ce url(images/ui-bg_glass_100_fdf5ce_1x400.png) 50% 50% repeat-x;
+	background: #fdf5ce url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-bg_glass_100_fdf5ce_1x400.png) 50% 50% repeat-x;
 	font-weight: bold;
 	color: #c77405;
 }
@@ -222,7 +453,7 @@
 .smartDonationsSlider .ui-widget-content .ui-state-active,
 .smartDonationsSlider .ui-widget-header .ui-state-active {
 	border: 1px solid #fbd850;
-	background: #ffffff url(images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
+	background: #ffffff url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
 	font-weight: bold;
 	color: #eb8f00;
 }
@@ -239,7 +470,7 @@
 .smartDonationsSlider .ui-widget-content .ui-state-highlight,
 .smartDonationsSlider .ui-widget-header .ui-state-highlight {
 	border: 1px solid #fed22f;
-	background: #ffe45c url(images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x;
+	background: #ffe45c url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-bg_highlight-soft_75_ffe45c_1x100.png) 50% top repeat-x;
 	color: #363636;
 }
 .smartDonationsSlider .ui-state-highlight a,
@@ -251,7 +482,7 @@
 .smartDonationsSlider .ui-widget-content .ui-state-error,
 .smartDonationsSlider .ui-widget-header .ui-state-error {
 	border: 1px solid #cd0a0a;
-	background: #b81900 url(images/ui-bg_diagonals-thick_18_b81900_40x40.png) 50% 50% repeat;
+	background: #b81900 url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-bg_diagonals-thick_18_b81900_40x40.png) 50% 50% repeat;
 	color: #ffffff;
 }
 .smartDonationsSlider .ui-state-error a,
@@ -297,27 +528,27 @@
 }
 .smartDonationsSlider .ui-icon,
 .smartDonationsSlider .ui-widget-content .ui-icon {
-	background-image: url(images/ui-icons_222222_256x240.png);
+	background-image: url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-icons_222222_256x240.png);
 }
 .smartDonationsSlider .ui-widget-header .ui-icon {
-	background-image: url(images/ui-icons_ffffff_256x240.png);
+	background-image: url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-icons_ffffff_256x240.png);
 }
 .smartDonationsSlider .ui-state-default .ui-icon {
-	background-image: url(images/ui-icons_ef8c08_256x240.png);
+	background-image: url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-icons_ef8c08_256x240.png);
 }
 .smartDonationsSlider .ui-state-hover .ui-icon,
 .smartDonationsSlider .ui-state-focus .ui-icon {
-	background-image: url(images/ui-icons_ef8c08_256x240.png);
+	background-image: url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-icons_ef8c08_256x240.png);
 }
 .smartDonationsSlider .ui-state-active .ui-icon {
-	background-image: url(images/ui-icons_ef8c08_256x240.png);
+	background-image: url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-icons_ef8c08_256x240.png);
 }
 .smartDonationsSlider .ui-state-highlight .ui-icon {
-	background-image: url(images/ui-icons_228ef1_256x240.png);
+	background-image: url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-icons_228ef1_256x240.png);
 }
 .smartDonationsSlider .ui-state-error .ui-icon,
 .smartDonationsSlider .ui-state-error-text .ui-icon {
-	background-image: url(images/ui-icons_ffd27a_256x240.png);
+	background-image: url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-icons_ffd27a_256x240.png);
 }
 
 /* positioning */
@@ -530,14 +761,14 @@
 
 /* Overlays */
 .smartDonationsSlider .ui-widget-overlay {
-	background: #666666 url(images/ui-bg_diagonals-thick_20_666666_40x40.png) 50% 50% repeat;
+	background: #666666 url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-bg_diagonals-thick_20_666666_40x40.png) 50% 50% repeat;
 	opacity: .5;
 	filter: Alpha(Opacity=50);
 }
 .smartDonationsSlider .ui-widget-shadow {
 	margin: -5px 0 0 -5px;
 	padding: 5px;
-	background: #000000 url(images/ui-bg_flat_10_000000_40x100.png) 50% 50% repeat-x;
+	background: #000000 url(../../../../../../../Downloads/jquery-ui-1.10.2.custom/css/smartDonationsSlider/images/ui-bg_flat_10_000000_40x100.png) 50% 50% repeat-x;
 	opacity: .2;
 	filter: Alpha(Opacity=20);
 	border-radius: 5px;

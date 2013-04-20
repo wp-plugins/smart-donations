@@ -41,9 +41,10 @@ if($action!=null&&$donation_id!=null)
                             var smartDonationsSavedName="%s";
                             var smartDonationsSavedReturningUrl="%s";
                             var smartDonationsSavedOptions=jQuery.parseJSON('%s');
+                            var smartDonationsDonationProvider="%s";
                         </script>
 EOF;
-            echo sprintf($script,$result->donation_id,$result->email,$result->donation_name,$result->returning_url,$options);
+            echo sprintf($script,$result->donation_id,$result->email,$result->donation_name,$result->returning_url,$options,$result->donation_provider);
             include(SMART_DONATIONS_DIR.'/smart-donations-add-new.php');
             return;
 

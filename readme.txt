@@ -60,6 +60,8 @@ For now you can edit the css file smartdonations/css/mainStyle.css, i have plans
 * Initial release
 = 0.5.1 =
 * Fixing a bug with the slider (thanks Dave!)
+= 0.5.2 =
+* Adding wepay support, and fixing bugs.
 
 
 == Upgrade Notice ==

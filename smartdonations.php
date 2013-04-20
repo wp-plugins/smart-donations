@@ -5,7 +5,7 @@
  * Description: Place diferent form of donations on your blog...
  * Author: RedNao
  * Author URI: http://rednao.com
- * Version: 0.5.1
+ * Version: 0.5.2
  * Text Domain: SmartDonations
  * Domain Path: /languages/
  * Network: true
@@ -53,21 +53,27 @@ function rednao_smart_donations_create_menu(){
 
 function rednao_smart_donations_plugin_was_activated()
 {
+    $dbversion=get_option("REDNAO_SMART_DONATIONS_DB_VERSION");
+
+
     global $wpdb;
-    if( $wpdb->get_var("SHOW TABLES LIKE '".SMART_DONATIONS_TABLE_NAME."'") != SMART_DONATIONS_TABLE_NAME )
+    if( $dbversion==false || $dbversion<SMART_DONATIONS_LATEST_DB_VERSION )
     {
-        $sql="CREATE TABLE ".SMART_DONATIONS_TABLE_NAME."(
+        $sql="CREATE TABLE ".SMART_DONATIONS_TABLE_NAME." (
         donation_id int AUTO_INCREMENT,
         donation_name VARCHAR(200) NOT NULL,
         email VARCHAR(200) NOT NULL,
         donation_type VARCHAR(20) NOT NULL,
         returning_url VARCHAR(2000),
         options TEXT NOT NULL,
+        donation_provider VARCHAR(20),
         PRIMARY KEY  (donation_id)
         );";
 
         require_once(ABSPATH.'wp-admin/includes/upgrade.php');
         dbDelta($sql);
+
+        update_option("REDNAO_SMART_DONATIONS_DB_VERSION",SMART_DONATIONS_LATEST_DB_VERSION);
     }
 }
 

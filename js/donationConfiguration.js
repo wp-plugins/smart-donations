@@ -1,13 +1,5 @@
-/**
- * Created with JetBrains WebStorm.
- * User: edseventeen
- * Date: 3/10/13
- * Time: 9:08 PM
- * To change this template use File | Settings | File Templates.
- */
 function smartDonationConfigurationBase(title,containerName)
 {
-
     this.title=title;
     this.containerName=containerName;
 
@@ -24,6 +16,8 @@ smartDonationConfigurationBase.prototype.fillConfiguration=function()
     rnJQuery('.smartDonationsSettingField').change(function(){self.SettingChanged(self,this)});
     rnJQuery('#smartDonationsEmail').keyup(function(){self.SettingChanged(self,this)});
 
+    rnJQuery('.smartDonationsSettingField').change();
+
 };
 
 smartDonationConfigurationBase.prototype.SettingChanged=function(configuration,component){
@@ -38,16 +32,18 @@ smartDonationConfigurationBase.prototype.SettingChanged=function(configuration,c
 };
 
 
+/*************************************************************************************Classic Generator  ***************************************************************************************************/
 
 
 
-
-
-/****Classic Generator***************************************/
-function smartDonationClassicConfiguration(containerName)
+function smartDonationClassicConfiguration(containerName,donationGenerator)
 {
     smartDonationConfigurationBase.call(this,'Classic');
-    this.generator=new smartDonationsClassicDonationGenerator(containerName);
+    if(donationGenerator)
+        this.generator=donationGenerator;
+    else
+        this.generator=new smartDonationsClassicDonationGenerator(containerName);
+
 }
 smartDonationClassicConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
 
@@ -63,11 +59,17 @@ smartDonationClassicConfiguration.prototype.GetDonationConfigurationGeneratedCod
 
 
 
-/*******Text Box Generator*****************************************/
-function smartDonationTextBoxConfiguration(containerName)
+/************************************************************************************* Text Box  ***************************************************************************************************/
+
+
+
+function smartDonationTextBoxConfiguration(containerName,donationGenerator)
 {
     smartDonationConfigurationBase.call(this,'Text Box');
-    this.generator=new smartDonationsTextBoxDonationGenerator(containerName);
+    if(donationGenerator)
+        this.generator=donationGenerator;
+    else
+        this.generator=new smartDonationsTextBoxDonationGenerator(containerName);
 }
 smartDonationTextBoxConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
 
@@ -90,13 +92,17 @@ smartDonationTextBoxConfiguration.prototype.GetDonationConfigurationGeneratedCod
 };
 
 
+/*************************************************************************************Three Buttons  ***************************************************************************************************/
 
 
-/*******Text Box Generator*****************************************/
-function smartDonationsThreeButtonsConfiguration(containerName)
+
+function smartDonationsThreeButtonsConfiguration(containerName,donationGenerator)
 {
     smartDonationConfigurationBase.call(this,'Three Buttons');
-    this.generator=new smartDonationsThreeButtonsDonationGenerator(containerName);
+    if(donationGenerator)
+        this.generator=donationGenerator;
+    else
+        this.generator=new smartDonationsThreeButtonsDonationGenerator(containerName);
 }
 smartDonationsThreeButtonsConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
 
@@ -180,15 +186,17 @@ smartDonationsThreeButtonsConfiguration.prototype.GetDonationConfigurationGenera
 };
 
 
+/************************************************************************************* Slider ***************************************************************************************************/
 
 
 
-
-/*******Slider Generator*****************************************/
-function smartDonationsSliderConfiguration(containerName)
+function smartDonationsSliderConfiguration(containerName, donationGenerator)
 {
     smartDonationConfigurationBase.call(this,'Slider');
-    this.generator=new smartDonationsSliderDonationGenerator(containerName);
+    if(donationGenerator)
+        this.generator=donationGenerator;
+    else
+        this.generator=new smartDonationsSliderDonationGenerator(containerName);
 }
 smartDonationsSliderConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
 

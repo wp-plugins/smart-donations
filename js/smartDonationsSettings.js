@@ -1,7 +1,7 @@
 jQuery(SmartDonationSettings);
 
 
-
+var donationTypeSelected;
 function SmartDonationSettings()
 {
     rnJQuery('#smartDonationsAdvancedDetail').hide();
@@ -41,37 +41,74 @@ function SmartDonations_donationTypeClicked(div,donationOptions) {
     {
         var donationTypeSelected= donationOptions.smartDonationsType;
     }else
-    var donationTypeSelected= rnJQuery(div).find(':hidden').val();
+        var donationTypeSelected= rnJQuery(div).find(':hidden').val();
+
     rnJQuery("#smartDonationsType").val(donationTypeSelected);
+    SmartDonations_SetSmartDonationConfiguration(this,div,donationTypeSelected,donationOptions);
 
-    if(donationTypeSelected=='classic')
-        this.smartDonationsDonationType=new smartDonationClassicConfiguration('smartDonationsPreviewContainer');
-    if(donationTypeSelected=='textbox')
+    //rnJQuery("#smartDonationsSlideAnimation").animate({"left":"-703px"},250/*,function(){rnJQuery("#smartDonationsSlideAnimation").hide();}*/);
+
+}
+
+function SmartDonations_GetDonationTypeSelected(donationTypeSelected,donationProvider)
+{
+    switch(donationProvider)
     {
-        this.smartDonationsDonationType=new smartDonationTextBoxConfiguration('smartDonationsPreviewContainer');
-        rnJQuery('#smartDonationsPreviewContainer').css('margin-top','-10px');
-    }
-    if(donationTypeSelected=="threeButtons")
-        this.smartDonationsDonationType=new smartDonationsThreeButtonsConfiguration('smartDonationsPreviewContainer');
-    if(donationTypeSelected=="slider")
-    {
-        this.smartDonationsDonationType=new smartDonationsSliderConfiguration('smartDonationsPreviewContainer');
-        rnJQuery('#smartDonationsPreviewContainer').css('margin-top','-10px');
-    }
+        case "paypal":
+            if(donationTypeSelected=='classic')
+                return new smartDonationClassicConfiguration('smartDonationsPreviewContainer');
+            if(donationTypeSelected=='textbox')
+            {
+                rnJQuery('#smartDonationsPreviewContainer').css('margin-top','-10px');
+                return new smartDonationTextBoxConfiguration('smartDonationsPreviewContainer');
+            }
+            if(donationTypeSelected=="threeButtons")
+                return new smartDonationsThreeButtonsConfiguration('smartDonationsPreviewContainer');
+            if(donationTypeSelected=="slider")
+            {
+                rnJQuery('#smartDonationsPreviewContainer').css('margin-top','-10px');
+                return new smartDonationsSliderConfiguration('smartDonationsPreviewContainer');
 
-    this.smartDonationsDonationType.generator.business=rnJQuery('#smartDonationsEmail').val();
-    this.smartDonationsDonationType.generator.returningUrl=rnJQuery('#smartDonationsReturningUrl').val();
+            }
+            break;
+        case "wepay":
+            if(donationTypeSelected=='classic')
+                return new smartDonationClassicConfiguration_wepay('smartDonationsPreviewContainer');
+            if(donationTypeSelected=='textbox')
+            {
+                rnJQuery('#smartDonationsPreviewContainer').css('margin-top','-5px');
+                return new smartDonationTextBoxConfiguration_wepay('smartDonationsPreviewContainer');
+            }
+            if(donationTypeSelected=="threeButtons")
+                return new smartDonationsThreeButtonsConfiguration_wepay('smartDonationsPreviewContainer');
+            if(donationTypeSelected=="slider")
+            {
+                rnJQuery('#smartDonationsPreviewContainer').css('margin-top','-10px');
+                return new smartDonationsSliderConfiguration_wepay('smartDonationsPreviewContainer');
 
-    this.smartDonationsDonationType.fillConfiguration();
-    this.smartDonationsDonationType.generator.GenerateDonationItem();
+            }
+    }
+}
+
+function SmartDonations_SetSmartDonationConfiguration(rthis,div,donationTypeSelected,donationOptions)
+{
+    var business=rnJQuery('#smartDonationsEmail').val();
+    var donationProvider=rnJQuery('#rednao_smart_donations_provider').val();
+
+
+    rthis.smartDonationsDonationType=SmartDonations_GetDonationTypeSelected(donationTypeSelected,donationProvider);
+    rthis.smartDonationsDonationType.generator.business=rnJQuery('#smartDonationsEmail').val();
+    rthis.smartDonationsDonationType.generator.returningUrl=rnJQuery('#smartDonationsReturningUrl').val();
+
+
+    rthis.smartDonationsDonationType.fillConfiguration();
+    rthis.smartDonationsDonationType.generator.GenerateDonationItem();
 
     rnJQuery("#smartDonationsSlideAnimation").animate({"left":"-703px"},250/*,function(){rnJQuery("#smartDonationsSlideAnimation").hide();}*/);
     if(donationOptions)
     {
         SmartDonationsFillConfiguration(donationOptions);
     }
-
-    //rnJQuery("#smartDonationsSlideAnimation").animate({"left":"-703px"},250/*,function(){rnJQuery("#smartDonationsSlideAnimation").hide();}*/);
 
 }
 

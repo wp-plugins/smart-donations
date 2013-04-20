@@ -14,9 +14,14 @@ function rednao_smart_donations_save()
     $donationOptions=$_REQUEST['donationOptions'];
     $email=$_REQUEST['email'];
     $donationType=$_REQUEST['donationType'];
+    $donation_provider=$_REQUEST['donation_Provider'];
     $message="";
     $donationId=0;
 
+    if($donation_provider==null)
+    {
+        $message="Please pick a donation provider first";
+    }else
     if($donationType==null)
     {
         $message="Please pick a donation type first";
@@ -46,7 +51,8 @@ function rednao_smart_donations_save()
                               'returning_url'=>$returningURL,
                               'options'=>$donationOptions,
                               'email'=>$email,
-                              'donation_type'=>$donationType
+                              'donation_type'=>$donationType,
+                              'donation_provider'=>$donation_provider
                             );
                 $wpdb->insert(SMART_DONATIONS_TABLE_NAME,$values);
                 $donationId=$wpdb->insert_id;
@@ -60,7 +66,8 @@ function rednao_smart_donations_save()
                 'returning_url'=>$returningURL,
                 'options'=>$donationOptions,
                 'email'=>$email,
-                'donation_type'=>$donationType
+                'donation_type'=>$donationType,
+                'donation_provider'=>$donation_provider
             ),array("donation_id"=>$donationId));
             $message="saved";
             delete_transient("rednao_smart_donations_donation_$donationId");

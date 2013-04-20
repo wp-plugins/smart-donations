@@ -365,3 +365,67 @@
     padding:0px;
     vertical-align: middle;
 }
+
+
+/**********************WE PAY Classic**************/
+
+.smartDonationsClassicWePay
+{
+    text-align: center;
+}
+
+
+
+
+.smartDonationsTextBoxWePay
+{
+    text-align: center;
+    font-family: verdana;
+}
+
+
+
+
+
+
+
+
+.smartDonationsOneLineWePay, .smartDonationsTwoLineWePay, .smartDonationsThreeLineWePay
+{
+    text-align: center;
+}
+
+.smartDonationsTwoLineWePay
+{
+    border-spacing: 5px;
+}
+
+.smartDonationsOneLineWePay .smartDonationsWePayButton, .smartDonationsTwoLineWePay .smartDonationsWePayButton, .smartDonationsThreeLineWePay .smartDonationsWePayButton
+{
+    display: inline;
+    padding-top: 5px;
+    margin: 0;
+    padding-bottom: 5px;
+    margin-left: 5px;
+}
+
+.smartDonationsThreeLineWePay input{
+    margin-bottom:5px;
+}
+
+
+
+.smartDonationsSliderWePay .smartDonationsWePayButton
+{
+    display: inline;
+    padding-top: 5px;
+    margin: 0;
+    padding-bottom: 5px;
+    margin-left: 5px;
+}
+
+.smartDonationsSliderWePay .smartDonationsSliderDiv .ui-widget-header
+{
+    background-image:none;
+    background-color:rgb(137, 252, 72);
+}
