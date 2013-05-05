@@ -50,41 +50,41 @@ function SmartDonations_donationTypeClicked(div,donationOptions) {
 
 }
 
-function SmartDonations_GetDonationTypeSelected(donationTypeSelected,donationProvider)
+function SmartDonations_GetDonationTypeSelected(donationTypeSelected,donationProvider,donationOptions)
 {
     switch(donationProvider)
     {
         case "paypal":
             if(donationTypeSelected=='classic')
-                return new smartDonationClassicConfiguration('smartDonationsPreviewContainer');
+                return new smartDonationClassicConfiguration('smartDonationsPreviewContainer',donationOptions);
             if(donationTypeSelected=='textbox')
             {
                 rnJQuery('#smartDonationsPreviewContainer').css('margin-top','-10px');
-                return new smartDonationTextBoxConfiguration('smartDonationsPreviewContainer');
+                return new smartDonationTextBoxConfiguration('smartDonationsPreviewContainer',donationOptions);
             }
             if(donationTypeSelected=="threeButtons")
-                return new smartDonationsThreeButtonsConfiguration('smartDonationsPreviewContainer');
+                return new smartDonationsThreeButtonsConfiguration('smartDonationsPreviewContainer',donationOptions);
             if(donationTypeSelected=="slider")
             {
                 rnJQuery('#smartDonationsPreviewContainer').css('margin-top','-10px');
-                return new smartDonationsSliderConfiguration('smartDonationsPreviewContainer');
+                return new smartDonationsSliderConfiguration('smartDonationsPreviewContainer',donationOptions);
 
             }
             break;
         case "wepay":
             if(donationTypeSelected=='classic')
-                return new smartDonationClassicConfiguration_wepay('smartDonationsPreviewContainer');
+                return new smartDonationClassicConfiguration_wepay('smartDonationsPreviewContainer',donationOptions);
             if(donationTypeSelected=='textbox')
             {
                 rnJQuery('#smartDonationsPreviewContainer').css('margin-top','-5px');
-                return new smartDonationTextBoxConfiguration_wepay('smartDonationsPreviewContainer');
+                return new smartDonationTextBoxConfiguration_wepay('smartDonationsPreviewContainer',donationOptions);
             }
             if(donationTypeSelected=="threeButtons")
-                return new smartDonationsThreeButtonsConfiguration_wepay('smartDonationsPreviewContainer');
+                return new smartDonationsThreeButtonsConfiguration_wepay('smartDonationsPreviewContainer',donationOptions);
             if(donationTypeSelected=="slider")
             {
                 rnJQuery('#smartDonationsPreviewContainer').css('margin-top','-10px');
-                return new smartDonationsSliderConfiguration_wepay('smartDonationsPreviewContainer');
+                return new smartDonationsSliderConfiguration_wepay('smartDonationsPreviewContainer',donationOptions);
 
             }
     }
@@ -96,19 +96,21 @@ function SmartDonations_SetSmartDonationConfiguration(rthis,div,donationTypeSele
     var donationProvider=rnJQuery('#rednao_smart_donations_provider').val();
 
 
-    rthis.smartDonationsDonationType=SmartDonations_GetDonationTypeSelected(donationTypeSelected,donationProvider);
-    rthis.smartDonationsDonationType.generator.business=rnJQuery('#smartDonationsEmail').val();
-    rthis.smartDonationsDonationType.generator.returningUrl=rnJQuery('#smartDonationsReturningUrl').val();
+    smartDonationsDonationType=SmartDonations_GetDonationTypeSelected(donationTypeSelected,donationProvider,donationOptions);
+    smartDonationsDonationType.generator.business=rnJQuery('#smartDonationsEmail').val();
+    smartDonationsDonationType.generator.returningUrl=rnJQuery('#smartDonationsReturningUrl').val();
 
 
-    rthis.smartDonationsDonationType.fillConfiguration();
-    rthis.smartDonationsDonationType.generator.GenerateDonationItem();
+    smartDonationsDonationType.fillConfiguration();
+    smartDonationsDonationType.generator.GenerateDonationItem();
 
     rnJQuery("#smartDonationsSlideAnimation").animate({"left":"-703px"},250/*,function(){rnJQuery("#smartDonationsSlideAnimation").hide();}*/);
+
+
+
     if(donationOptions)
-    {
         SmartDonationsFillConfiguration(donationOptions);
-    }
+
 
 }
 

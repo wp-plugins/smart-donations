@@ -15,6 +15,7 @@ function rednao_smart_donations_save()
     $email=$_REQUEST['email'];
     $donationType=$_REQUEST['donationType'];
     $donation_provider=$_REQUEST['donation_Provider'];
+    $styles=$_REQUEST['styles'];
     $message="";
     $donationId=0;
 
@@ -52,7 +53,8 @@ function rednao_smart_donations_save()
                               'options'=>$donationOptions,
                               'email'=>$email,
                               'donation_type'=>$donationType,
-                              'donation_provider'=>$donation_provider
+                              'donation_provider'=>$donation_provider,
+                              'styles'=>$styles
                             );
                 $wpdb->insert(SMART_DONATIONS_TABLE_NAME,$values);
                 $donationId=$wpdb->insert_id;
@@ -67,7 +69,8 @@ function rednao_smart_donations_save()
                 'options'=>$donationOptions,
                 'email'=>$email,
                 'donation_type'=>$donationType,
-                'donation_provider'=>$donation_provider
+                'donation_provider'=>$donation_provider,
+                'styles'=>$styles
             ),array("donation_id"=>$donationId));
             $message="saved";
             delete_transient("rednao_smart_donations_donation_$donationId");

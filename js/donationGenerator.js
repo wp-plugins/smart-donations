@@ -6,13 +6,6 @@ rnJQuery(function()
     else
         SmartDonationsInitialize();
 });
-if (Object.create === undefined) {
-    Object.create = function (o) {
-        function F() { }
-        F.prototype = o;
-        return new F();
-    };
-}
 
 /***Base Object*******/
 function smartDonationsLoadDonation(options,containerName)
@@ -23,28 +16,32 @@ function smartDonationsLoadDonation(options,containerName)
 
     var aux;
 
+
+    if(typeof options.styles =='undefined'||options.styles!=null)
+        this.styles=options.styles;
+
     if(options.donation_provider=='paypal')
     {
         if(donationTypeSelected=='classic')
-            aux=new smartDonationsClassicDonationGenerator(containerName,options);
+            aux=new smartDonationsClassicDonationGenerator(containerName,options,null,styles);
         if(donationTypeSelected=='textbox')
-            aux=new smartDonationsTextBoxDonationGenerator(containerName,options);
+            aux=new smartDonationsTextBoxDonationGenerator(containerName,options,null,styles);
         if(donationTypeSelected=="threeButtons")
-            aux=new smartDonationsThreeButtonsDonationGenerator(containerName,options);
+            aux=new smartDonationsThreeButtonsDonationGenerator(containerName,options,null,styles);
         if(donationTypeSelected=="slider")
-            aux=new smartDonationsSliderDonationGenerator(containerName,options);
+            aux=new smartDonationsSliderDonationGenerator(containerName,options,null,styles);
     }
 
     if(options.donation_provider=='wepay')
     {
         if(donationTypeSelected=='classic')
-            aux=new smartDonationsClassicDonationGenerator_wepay(containerName,options);
+            aux=new smartDonationsClassicDonationGenerator_wepay(containerName,options,styles);
         if(donationTypeSelected=='textbox')
-            aux=new smartDonationsTextBoxDonationGenerator_wepay(containerName,options);
+            aux=new smartDonationsTextBoxDonationGenerator_wepay(containerName,options,styles);
         if(donationTypeSelected=="threeButtons")
-            aux=new smartDonationsThreeButtonsDonationGenerator_wepay(containerName,options);
+            aux=new smartDonationsThreeButtonsDonationGenerator_wepay(containerName,options,styles);
         if(donationTypeSelected=="slider")
-            aux=new smartDonationsSliderDonationGenerator_wepay(containerName,options);
+            aux=new smartDonationsSliderDonationGenerator_wepay(containerName,options,styles);
     }
 
 
@@ -55,11 +52,21 @@ function smartDonationsLoadDonation(options,containerName)
 }
 
 
-function smartDonationsBaseGenerator(containerName2,options,donationProvider){
+
+
+function smartDonationsBaseGenerator(containerName2,options,donationProvider,styles){
     if(donationProvider)
         this.donationProvider=donationProvider;
     else
         this.donationProvider=new smartDonationsPayPalProvider();
+
+    if(styles!=null)
+        this.styles=styles;
+    else
+    {
+        this.styles={};
+        this.GenerateDefaultStyle();
+    }
     this.containerName=containerName2;
     if(options)
     {
@@ -67,6 +74,11 @@ function smartDonationsBaseGenerator(containerName2,options,donationProvider){
         this.returningUrl=options.returningUrl;
     }
 
+}
+
+smartDonationsBaseGenerator.prototype.GenerateDefaultStyle=function()
+{
+    return {};
 }
 
 smartDonationsBaseGenerator.prototype.GetRootContainer=function()
@@ -82,6 +94,18 @@ smartDonationsBaseGenerator.prototype.GenerateDonationItem=function()
     this.GetRootContainer().html('').append(this.DonationGeneratedCode());
     this.GetRootContainer().find(".donationForm").submit(function(){generator.SubmitFired(generator)});
     this.GenerationCompleted();
+    this.StyleItem();
+}
+
+smartDonationsBaseGenerator.prototype.StyleItem=function()
+{
+    if(this.styles==null)
+        return;
+
+    for(var property in this.styles)
+    {
+        this.GetRootContainer().find("."+property).attr("style",this.styles[property]);
+    }
 }
 
 smartDonationsBaseGenerator.prototype.GenerationCompleted=function()
@@ -126,8 +150,8 @@ smartDonationsBaseGenerator.prototype.GetEndOfDonationForm=function()
 /************************************************************************************* Classic Generator ***************************************************************************************************/
 
 
-function smartDonationsClassicDonationGenerator(containerName,options,donationProvider){
-    smartDonationsBaseGenerator.call(this,containerName,options,donationProvider);
+function smartDonationsClassicDonationGenerator(containerName,options,donationProvider,styles){
+    smartDonationsBaseGenerator.call(this,containerName,options,donationProvider,styles);
     if(options)
     {
         this.smartDonationsdisplaycreditlogo=options.smartDonationsdisplaycreditlogo;
@@ -139,20 +163,30 @@ function smartDonationsClassicDonationGenerator(containerName,options,donationPr
 
 smartDonationsClassicDonationGenerator.prototype=Object.create(smartDonationsBaseGenerator.prototype);
 
+smartDonationsClassicDonationGenerator.prototype.GenerateDefaultStyle=function()
+{
+    this.styles.smartDonationsDonationButton_src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
+}
+
 smartDonationsClassicDonationGenerator.prototype.DonationGeneratedCode=function()
 {
-    if(this.smartDonationsdisplaycreditlogo)
+    var imageToUse;
+
+    if(typeof this.styles=='undefined')
     {
+        if(this.smartDonationsdisplaycreditlogo)
+            imageToUse="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif";
+        else
+            imageToUse="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
+    }else
+        imageToUse=this.styles.smartDonationsDonationButton_src;
+
+
         return   this.GetStartOfDonationForm()+
-                '<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">\
+                '<input type="image" class="smartDonationsDonationButton smartDonationsEditableItem" src="'+imageToUse+'" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">\
                 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">'+this.GetEndOfDonationForm();
 
 
-    }
-    return this.GetStartOfDonationForm()+
-           '<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"> \
-            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">'
-            +this.GetEndOfDonationForm();
 
 }
 
@@ -165,8 +199,8 @@ smartDonationsClassicDonationGenerator.prototype.DonationGeneratedCode=function(
 
 
 
-function smartDonationsTextBoxDonationGenerator(containerName,options,donationProvider){
-    smartDonationsBaseGenerator.call(this,containerName,options,donationProvider);
+function smartDonationsTextBoxDonationGenerator(containerName,options,donationProvider,styles){
+    smartDonationsBaseGenerator.call(this,containerName,options,donationProvider,styles);
 
     if(options)
     {
@@ -183,19 +217,34 @@ function smartDonationsTextBoxDonationGenerator(containerName,options,donationPr
 
 smartDonationsTextBoxDonationGenerator.prototype=Object.create(smartDonationsBaseGenerator.prototype);
 
+smartDonationsTextBoxDonationGenerator.prototype.GenerateDefaultStyle=function()
+{
+    this.styles.smartDonationsCommentText="vertical-align:middle; margin-left:5px;font-family:verdana;";
+    this.styles.smartDonationsDonationBox="vertical-align:middle; margin-left:5px;font-family:verdana;";
+    this.styles.smartDonationsDonationButton="vertical-align:middle; margin-left:5px;";
+    this.styles.smartDonationsDonationButton_src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
+}
+
 smartDonationsTextBoxDonationGenerator.prototype.GetCommentTag=function()
 {
-    return '<span class="smartDonationsTextBoxDonationField">'+this.smartDonationsComment+'</span>';
+    return '<span class="smartDonationsTextBoxDonationField smartDonationsCommentText smartDonationsEditableItem">'+this.smartDonationsComment+'</span>';
 }
 
 smartDonationsTextBoxDonationGenerator.prototype.GetTextBoxTag=function()
 {
-    return '<input type="text" class="smartDonationsNumericField smartDonationsTextBoxDonationField smartDonationsDonationBox"  value="'+this.smartDonationsRecommendedDonation+'">';
+    return '<input type="text" class="smartDonationsNumericField smartDonationsTextBoxDonationField smartDonationsDonationBox smartDonationsEditableItem"  value="'+this.smartDonationsRecommendedDonation+'">';
 }
 
 smartDonationsTextBoxDonationGenerator.prototype.GetButtonTag=function()
 {
-    return  '<input type="image" class="smartDonationsTextBoxDonationField" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"/>';
+    var imageToUse;
+    if(typeof this.styles=='undefined')
+        imageToUse="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
+    else
+        imageToUse=this.styles.smartDonationsDonationButton_src;
+
+
+    return  '<input type="image" class="smartDonationsDonationButton smartDonationsEditableItem" src="'+imageToUse+'" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">';
 
 }
 
@@ -277,8 +326,8 @@ smartDonationsTextBoxDonationGenerator.prototype.DonationGeneratedCode=function(
 
 
 
-    function smartDonationsThreeButtonsDonationGenerator(containerName,options,donationProvider){
-        smartDonationsBaseGenerator.call(this,containerName,options,donationProvider);
+    function smartDonationsThreeButtonsDonationGenerator(containerName,options,donationProvider,styles){
+        smartDonationsBaseGenerator.call(this,containerName,options,donationProvider,styles);
 
 
         if(options)
@@ -313,9 +362,36 @@ smartDonationsTextBoxDonationGenerator.prototype.DonationGeneratedCode=function(
             this.smartDonationSameSize=true;;
         }
 
+        if(typeof this.styles=='undefined')
+            this.styles={};
+
+        if(typeof this.styles.smartDonationsThreeButtonImage1_src=='undefined')
+        {
+            this.styles.smartDonationsThreeButtonImage1_src=smartDonationsRootPath+'images/'+this.smartDonationButtonStyle1;
+            this.styles.smartDonationsThreeButtonImage2_src=smartDonationsRootPath+'images/'+this.smartDonationButtonStyle2;
+            this.styles.smartDonationsThreeButtonImage3_src=smartDonationsRootPath+'images/'+this.smartDonationButtonStyle3;
+        }
+
+
 
     }
     smartDonationsThreeButtonsDonationGenerator.prototype=Object.create(smartDonationsBaseGenerator.prototype);
+
+
+    smartDonationsThreeButtonsDonationGenerator.prototype.GenerateDefaultStyle=function()
+    {
+        this.styles.smartDonationsThreeButtonImage1="cursor:pointer; cursor:hand;overflow:hidden;"
+        this.styles.smartDonationsThreeButtonSpan1="position:relative;vertical-align:top;font-family:Verdana;cursor:pointer;cursor:hand;";
+        // this.styles.smartDonationsThreeButtonImage1_src="threeButtonsStyle1.png";
+
+        this.styles.smartDonationsThreeButtonImage2="cursor:pointer; cursor:hand;overflow:hidden;"
+        this.styles.smartDonationsThreeButtonSpan2="position:relative;vertical-align:top;font-family:Verdana;cursor:pointer;cursor:hand;";
+        //this.styles.smartDonationsThreeButtonImage2_src="threeButtonsStyle1.png";
+
+        this.styles.smartDonationsThreeButtonImage3="cursor:pointer; cursor:hand;overflow:hidden;"
+        this.styles.smartDonationsThreeButtonSpan3="position:relative;vertical-align:top;font-family:Verdana;cursor:pointer;cursor:hand;";
+        //this.styles.smartDonationsThreeButtonImage3_src="threeButtonsStyle1.png";
+    }
 
     smartDonationsThreeButtonsDonationGenerator.prototype.AdjustSize=function(image,span,generator)
     {
@@ -407,20 +483,20 @@ smartDonationsTextBoxDonationGenerator.prototype.DonationGeneratedCode=function(
 
 smartDonationsThreeButtonsDonationGenerator.prototype.DonationGeneratedCode=function()
 {
-    return '<div class="smartDonationsThreeButtonsDiv1" >'+ this.GetStartOfDonationForm(this.smartdonationsDonationquantity1)+
+    return '<div class="smartDonationsThreeButtonsDiv1 " >'+ this.GetStartOfDonationForm(this.smartdonationsDonationquantity1)+
         '<div class="smartdonationsThreeButtonStyle"> \
-            <image class="smartDonationsThreeButtonImage1 smartDonationsThreeButton" src="" />\
-            <span class="smartDonationsThreeButtonSpan1 smartDonationsThreeButtonSpan" >'+this.smartDonationButtonText1+'</span>\
+            <image class="smartDonationsThreeButtonImage1 smartDonationsThreeButton smartDonationsEditableItem" src="" />\
+            <span class="smartDonationsThreeButtonSpan1 smartDonationsThreeButtonSpan smartDonationsEditableItem" >'+this.smartDonationButtonText1+'</span>\
              </div>'+this.GetEndOfDonationForm()+
         this.GetStartOfDonationForm(this.smartdonationsDonationquantity2)+
         '<div class="smartdonationsThreeButtonStyle smartDonationsThreeButtonMiddleDiv" > \
-            <image class="smartDonationsThreeButtonImage2 smartDonationsThreeButton" src=""/>\
-            <span class="smartDonationsThreeButtonSpan2 smartDonationsThreeButtonSpan" >'+this.smartDonationButtonText2+'</span>\
+            <image class="smartDonationsThreeButtonImage2 smartDonationsThreeButton smartDonationsEditableItem" src=""/>\
+            <span class="smartDonationsThreeButtonSpan2 smartDonationsThreeButtonSpan smartDonationsEditableItem" >'+this.smartDonationButtonText2+'</span>\
              </div>'+this.GetEndOfDonationForm()+
         this.GetStartOfDonationForm(this.smartdonationsDonationquantity3)+
         '<div class="smartdonationsThreeButtonStyle"> \
-            <image class="smartDonationsThreeButtonImage3 smartDonationsThreeButton" src="" />\
-            <span class="smartDonationsThreeButtonSpan3 smartDonationsThreeButtonSpan" >'+this.smartDonationButtonText3+'</span>\
+            <image class="smartDonationsThreeButtonImage3 smartDonationsThreeButton smartDonationsEditableItem" src="" />\
+            <span class="smartDonationsThreeButtonSpan3 smartDonationsThreeButtonSpan smartDonationsEditableItem" >'+this.smartDonationButtonText3+'</span>\
              </div>'+this.GetEndOfDonationForm()+'</div>';
 
 
@@ -437,9 +513,9 @@ smartDonationsThreeButtonsDonationGenerator.prototype.GenerationCompleted=functi
     })
 
     rnJQuery(function(){
-        generator.CreateAndLayoutImage('.smartDonationsThreeButtonImage1','.smartDonationsThreeButtonSpan1',generator.smartDonationButtonStyle1);
-        generator.CreateAndLayoutImage('.smartDonationsThreeButtonImage2','.smartDonationsThreeButtonSpan2',generator.smartDonationButtonStyle2);
-        generator.CreateAndLayoutImage('.smartDonationsThreeButtonImage3','.smartDonationsThreeButtonSpan3',generator.smartDonationButtonStyle3);
+        generator.CreateAndLayoutImage('.smartDonationsThreeButtonImage1','.smartDonationsThreeButtonSpan1',generator.styles.smartDonationsThreeButtonImage1_src);
+        generator.CreateAndLayoutImage('.smartDonationsThreeButtonImage2','.smartDonationsThreeButtonSpan2',generator.styles.smartDonationsThreeButtonImage2_src);
+        generator.CreateAndLayoutImage('.smartDonationsThreeButtonImage3','.smartDonationsThreeButtonSpan3',generator.styles.smartDonationsThreeButtonImage3_src);
     });
 
 
@@ -448,8 +524,8 @@ smartDonationsThreeButtonsDonationGenerator.prototype.GenerationCompleted=functi
 smartDonationsThreeButtonsDonationGenerator.prototype.CreateAndLayoutImage=function(image,span,imageName)
 {
     var generator=this;
-    rnJQuery('#'+generator.containerName).find(image).attr('src',smartDonationsRootPath+'/images/'+imageName).load(function(){generator.AdjustSize(image,span,generator)});
-    rnJQuery('#'+generator.containerName).find(image+','+span).click(function(){
+    generator.GetRootContainer().find(image).attr('src',imageName).load(function(){generator.AdjustSize(image,span,generator)});
+    generator.GetRootContainer().find(image+','+span).click(function(){
         rnJQuery(this).parent().parent().submit();
     });
 }
@@ -464,8 +540,8 @@ smartDonationsThreeButtonsDonationGenerator.prototype.CreateAndLayoutImage=funct
 
 
 
-function smartDonationsSliderDonationGenerator(containerName,options,donationProvider){
-    smartDonationsBaseGenerator.call(this,containerName,options,donationProvider);
+function smartDonationsSliderDonationGenerator(containerName,options,donationProvider,styles){
+    smartDonationsBaseGenerator.call(this,containerName,options,donationProvider,styles);
 
     if(options)
     {
@@ -487,6 +563,40 @@ function smartDonationsSliderDonationGenerator(containerName,options,donationPro
 }
 
 smartDonationsSliderDonationGenerator.prototype=Object.create(smartDonationsBaseGenerator.prototype);
+
+
+smartDonationsSliderDonationGenerator.prototype.GenerateDefaultStyle=function()
+{
+    this.styles.smartDonationsDonationButton_src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
+}
+
+smartDonationsBaseGenerator.prototype.StyleItem=function()
+{
+    if(this.styles==null)
+        return;
+
+    for(var property in this.styles)
+    {
+        var element=this.GetRootContainer().find("."+property);
+        if(property=='ui-slider-range-min')
+        {
+            var previousWidth=0;
+            previousWidth=element.css('width');
+            element.attr("style",this.styles[property]);
+            element.css('width',previousWidth);
+        }else if(property=='ui-slider-handle')
+        {
+            var previousLeft=0;
+            previousLeft=element.css('left');
+            element.attr("style",this.styles[property]);
+            element.css('left',previousLeft);
+        }else
+            element.attr("style",this.styles[property]);
+
+
+
+    }
+}
 
 smartDonationsSliderDonationGenerator.prototype.slide=function(event,ui,generator)
 {
@@ -523,8 +633,6 @@ smartDonationsSliderDonationGenerator.prototype.printSmile=function(smilePercent
     this.paper.circle(16, 17, 5);
     this.paper.circle(34, 17, 5);
 
-    circle = this.paper.circle(70, 10, 7);
-    circle.attr("fill", "black");
     this.paper.path("M" + this.interpolate(15, 10, smilePercentage) + " "
         + this.interpolate(35, 25, smilePercentage) + ",  C"
         + this.interpolate(15, 15, smilePercentage) + " "
@@ -592,14 +700,22 @@ smartDonationsSliderDonationGenerator.prototype.GenerationCompleted=function()
             smileDiv.html('');
 
         }
-        generator.GetRootContainer().find(".smartDonationsSlide").slider({
+
+        var rootContainer=generator.GetRootContainer().find(".smartDonationsSlide");
+        rootContainer.slider({
             range: "min",
             value: generator.smartDonationsDefaultValue,
             min: generator.smartDonationsMinValue,
             max: generator.smartDonationsMaxValue,
             step:generator.smartDonationIncrementOf,
-            slide: function(slide,ui){generator.slide(slide,ui,generator);}
+            slide: function(slide,ui){generator.slide(slide,ui,generator);},
+            create:function(event,ui)
+            {
+                rootContainer.find(".ui-slider-range-min").addClass("smartDonationsSliderBar").addClass("smartDonationsEditableItem");
+                rootContainer.find(".ui-slider-range-min").addClass("smartDonationsSliderBar");
+            }
         });
+        generator.StyleItem();
         generator.paper = Raphael(smileDiv[0], 50, 50);
 
 
@@ -614,13 +730,19 @@ smartDonationsSliderDonationGenerator.prototype.GenerationCompleted=function()
 }
 
 smartDonationsSliderDonationGenerator.prototype.GetDonationText=function (){
-    return '<span class="smartDonationsSliderText" >'+this.smartDonationText+'</span>';
+    return '<span class="smartDonationsSliderText smartDonationsCommentText smartDonationsEditableItem" >'+this.smartDonationText+'</span>';
 }
 
 
 smartDonationsSliderDonationGenerator.prototype.GetButtonTag=function()
 {
-    return  '<input type="image" class="smartDonationsTextBoxDonationField" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"/>';
+    var imageToUse;
+    if(typeof this.styles=='undefined')
+       imageToUse="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
+    else
+       imageToUse=this.styles.smartDonationsDonationButton_src;
+
+    return  '<input type="image" class="smartDonationsTextBoxDonationField smartDonationsDonationButton smartDonationsEditableItem" src="'+imageToUse+'" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"/>';
 
 }
 smartDonationsSliderDonationGenerator.prototype.DonationGeneratedCode=function()
@@ -631,11 +753,11 @@ smartDonationsSliderDonationGenerator.prototype.DonationGeneratedCode=function()
                 +                     this.GetDonationText()+
                     ' <table class="smartDonationsSliderTable" >\
                     <tr>                            \
-                        <td><span>Current Donation:</span><strong  class="smartDonationsAmount smartDonationsSliderDonationText">10</strong></td>             \
-                        <td rowspan="2"><div class="smartDonationsSmile smartDonationsSliderSmile"></div></td>                   \
+                        <td><span class="smartDonationsCurrentDonationText smartDonationsEditableItem">Current Donation:</span><strong  class="smartDonationsAmount smartDonationsSliderDonationText smartDonationsEditableItem">10</strong></td>             \
+                        <td rowspan="2"><div class="smartDonationsSmile smartDonationsSliderSmile "></div></td>                   \
                     </tr>                                                                                                                               \
                     <tr>      \
-                        <td><div class="smartDonationsSlide smartDonationsSliderDiv" ></div></td> \
+                        <td><div class="smartDonationsSlide smartDonationsSliderDiv " ></div></td> \
                         <td></td>                                         \
                     </tr> \
                     <tr>\

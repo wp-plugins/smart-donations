@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: edseventeen
- * Date: 3/30/13
- * Time: 5:47 PM
- * To change this template use File | Settings | File Templates.
- */
 if(!defined('ABSPATH'))
     die('Forbidden');
 
@@ -32,7 +25,7 @@ if($action!=null&&$donation_id!=null)
         if(count($result)>0)
         {
             $result=$result[0];
-            $options=rednao_smart_donations_json_object($result->options);
+            $options=rednao_smart_donations_json_object($result->options,$result->styles);
 
             $script=<<<EOF
                         <script type="text/javascript" language="javascript">

@@ -14,6 +14,6 @@ if(!defined('ABSPATH'))
 define('SMART_DONATIONS_PLUGIN_NAME',dirname(plugin_basename(__FILE__)));
 define('SMART_DONATIONS_DIR',WP_PLUGIN_DIR.'/'.SMART_DONATIONS_PLUGIN_NAME);
 define('SMART_DONATIONS_TABLE_NAME',$wpdb->prefix . "smart_donations_donation_item");
-define('SMART_DONATIONS_LATEST_DB_VERSION',1);
+define('SMART_DONATIONS_LATEST_DB_VERSION',2);
 
 ?>

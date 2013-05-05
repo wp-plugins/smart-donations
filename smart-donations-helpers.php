@@ -8,7 +8,7 @@
  */
 
 
-function rednao_smart_donations_json_object($object)
+function rednao_smart_donations_json_object($object,$styles)
 {
     $json="{";
     $variables=explode("&",$object);
@@ -18,6 +18,13 @@ function rednao_smart_donations_json_object($object)
 
         $json=$json."\"$variable[0]\":\"".(count($variable)>1?urldecode($variable[1]):"")."\",";
     }
+    if($styles!=null)
+    {
+        $json=$json."\"styles\":".rednao_smart_donations_json_object($styles,null).",";
+    }
+
+
+
     $json=substr_replace($json ,"",-1);
     $json=$json."}";
     return $json;
@@ -30,11 +37,19 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
     if($options==false)
     {
         global $wpdb;
-        $options=$wpdb->get_var($wpdb->prepare("select options from ".SMART_DONATIONS_TABLE_NAME." where donation_id='$id'"));
-        if($options==null)
-            return;
-        $options=rednao_smart_donations_json_object($options);
-        set_transient("rednao_smart_donations_donation_$id",$options,60*60*24*31);
+        $result=$wpdb->get_results($wpdb->prepare("select options,styles from ".SMART_DONATIONS_TABLE_NAME." where donation_id='$id'"));
+        if(count($result)>0)
+        {
+            $result=$result[0];
+            $options=$result->options;
+            $styles=$result->styles;
+            if($options!=null)
+            {
+                $options=rednao_smart_donations_json_object($options,$styles);
+                set_transient("rednao_smart_donations_donation_$id",$options,60*60*24*31);
+            }
+        }
+
     }
     wp_enqueue_script('jquery');
     wp_enqueue_script('isolated-slider',plugin_dir_url(__FILE__).'js/rednao-isolated-jq.js');

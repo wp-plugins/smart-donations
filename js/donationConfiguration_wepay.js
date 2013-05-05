@@ -3,12 +3,17 @@
 /************************************************************************** Classic Donation We Pay ***************************************************************************************************/
 
 
-function smartDonationClassicConfiguration_wepay(containerName,provider)
+function smartDonationClassicConfiguration_wepay(containerName,options)
 {
-    smartDonationClassicConfiguration.call(this,containerName,new smartDonationsClassicDonationGenerator_wepay(containerName,null));
+    smartDonationClassicConfiguration.call(this,containerName,options);
 }
 
 smartDonationClassicConfiguration_wepay.prototype=Object.create(smartDonationClassicConfiguration.prototype);
+
+smartDonationClassicConfiguration_wepay.prototype.InitiateGenerator=function()
+{
+    this.generator=new smartDonationsClassicDonationGenerator_wepay(this.containerName,null,this.styles)
+}
 
 
 smartDonationClassicConfiguration_wepay.prototype.GetDonationConfigurationGeneratedCode=function(){
@@ -25,16 +30,23 @@ smartDonationClassicConfiguration_wepay.prototype.GetDonationConfigurationGenera
 };
 
 
+
 /************************************************************************** TextBox Donation We Pay ***************************************************************************************************/
 
 
-function smartDonationTextBoxConfiguration_wepay(containerName,provider)
+function smartDonationTextBoxConfiguration_wepay(containerName,options)
 {
-    smartDonationTextBoxConfiguration.call(this,containerName,new smartDonationsTextBoxDonationGenerator_wepay(containerName,null));
+    smartDonationTextBoxConfiguration.call(this,containerName,options);
 }
 
 smartDonationTextBoxConfiguration_wepay.prototype=Object.create(smartDonationTextBoxConfiguration.prototype);
 
+
+
+smartDonationTextBoxConfiguration_wepay.prototype.InitiateGenerator=function()
+{
+    this.generator=new smartDonationsTextBoxDonationGenerator_wepay(this.containerName,null,this.styles);
+}
 
 smartDonationTextBoxConfiguration_wepay.prototype.GetDonationConfigurationGeneratedCode=function(){
     return  "<table> "+
@@ -59,14 +71,18 @@ smartDonationTextBoxConfiguration_wepay.prototype.GetDonationConfigurationGenera
 /************************************************************************************* Three Buttons We Pay   ***************************************************************************************************/
 
 
-function smartDonationsThreeButtonsConfiguration_wepay(containerName,provider)
+function smartDonationsThreeButtonsConfiguration_wepay(containerName,options)
 {
 
-    smartDonationsThreeButtonsConfiguration.call(this,containerName,new smartDonationsThreeButtonsDonationGenerator_wepay(containerName,null));
+    smartDonationsThreeButtonsConfiguration.call(this,containerName,options);
 }
 
 smartDonationsThreeButtonsConfiguration_wepay.prototype=Object.create(smartDonationsThreeButtonsConfiguration.prototype);
 
+smartDonationsThreeButtonsConfiguration_wepay.prototype.InitiateGenerator=function()
+{
+    this.generator=new smartDonationsThreeButtonsDonationGenerator_wepay(this.containerName,null,this.styles);
+}
 
 
 
@@ -74,12 +90,21 @@ smartDonationsThreeButtonsConfiguration_wepay.prototype=Object.create(smartDonat
 
 
 
-function smartDonationsSliderConfiguration_wepay(containerName,provider)
+function smartDonationsSliderConfiguration_wepay(containerName,options)
 {
 
-    smartDonationsSliderConfiguration.call(this,containerName,new smartDonationsSliderDonationGenerator_wepay(containerName,null));
+    smartDonationsSliderConfiguration.call(this,containerName,options);
 }
+
+
 
 smartDonationsSliderConfiguration_wepay.prototype=Object.create(smartDonationsSliderConfiguration.prototype);
 
+
+
+
+smartDonationsSliderConfiguration_wepay.prototype.InitiateGenerator=function()
+{
+    this.generator=new smartDonationsSliderDonationGenerator_wepay(this.containerName,null,this.styles)
+}
 

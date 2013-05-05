@@ -1,14 +1,63 @@
-function smartDonationConfigurationBase(title,containerName)
+function smartDonationConfigurationBase(title,containerName,options)
 {
     this.title=title;
     this.containerName=containerName;
+
+    if(typeof options != 'undefined'&& typeof options.styles!='undefined')
+        this.styles=options.styles;
+    else
+
+        this.styles=null;
+    this.InitiateGenerator();
+    this.styles=this.generator.styles;
+
+}
+
+function SmartDonationsEditStyle(Generator,Element,Properties)
+{
+    var styles=Generator.styles;
+    if(typeof styles[Element]=='undefined')
+        styles[Element]="";
+    var styleToEdit=styles[Element];
+
+    for(property in Properties)
+        styleToEdit=SmartDonationsReplaceStyle(styleToEdit,property,Properties[property]);
+
+    styles[Element]=styleToEdit;
+
+
+}
+
+function SmartDonationsEditImage(Generator,Element,Src)
+{
+    var styles=Generator.styles;
+    if(typeof styles[Element]=='undefined')
+        styles[Element]="";
+    var styleToEdit=styles[Element];
+
+    styleToEdit=Src;
+    styles[Element]=styleToEdit;
+}
+
+
+
+function SmartDonationsReplaceStyle(style,property,newValue)
+{
+    var re = new RegExp(property+":[^;]*;", "g");
+    style=style.replace(re,'');
+    style+=property+":"+newValue+";";
+    return style;
+}
+
+smartDonationConfigurationBase.prototype.InitiateGenerator=function()
+{
 
 }
 
 smartDonationConfigurationBase.prototype.fillConfiguration=function()
 {
     rnJQuery('#smartDonationsItemTitle').text(this.title);
-    rnJQuery('#smartDonationsCustomFields').html(this.GetDonationConfigurationGeneratedCode());
+    rnJQuery('#smartDonationsConfigurationFields').html(this.GetDonationConfigurationGeneratedCode());
 
     var self=this;
     rnJQuery('.smartDonationsSettingField').click(function(){self.SettingChanged(self,this)});
@@ -21,31 +70,54 @@ smartDonationConfigurationBase.prototype.fillConfiguration=function()
 };
 
 smartDonationConfigurationBase.prototype.SettingChanged=function(configuration,component){
+
     var changedFieldName=rnJQuery(component).first().attr("name");
+    var newValue;
     if(rnJQuery(component).is(':checkbox'))
-        configuration.generator[changedFieldName]=rnJQuery(component).is(':checked');
+        newValue=rnJQuery(component).is(':checked');
     else
-        configuration.generator[changedFieldName]=rnJQuery(component).val();
+        newValue=rnJQuery(component).val();
+    configuration.generator[changedFieldName]=newValue;
     configuration.generator.GenerateDonationItem();
+
+    this.PropertyChanged(changedFieldName,newValue);
 
 
 };
+
+smartDonationConfigurationBase.prototype.PropertyChanged=function(field,value){
+
+}
+
+
 
 
 /*************************************************************************************Classic Generator  ***************************************************************************************************/
 
 
 
-function smartDonationClassicConfiguration(containerName,donationGenerator)
+function smartDonationClassicConfiguration(containerName,options)
 {
-    smartDonationConfigurationBase.call(this,'Classic');
-    if(donationGenerator)
-        this.generator=donationGenerator;
-    else
-        this.generator=new smartDonationsClassicDonationGenerator(containerName);
+    smartDonationConfigurationBase.call(this,'Classic',containerName,options);
+}
+
+smartDonationClassicConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
+
+
+smartDonationConfigurationBase.prototype.PropertyChanged=function(field,value){
+    if(field=="smartDonationsdisplaycreditlogo")
+        if(value)
+            this.styles.smartDonationsDonationButton_src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif";
+        else
+            this.styles.smartDonationsDonationButton_src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
+}
+
+
+smartDonationClassicConfiguration.prototype.InitiateGenerator=function()
+{
+    this.generator=new smartDonationsClassicDonationGenerator(this.containerName,null,null,this.styles);
 
 }
-smartDonationClassicConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
 
 smartDonationClassicConfiguration.prototype.GetDonationConfigurationGeneratedCode=function(){
     return  "<table> "+
@@ -63,15 +135,20 @@ smartDonationClassicConfiguration.prototype.GetDonationConfigurationGeneratedCod
 
 
 
-function smartDonationTextBoxConfiguration(containerName,donationGenerator)
+function smartDonationTextBoxConfiguration(containerName,options)
 {
-    smartDonationConfigurationBase.call(this,'Text Box');
-    if(donationGenerator)
-        this.generator=donationGenerator;
-    else
-        this.generator=new smartDonationsTextBoxDonationGenerator(containerName);
+    smartDonationConfigurationBase.call(this,'Text Box',containerName,options);
 }
 smartDonationTextBoxConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
+
+smartDonationTextBoxConfiguration.prototype.InitiateGenerator=function()
+{
+    this.generator=new smartDonationsTextBoxDonationGenerator(this.containerName,null,null,this.styles);
+}
+
+
+
+
 
 smartDonationTextBoxConfiguration.prototype.GetDonationConfigurationGeneratedCode=function(){
     return  "<table> "+
@@ -96,15 +173,17 @@ smartDonationTextBoxConfiguration.prototype.GetDonationConfigurationGeneratedCod
 
 
 
-function smartDonationsThreeButtonsConfiguration(containerName,donationGenerator)
+function smartDonationsThreeButtonsConfiguration(containerName,options)
 {
-    smartDonationConfigurationBase.call(this,'Three Buttons');
-    if(donationGenerator)
-        this.generator=donationGenerator;
-    else
-        this.generator=new smartDonationsThreeButtonsDonationGenerator(containerName);
+    smartDonationConfigurationBase.call(this,'Three Buttons',containerName,options);
 }
 smartDonationsThreeButtonsConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
+
+smartDonationsThreeButtonsConfiguration.prototype.InitiateGenerator=function()
+{
+    this.generator=new smartDonationsThreeButtonsDonationGenerator(this.containerName,null,null,this.styles);
+}
+
 
 smartDonationsThreeButtonsConfiguration.prototype.GetDonationConfigurationGeneratedCode=function(){
     return  "" +
@@ -190,15 +269,18 @@ smartDonationsThreeButtonsConfiguration.prototype.GetDonationConfigurationGenera
 
 
 
-function smartDonationsSliderConfiguration(containerName, donationGenerator)
+function smartDonationsSliderConfiguration(containerName,options)
 {
-    smartDonationConfigurationBase.call(this,'Slider');
-    if(donationGenerator)
-        this.generator=donationGenerator;
-    else
-        this.generator=new smartDonationsSliderDonationGenerator(containerName);
+    smartDonationConfigurationBase.call(this,'Slider',containerName,options);
 }
 smartDonationsSliderConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
+
+
+
+smartDonationsSliderConfiguration.prototype.InitiateGenerator=function()
+{
+    this.generator=new smartDonationsSliderDonationGenerator(this.containerName,null,null,this.styles);
+}
 
 smartDonationsSliderConfiguration.prototype.GetDonationConfigurationGeneratedCode=function(){
     return  "" +

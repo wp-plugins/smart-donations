@@ -222,7 +222,7 @@
     font-family: Verdana;
 }
 
-.smartDonationsCustomFields{
+#smartDonationsCustomFields{
 
     width: 100%;
     height: 300px;
@@ -241,63 +241,33 @@
 
 }
 
-#smartDonationsEditionArea{
-    padding: 0;
-    margin: 0;
-    width:680px;
-    height:280px;
-
-
-}
-
-
-#smartDonationsPreviewEdition{
-    padding: 0;
-    margin: 0;
-    width:680px;
-    height:120px;
-    background-color: white;
-    border-radius: 10px;
-    margin-top:20px;
-
-    border-style: dotted;
-    border-width: 1px;
 
 
 
-}
+/*Configuration Table************************/
 
-
-
-
-/*Configuration Table********************.***/
-
-.smartDonationsCustomFields table{
+#smartDonationsCustomFields table{
     width:100%;
 
 
 }
 
 
-.smartDonationsCustomFields table tr{
+#smartDonationsCustomFields table tr{
 
     vertical-align: top;
 }
 
-.smartDonationsCustomFields td:first-child
+#smartDonationsCustomFields td:first-child
 {
     width:40%;
     text-align: right;
 }
 
-.smartDonationsCustomFields td{
-    vertical-align: middle;
-}
 
-
-.smartDonationsCustomFields td:first-child + td
+#smartDonationsCustomFields td:first-child + td
 {
-    width:70%;
+   width:70%;
     text-align: left;
 }
 
@@ -306,13 +276,7 @@
 }
 
 .smartDonationsNumericField{
-    width:60px;
-    text-align: right;
-}
-
-
-.smartDonationsNumericField_Larger{
-    width:150px;
+    width:40px;
     text-align: right;
 }
 
@@ -332,6 +296,13 @@
 
 
 
+.smartdonationsThreeButtonStyle span
+{
+    position: relative;
+    vertical-align: top;
+    font-family: Verdana;
+
+}
 
 
 
@@ -346,9 +317,16 @@
     text-align: center;
 }
 
+.smartDonationsThreeButton{
+    cursor: pointer;
+    cursor:hand;
+    overflow:hidden;
+}
 
-
-
+.smartDonationsThreeButtonSpan{
+    cursor: pointer;
+    cursor:hand;
+}
 
 .smartDonationsThreeButtonMiddleDiv{
     margin-left:10px;
@@ -450,26 +428,4 @@
 {
     background-image:none;
     background-color:rgb(137, 252, 72);
-}
-
-
-/****DEPRECATED STYLES***********/
-.smartdonationsThreeButtonStyle span
-{
-    position: relative;
-    vertical-align: top;
-    font-family: Verdana;
- 
-}
- 
- 
- .smartDonationsThreeButton{
-    cursor: pointer;
-    cursor:hand;
-    overflow:hidden;
-}
- 
-.smartDonationsThreeButtonSpan{
-    cursor: pointer;
-    cursor:hand;
 }
