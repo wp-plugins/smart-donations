@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=edsev
 Tags: donations, donate, donation buttons, donation widget
 Requires at least: 3.0.1
 Tested up to: 3.5
-Stable tag: 0.5.3
+Stable tag: 0.5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +15,7 @@ This plugin lets you pick different styles of donations that you can add to your
 Smart Donations
 =
 
- This plugin lets you pick different styles of donations and add them to your posts (as a shortcode) or to any sidebar (as a widget). Currently it supports paypal and we pay and four different styles:
+ This plugin lets you pick different styles of donations and add them to your posts (as a shortcode) or to any sidebar (as a widget). Currently it supports four different styles:
  
  *  **Classic**.- The classic paypal button.
    
@@ -60,10 +60,7 @@ For now you can edit the css file smartdonations/css/mainStyle.css, i have plans
 * Initial release
 = 0.5.1 =
 * Fixing a bug with the slider (thanks Dave!)
-= 0.5.2 =
-* Adding wepay support, and fixing bugs.
-= 0.5.3 =
-* Fixing issue with deployment.
+
 
 == Upgrade Notice ==
 N/A
