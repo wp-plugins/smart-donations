@@ -53,6 +53,7 @@ For now you can edit the css file smartdonations/css/mainStyle.css, i have plans
 4. Three Buttons
 5. Slider
 6. Example of site with donations
+7. You can also style each donation in any way you want
 
 == Changelog ==
 
