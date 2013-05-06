@@ -62,7 +62,8 @@ For now you can edit the css file smartdonations/css/mainStyle.css, i have plans
 * Fixing a bug with the slider (thanks Dave!)
 = 1.0 =
 * Adding an style editor and fixing IE bugs
-
+= 1.0.2 =
+* Fixing minor bugs
 
 == Upgrade Notice ==
 N/A

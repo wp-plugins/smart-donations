@@ -136,18 +136,18 @@ smartDonationsThreeButtonsDonationGenerator_wepay.prototype.DonationGeneratedCod
 {
     return '<div class="smartDonationsThreeButtonsDiv1" ><div class="smartDonationsDonationGeneratedItem"  >'+this.GetStartOfDonationForm(this.smartdonationsDonationquantity1)+
         '<div class="smartdonationsThreeButtonStyle"> \
-            <image class="smartDonationsThreeButtonImage1 smartDonationsThreeButton" src="" />\
-            <span class="smartDonationsThreeButtonSpan1 smartDonationsThreeButtonSpan" >'+this.smartDonationButtonText1+'</span>\
+            <image class="smartDonationsThreeButtonImage1 smartDonationsThreeButton smartDonationsEditableItem" src="" />\
+            <span class="smartDonationsThreeButtonSpan1 smartDonationsThreeButtonSpan smartDonationsEditableItem" >'+this.smartDonationButtonText1+'</span>\
              </div></div>'+
         '<div class="smartDonationsDonationGeneratedItem"  >'+this.GetStartOfDonationForm(this.smartdonationsDonationquantity2)+
         '<div class="smartdonationsThreeButtonStyle smartDonationsThreeButtonMiddleDiv" > \
-            <image class="smartDonationsThreeButtonImage2 smartDonationsThreeButton" src=""/>\
-            <span class="smartDonationsThreeButtonSpan2 smartDonationsThreeButtonSpan" >'+this.smartDonationButtonText2+'</span>\
+            <image class="smartDonationsThreeButtonImage2 smartDonationsThreeButton smartDonationsEditableItem" src=""/>\
+            <span class="smartDonationsThreeButtonSpan2 smartDonationsThreeButtonSpan smartDonationsEditableItem" >'+this.smartDonationButtonText2+'</span>\
              </div></div>'+
         '<div class="smartDonationsDonationGeneratedItem"  >'+this.GetStartOfDonationForm(this.smartdonationsDonationquantity3)+
         '<div class="smartdonationsThreeButtonStyle"> \
-            <image class="smartDonationsThreeButtonImage3 smartDonationsThreeButton" src="" />\
-            <span class="smartDonationsThreeButtonSpan3 smartDonationsThreeButtonSpan" >'+this.smartDonationButtonText3+'</span>\
+            <image class="smartDonationsThreeButtonImage3 smartDonationsThreeButton smartDonationsEditableItem" src="" />\
+            <span class="smartDonationsThreeButtonSpan3 smartDonationsThreeButtonSpan smartDonationsEditableItem" >'+this.smartDonationButtonText3+'</span>\
              </div>'+this.GetEndOfDonationForm()+'</div></div>';
 
 
@@ -197,7 +197,7 @@ smartDonationsSliderDonationGenerator_wepay.prototype.DonationGeneratedCode=func
             <td rowspan="2"><div class="smartDonationsSmile smartDonationsSliderSmile"></div></td>                   \
         </tr>                                                                                                                               \
         <tr>      \
-            <td><div class="smartDonationsSlide smartDonationsSliderDiv smartDonationsEditableItem smartDonationsEmptyBar" ></div></td> \
+            <td><div class="smartDonationsSlide smartDonationsSliderDiv smartDonationsEmptyBar" ></div></td> \
             <td></td>                                         \
         </tr> \
         <tr>\
