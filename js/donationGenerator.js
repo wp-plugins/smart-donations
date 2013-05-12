@@ -11,6 +11,7 @@ rnJQuery(function()
 function smartDonationsLoadDonation(options,containerName)
 {
     var donationTypeSelected= options.smartDonationsType;
+    options.isNew=false;
     if(!options.donation_provider)
         options.donation_provider='paypal';
 
@@ -24,29 +25,36 @@ function smartDonationsLoadDonation(options,containerName)
     {
         if(donationTypeSelected=='classic')
             aux=new smartDonationsClassicDonationGenerator(containerName,options,null,styles);
+        else
         if(donationTypeSelected=='textbox')
             aux=new smartDonationsTextBoxDonationGenerator(containerName,options,null,styles);
+        else
         if(donationTypeSelected=="threeButtons")
             aux=new smartDonationsThreeButtonsDonationGenerator(containerName,options,null,styles);
+        else
         if(donationTypeSelected=="slider")
             aux=new smartDonationsSliderDonationGenerator(containerName,options,null,styles);
-    }
-
+        else
+            throw 'Undefined donation type';
+    }else
     if(options.donation_provider=='wepay')
     {
         if(donationTypeSelected=='classic')
             aux=new smartDonationsClassicDonationGenerator_wepay(containerName,options,styles);
-        if(donationTypeSelected=='textbox')
+        else if(donationTypeSelected=='textbox')
             aux=new smartDonationsTextBoxDonationGenerator_wepay(containerName,options,styles);
-        if(donationTypeSelected=="threeButtons")
+        else if(donationTypeSelected=="threeButtons")
             aux=new smartDonationsThreeButtonsDonationGenerator_wepay(containerName,options,styles);
-        if(donationTypeSelected=="slider")
+        else if(donationTypeSelected=="slider")
             aux=new smartDonationsSliderDonationGenerator_wepay(containerName,options,styles);
-    }
+        else
+            throw 'Undefined donation type';
+    }else
+        throw 'Undefined provider';
 
 
     aux.GenerateDonationItem();
-
+    return aux;
 
 
 }
@@ -68,11 +76,18 @@ function smartDonationsBaseGenerator(containerName2,options,donationProvider,sty
         this.GenerateDefaultStyle();
     }
     this.containerName=containerName2;
-    if(options)
-    {
-        this.business=options.business;
-        this.returningUrl=options.returningUrl;
-    }
+
+    this.business=options.business;
+    this.returningUrl=options.returningUrl;
+    this.donation_currency=SmartdonationsGetValueOrDefault(options.donation_currency,'USD');
+
+}
+
+function SmartdonationsGetValueOrDefault(value,defaultValue)
+{
+    if(typeof value=='undefined')
+        return defaultValue;
+    return value;
 
 }
 
@@ -152,13 +167,9 @@ smartDonationsBaseGenerator.prototype.GetEndOfDonationForm=function()
 
 function smartDonationsClassicDonationGenerator(containerName,options,donationProvider,styles){
     smartDonationsBaseGenerator.call(this,containerName,options,donationProvider,styles);
-    if(options)
-    {
-        this.smartDonationsdisplaycreditlogo=options.smartDonationsdisplaycreditlogo;
-    }else
-    {
-        this.smartDonationsdisplaycreditlogo=false;
-    }
+
+    this.smartDonationsdisplaycreditlogo=options.smartDonationsdisplaycreditlogo;
+
 }
 
 smartDonationsClassicDonationGenerator.prototype=Object.create(smartDonationsBaseGenerator.prototype);
@@ -202,17 +213,10 @@ smartDonationsClassicDonationGenerator.prototype.DonationGeneratedCode=function(
 function smartDonationsTextBoxDonationGenerator(containerName,options,donationProvider,styles){
     smartDonationsBaseGenerator.call(this,containerName,options,donationProvider,styles);
 
-    if(options)
-    {
-        this.smartDonationsComment=options.smartDonationsComment;
-        this.smartDonationsRecommendedDonation=options.smartDonationsRecommendedDonation;
-        this.smartDonationsStyle=options.smartDonationsStyle;
-    }else
-    {
-        this.smartDonationsComment="";
-        this.smartDonationsRecommendedDonation=0;
-        this.smartDonationsStyle=1;
-    }
+    this.smartDonationsComment=options.smartDonationsComment;
+    this.smartDonationsRecommendedDonation=options.smartDonationsRecommendedDonation;
+    this.smartDonationsStyle=options.smartDonationsStyle;
+
 }
 
 smartDonationsTextBoxDonationGenerator.prototype=Object.create(smartDonationsBaseGenerator.prototype);
@@ -330,37 +334,21 @@ smartDonationsTextBoxDonationGenerator.prototype.DonationGeneratedCode=function(
         smartDonationsBaseGenerator.call(this,containerName,options,donationProvider,styles);
 
 
-        if(options)
-        {
-            this.smartDonationButtonStyle1=options.smartDonationButtonStyle1;
-            this.smartDonationButtonText1=options.smartDonationButtonText1;
-            this.smartdonationsDonationquantity1=options.smartdonationsDonationquantity1;
 
-            this.smartDonationButtonStyle2=options.smartDonationButtonStyle2;
-            this.smartDonationButtonText2=options.smartDonationButtonText2;
-            this.smartdonationsDonationquantity2=options.smartdonationsDonationquantity2;
+        this.smartDonationButtonStyle1=options.smartDonationButtonStyle1;
+        this.smartDonationButtonText1=options.smartDonationButtonText1;
+        this.smartdonationsDonationquantity1=options.smartdonationsDonationquantity1;
 
-            this.smartDonationButtonStyle3=options.smartDonationButtonStyle3;
-            this.smartDonationButtonText3=options.smartDonationButtonText3;
-            this.smartdonationsDonationquantity3=options.smartdonationsDonationquantity3;
+        this.smartDonationButtonStyle2=options.smartDonationButtonStyle2;
+        this.smartDonationButtonText2=options.smartDonationButtonText2;
+        this.smartdonationsDonationquantity2=options.smartdonationsDonationquantity2;
 
-            this.smartDonationSameSize=options.smartDonationSameSize;
-        }else
-        {
-            this.smartDonationButtonStyle1="threeButtonsStyle1.png";
-            this.smartDonationButtonText1="";
-            this.smartdonationsDonationquantity1=0;
+        this.smartDonationButtonStyle3=options.smartDonationButtonStyle3;
+        this.smartDonationButtonText3=options.smartDonationButtonText3;
+        this.smartdonationsDonationquantity3=options.smartdonationsDonationquantity3;
 
-            this.smartDonationButtonStyle2="threeButtonsStyle1.png";
-            this.smartDonationButtonText2="";
-            this.smartdonationsDonationquantity2=0;
+        this.smartDonationSameSize=options.smartDonationSameSize;
 
-            this.smartDonationButtonStyle3="threeButtonsStyle1.png";
-            this.smartDonationButtonText3="";
-            this.smartdonationsDonationquantity3=0;
-
-            this.smartDonationSameSize=true;;
-        }
 
         if(typeof this.styles=='undefined')
             this.styles={};
@@ -543,23 +531,15 @@ smartDonationsThreeButtonsDonationGenerator.prototype.CreateAndLayoutImage=funct
 function smartDonationsSliderDonationGenerator(containerName,options,donationProvider,styles){
     smartDonationsBaseGenerator.call(this,containerName,options,donationProvider,styles);
 
-    if(options)
-    {
-        this.smartDonationText=options.smartDonationText;
-        this.smartDonationsMinValue=options.smartDonationsMinValue;
-        this.smartDonationsMaxValue=options.smartDonationsMaxValue;
-        this.smartDonationsDefaultValue=options.smartDonationsDefaultValue;
-        this.smartDonationIncrementOf=options.smartDonationIncrementOf;
-        this.currentValue=options.smartDonationsDefaultValue;
-    }else
-    {
-        this.smartDonationText="";
-        this.smartDonationsMinValue=0;
-        this.smartDonationsMaxValue=10;
-        this.smartDonationsDefaultValue=5;
-        this.smartDonationIncrementOf=1
-        this.currentValue=5;
-    }
+    this.smartDonationText=options.smartDonationText;
+    this.smartDonationsMinValue=options.smartDonationsMinValue;
+    this.smartDonationsMaxValue=options.smartDonationsMaxValue;
+    this.smartDonationsDefaultValue=options.smartDonationsDefaultValue;
+    this.smartDonationIncrementOf=options.smartDonationIncrementOf;
+    this.currentValue=options.smartDonationsDefau
+    this.smartDonationAllowedValues=options.smartDonationAllowedValues;
+
+
 }
 
 smartDonationsSliderDonationGenerator.prototype=Object.create(smartDonationsBaseGenerator.prototype);
@@ -598,21 +578,17 @@ smartDonationsBaseGenerator.prototype.StyleItem=function()
     }
 }
 
-smartDonationsSliderDonationGenerator.prototype.slide=function(event,ui,generator)
+smartDonationsSliderDonationGenerator.prototype.slide=function(value,minvalue,maxvalue,generator)
 {
-    if(ui)
-        var value=ui.value;
-    else
-        var value=generator.smartDonationsDefaultValue;
 
     generator.currentValue=value;
 
     generator.GetRootContainer().find('.smartDonationsAmount').text(value);
     generator.ValueUpdated(generator,value);
 
-    value=value-generator.smartDonationsMinValue;
+    value=value-minvalue;
 
-    value=value*0.7/(generator.smartDonationsMaxValue-generator.smartDonationsMinValue);
+    value=value*0.7/(maxvalue-minvalue);
 
     generator.printSmile(value +.3);
 
@@ -684,13 +660,9 @@ smartDonationsSliderDonationGenerator.prototype.GenerationCompleted=function()
         return;
 
 
-    if(generator.smartDonationsDefaultValue<generator.smartDonationsMinValue)
-        generator.smartDonationsDefaultValue= generator.smartDonationsMinValue;
 
-    if(generator.smartDonationsDefaultValue>generator.smartDonationsMaxValue)
-        generator.smartDonationsDefaultValue= generator.smartDonationsMaxValue;
 
-    generator.value=generator.smartDonationsDefaultValue;
+
 
     rnJQuery(function(){
         var smileDiv=generator.GetRootContainer().find(".smartDonationsSmile");
@@ -701,14 +673,65 @@ smartDonationsSliderDonationGenerator.prototype.GenerationCompleted=function()
 
         }
 
+        var defaultValue=generator.smartDonationsDefaultValue;
+        var minValue=generator.smartDonationsMinValue;
+        var maxValue=generator.smartDonationsMaxValue;
+        var incrementOf=generator.smartDonationIncrementOf;
+        var slideCallback=function(slide,ui){generator.slide(ui.value,minValue,maxValue,generator)};
+
+        if(typeof generator.smartDonationAllowedValues !='undefined' && generator.smartDonationAllowedValues)
+        {
+            generator.allowedValuesArray=generator.smartDonationAllowedValues.split(',');
+            for(var i=0;i<generator.allowedValuesArray.length;i++)
+            {
+                try
+                {
+                    generator.allowedValuesArray[i]=parseFloat(generator.allowedValuesArray[i]);
+                }catch(exceptin)
+                {
+
+                    return;
+                }
+            }
+            if(generator.allowedValuesArray.length>0)
+            {
+                generator.allowedValuesArray=generator.allowedValuesArray.sort(function(a,b){return a<b?-1:1});
+
+                minValue=0;
+                maxValue=generator.allowedValuesArray.length-1;
+                incrementOf=1;
+                try{
+                    defaultValue=parseFloat(defaultValue);
+                    defaultValue=generator.allowedValuesArray.indexOf(defaultValue);
+                }catch(exception)
+                {
+                    defaultValue=0;
+                }
+
+                if(defaultValue<0)
+                    defaultValue=0;
+                slideCallback=function(slide,ui){generator.slide( generator.allowedValuesArray[ui.value], generator.allowedValuesArray[0], generator.allowedValuesArray[ generator.allowedValuesArray.length-1],generator)};
+
+
+            }
+        }else
+        {
+            if(generator.smartDonationsDefaultValue<generator.smartDonationsMinValue)
+                generator.smartDonationsDefaultValue= generator.smartDonationsMinValue;
+
+            if(generator.smartDonationsDefaultValue>generator.smartDonationsMaxValue)
+                generator.smartDonationsDefaultValue= generator.smartDonationsMaxValue;
+        }
+
+
         var rootContainer=generator.GetRootContainer().find(".smartDonationsSlide");
         rootContainer.slider({
             range: "min",
-            value: generator.smartDonationsDefaultValue,
-            min: generator.smartDonationsMinValue,
-            max: generator.smartDonationsMaxValue,
-            step:generator.smartDonationIncrementOf,
-            slide: function(slide,ui){generator.slide(slide,ui,generator);},
+            value: defaultValue,
+            min: minValue,
+            max: maxValue,
+            step:incrementOf,
+            slide: slideCallback,
             create:function(event,ui)
             {
                 rootContainer.find(".ui-slider-range-min").addClass("smartDonationsSliderBar").addClass("smartDonationsEditableItem");
@@ -719,10 +742,11 @@ smartDonationsSliderDonationGenerator.prototype.GenerationCompleted=function()
         generator.paper = Raphael(smileDiv[0], 50, 50);
 
 
-        generator.GetRootContainer().find('.smartDonationsAmount').text(generator.value);
-        generator.value=generator.value-generator.smartDonationsMinValue;
-        generator.value=generator.value*0.7/(generator.smartDonationsMaxValue-generator.smartDonationsMinValue);
-        generator.slide(null,null,generator);
+        generator.GetRootContainer().find('.smartDonationsAmount').text(defaultValue);
+        generator.slide(defaultValue,minValue,maxValue,generator)
+        var ui={};
+        ui.value=defaultValue;
+        slideCallback(null,ui);
     });
 
 

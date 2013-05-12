@@ -3,15 +3,20 @@ function smartDonationConfigurationBase(title,containerName,options)
     this.title=title;
     this.containerName=containerName;
 
-    if(typeof options != 'undefined'&& typeof options.styles!='undefined')
+    if(options.isNew == false && typeof options.styles!='undefined')
         this.styles=options.styles;
     else
-
         this.styles=null;
-    this.InitiateGenerator();
+
+    if(options.isNew)
+        this.FillOptionsForNewDonation(options);
+    this.InitiateGenerator(options);
     this.styles=this.generator.styles;
 
 }
+
+
+
 
 function SmartDonationsEditStyle(Generator,Element,Properties)
 {
@@ -64,6 +69,7 @@ smartDonationConfigurationBase.prototype.fillConfiguration=function()
     rnJQuery('.smartDonationsSettingField').keyup(function(){self.SettingChanged(self,this)});
     rnJQuery('.smartDonationsSettingField').change(function(){self.SettingChanged(self,this)});
     rnJQuery('#smartDonationsEmail').keyup(function(){self.SettingChanged(self,this)});
+    rnJQuery('#smartDonationsCurrencyDropDown').change(function(){self.SettingChanged(self,this)});
 
     rnJQuery('.smartDonationsSettingField').change();
 
@@ -89,6 +95,10 @@ smartDonationConfigurationBase.prototype.PropertyChanged=function(field,value){
 
 }
 
+smartDonationConfigurationBase.prototype.FillOptionsForNewDonation=function(options)
+{
+
+}
 
 
 
@@ -103,6 +113,12 @@ function smartDonationClassicConfiguration(containerName,options)
 
 smartDonationClassicConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
 
+smartDonationClassicConfiguration.prototype.FillOptionsForNewDonation=function(options)
+{
+    options.smartDonationsdisplaycreditlogo=false;
+
+}
+
 
 smartDonationConfigurationBase.prototype.PropertyChanged=function(field,value){
     if(field=="smartDonationsdisplaycreditlogo")
@@ -113,9 +129,9 @@ smartDonationConfigurationBase.prototype.PropertyChanged=function(field,value){
 }
 
 
-smartDonationClassicConfiguration.prototype.InitiateGenerator=function()
+smartDonationClassicConfiguration.prototype.InitiateGenerator=function(options)
 {
-    this.generator=new smartDonationsClassicDonationGenerator(this.containerName,null,null,this.styles);
+    this.generator=new smartDonationsClassicDonationGenerator(this.containerName,options,null,this.styles);
 
 }
 
@@ -141,9 +157,20 @@ function smartDonationTextBoxConfiguration(containerName,options)
 }
 smartDonationTextBoxConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
 
-smartDonationTextBoxConfiguration.prototype.InitiateGenerator=function()
+
+smartDonationTextBoxConfiguration.prototype.FillOptionsForNewDonation=function(options)
 {
-    this.generator=new smartDonationsTextBoxDonationGenerator(this.containerName,null,null,this.styles);
+    options.smartDonationsComment="If you like this plugin, please donate";
+    options.smartDonationsRecommendedDonation=15;
+    options.smartDonationsStyle=2;
+
+}
+
+
+
+smartDonationTextBoxConfiguration.prototype.InitiateGenerator=function(options)
+{
+    this.generator=new smartDonationsTextBoxDonationGenerator(this.containerName,options,null,this.styles);
 }
 
 
@@ -179,9 +206,26 @@ function smartDonationsThreeButtonsConfiguration(containerName,options)
 }
 smartDonationsThreeButtonsConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
 
-smartDonationsThreeButtonsConfiguration.prototype.InitiateGenerator=function()
+smartDonationsThreeButtonsConfiguration.prototype.FillOptionsForNewDonation=function(options)
 {
-    this.generator=new smartDonationsThreeButtonsDonationGenerator(this.containerName,null,null,this.styles);
+    options.smartDonationButtonStyle1="threeButtonsStyle1.png";
+    options.smartDonationButtonText1="Thank you ($5)";
+    options.smartdonationsDonationquantity1=5;
+
+    options.smartDonationButtonStyle2="threeButtonsStyle1.png";
+    options.smartDonationButtonText2="Wow, Thanks!($15)";
+    options.smartdonationsDonationquantity2=15;
+
+    options.smartDonationButtonStyle3="threeButtonsStyle1.png";
+    options.smartDonationButtonText3="You... Just Rock($25)";
+    options.smartdonationsDonationquantity3=15;
+
+    options.smartDonationSameSize=true;
+}
+
+smartDonationsThreeButtonsConfiguration.prototype.InitiateGenerator=function(options)
+{
+    this.generator=new smartDonationsThreeButtonsDonationGenerator(this.containerName,options,null,this.styles);
 }
 
 
@@ -275,11 +319,19 @@ function smartDonationsSliderConfiguration(containerName,options)
 }
 smartDonationsSliderConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
 
-
-
-smartDonationsSliderConfiguration.prototype.InitiateGenerator=function()
+smartDonationsSliderConfiguration.prototype.FillOptionsForNewDonation=function(options)
 {
-    this.generator=new smartDonationsSliderDonationGenerator(this.containerName,null,null,this.styles);
+    options.smartDonationText="If you like it, please donate.";
+    options.smartDonationsMinValue=5;
+    options.smartDonationsMaxValue=50;
+    options.smartDonationsDefaultValue=25;
+    options.smartDonationIncrementOf=1
+    options.currentValue=25;
+}
+
+smartDonationsSliderConfiguration.prototype.InitiateGenerator=function(options)
+{
+    this.generator=new smartDonationsSliderDonationGenerator(this.containerName,options,null,this.styles);
 }
 
 smartDonationsSliderConfiguration.prototype.GetDonationConfigurationGeneratedCode=function(){
@@ -304,7 +356,10 @@ smartDonationsSliderConfiguration.prototype.GetDonationConfigurationGeneratedCod
         "<td><span>Increments Of</span></td>"+
         "<td><input type='text' name='smartDonationIncrementOf' class='smartDonationsSettingField smartDonationsNumericField' value='1'/></td>" +
         "</tr>"+
-
+        "</tr><tr style='height:15px'></tr>"+
+        "<td><span >Allowed Values</span></td>"+
+        "<td><input type='text' name='smartDonationAllowedValues' class='smartDonationsSettingField smartDonationsNumericField' value=''/><span class='description'>*Example 10,20,30,40</span></td>" +
+        "</tr>"+
         "</table>";
 
 };

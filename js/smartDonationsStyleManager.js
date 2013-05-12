@@ -1,8 +1,14 @@
 var smartDonationsCurrentElement;
-
+var smartDonationsPreviousStyleElement;
+var smartDonationsPreviousElement;
 function SmartDonationsStartStyling()
 {
     smartDonationsEditDialog.dialog('open');
+    rnJQuery('#smartDonationsApplyStyle').unbind('click').click(ApplyStyle);
+    rnJQuery("#smartDonationsCSS").val("");
+    smartDonationsCurrentElement=null;
+    smartDonationsPreviousStyleElement=null;
+    smartDonationsPreviousElement=null;
     if(smartDonationsDonationType&&smartDonationsDonationType.generator)
     {
         BindGeneratedItemToStyleEvents();
@@ -10,29 +16,45 @@ function SmartDonationsStartStyling()
 
 }
 
+function SmartDonationsRecoverPreviousBorder()
+{
+
+    if(smartDonationsPreviousStyleElement=="none")
+        rnJQuery(smartDonationsPreviousElement).css('border','');
+    else
+        rnJQuery(smartDonationsPreviousElement).css('border', smartDonationsPreviousStyleElement);
+
+    smartDonationsPreviousStyleElement=null;
+    smartDonationsPreviousElement=null;
+}
+
 function BindGeneratedItemToStyleEvents()
 {
-    var previousValue=null;
-    var previousElement=null;
+    smartDonationsPreviousStyleElement=null;
+    smartDonationsPreviousElement=null;
     rnJQuery("#smartDonationsPreviewEditionContainer").find('.smartDonationsEditableItem, .ui-slider-handle, .ui-slider-horizontal, .ui-slider-handle').hover(
-        function(){
+        function(event){
             event.stopPropagation();
 
-            if(previousElement)
+            if(smartDonationsPreviousElement)
             {
-                rnJQuery(previousElement).css('border', previousValue);
+                rnJQuery(smartDonationsPreviousElement).css('border', smartDonationsPreviousStyleElement);
             }
 
-            previousValue=rnJQuery(this).css('border');
-            previousElement=this;
+            smartDonationsPreviousStyleElement=rnJQuery(this).css('border');
+            if(typeof smartDonationsPreviousStyleElement =='undefined'||!smartDonationsPreviousStyleElement||smartDonationsPreviousStyleElement=="0px solid rgb(0, 0, 0)")
+                smartDonationsPreviousStyleElement="none";
+            smartDonationsPreviousElement=this;
             rnJQuery(this).css('border', '3px solid black');
         },
         //unhover
         function(event){
             event.stopPropagation();
-            rnJQuery(this).css('border', previousValue);
-            previousElement=null;
-            previousValue=null;
+            if(smartDonationsPreviousStyleElement==null)
+                return;
+            SmartDonationsRecoverPreviousBorder();
+
+
         }
     ).unbind('click').unbind('mousedown').click(function(event)
         {
@@ -42,6 +64,7 @@ function BindGeneratedItemToStyleEvents()
             smartDonationsCurrentElement=element;
             var tagName=element.prop("tagName").toUpperCase();
 
+            SmartDonationsSetStyleText();
             if(tagName=="INPUT")
             {
                 if(element.attr("type").toUpperCase()=="IMAGE")
@@ -78,7 +101,37 @@ function BindGeneratedItemToStyleEvents()
         });
 }
 
+function ApplyStyle(event)
+{
+    event.preventDefault();
 
+    if(smartDonationsCurrentElement==null)
+        return;
+
+    var className=SmartDonationsGetReferenceClass(smartDonationsCurrentElement);
+
+    smartDonationsDonationType.generator.styles[className]=rnJQuery("#smartDonationsCSS").val().replace(/\r?\n/g,'');
+    SmartDonationsRefreshDonation(className);
+    smartDonationsCurrentElement.click();
+
+}
+
+function SmartDonationsRefreshDonation(className)
+{
+    smartDonationsDonationType.generator.GenerateDonationItem();
+    smartDonationsCurrentElement= rnJQuery("#smartDonationsPreviewEditionContainer").find("."+className);
+    BindGeneratedItemToStyleEvents();
+    SmartDonationsSetStyleText();
+}
+
+function SmartDonationsSetStyleText()
+{
+    if(smartDonationsPreviousStyleElement)
+        SmartDonationsRecoverPreviousBorder();
+
+    var cssText=smartDonationsCurrentElement.attr('style');
+    rnJQuery("#smartDonationsCSS").val(cssText.replace(/[ ]*;[ ]*/g,";\r"));
+}
 function SmartDonationsGetReferenceClass(element)
 {
     if(element.hasClass('smartDonationsDonationButton'))
@@ -156,10 +209,7 @@ function SmartDonationsChangeCurrentStyle(styleElement,value)
     }
 
 
-
-    smartDonationsDonationType.generator.GenerateDonationItem();
-    smartDonationsCurrentElement= rnJQuery("#smartDonationsPreviewEditionContainer").find("."+className);
-    BindGeneratedItemToStyleEvents();
+    SmartDonationsRefreshDonation(className);
 }
 
 

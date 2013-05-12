@@ -1,11 +1,5 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: edseventeen
- * Date: 3/31/13
- * Time: 11:16 AM
- * To change this template use File | Settings | File Templates.
- */
+
 
 
 function rednao_smart_donations_json_object($object,$styles)

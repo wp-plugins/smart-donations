@@ -6,15 +6,10 @@
 function smartDonationsClassicDonationGenerator_wepay(containerName,options,styles){
     smartDonationsClassicDonationGenerator.call(this,containerName,options,new smartDonationsWePayProvider(false),styles);
 
-    if(options)
-    {
+
         this.smartDonationsButtonText=options.smartDonationsButtonText;
         this.smartDonationsAmount=options.smartDonationsAmount;
-    }else
-    {
-        this.smartDonationsButtonText="";
-        this.smartDonationsAmount=0;
-    }
+
 }
 smartDonationsClassicDonationGenerator_wepay.prototype=Object.create(smartDonationsClassicDonationGenerator.prototype);
 

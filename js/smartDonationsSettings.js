@@ -1,4 +1,3 @@
-jQuery(SmartDonationSettings);
 
 
 var donationTypeSelected;
@@ -40,8 +39,14 @@ function SmartDonations_donationTypeClicked(div,donationOptions) {
     if(donationOptions)
     {
         var donationTypeSelected= donationOptions.smartDonationsType;
+        donationOptions.isNew=false;
     }else
+    {
+        donationOptions={};
+        donationOptions.isNew=true;
+        donationOptions.donation_currency=rnJQuery("#smartDonationsCurrency").val();
         var donationTypeSelected= rnJQuery(div).find(':hidden').val();
+    }
 
     rnJQuery("#smartDonationsType").val(donationTypeSelected);
     SmartDonations_SetSmartDonationConfiguration(this,div,donationTypeSelected,donationOptions);
@@ -96,10 +101,11 @@ function SmartDonations_SetSmartDonationConfiguration(rthis,div,donationTypeSele
     var donationProvider=rnJQuery('#rednao_smart_donations_provider').val();
 
 
+
+
     smartDonationsDonationType=SmartDonations_GetDonationTypeSelected(donationTypeSelected,donationProvider,donationOptions);
     smartDonationsDonationType.generator.business=rnJQuery('#smartDonationsEmail').val();
     smartDonationsDonationType.generator.returningUrl=rnJQuery('#smartDonationsReturningUrl').val();
-
 
     smartDonationsDonationType.fillConfiguration();
     smartDonationsDonationType.generator.GenerateDonationItem();
@@ -125,7 +131,7 @@ function SmartDonationsFillConfiguration(donationOptions)
             if(donationOptions[donationVariable]=="on")
                 element.attr("checked",'on');
             else
-                element.attr("checked",'');
+                element.removeAttr("checked");
         }else
             element.val(donationOptions[donationVariable]);
         element.change();

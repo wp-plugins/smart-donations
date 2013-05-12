@@ -10,9 +10,16 @@ function smartDonationClassicConfiguration_wepay(containerName,options)
 
 smartDonationClassicConfiguration_wepay.prototype=Object.create(smartDonationClassicConfiguration.prototype);
 
-smartDonationClassicConfiguration_wepay.prototype.InitiateGenerator=function()
+smartDonationClassicConfiguration_wepay.prototype.FillOptionsForNewDonation=function(options)
 {
-    this.generator=new smartDonationsClassicDonationGenerator_wepay(this.containerName,null,this.styles)
+    options.smartDonationsButtonText="Donate $10";
+    options.smartDonationsAmount=10;
+
+}
+
+smartDonationClassicConfiguration_wepay.prototype.InitiateGenerator=function(options)
+{
+    this.generator=new smartDonationsClassicDonationGenerator_wepay(this.containerName,options,this.styles)
 }
 
 
@@ -43,9 +50,9 @@ smartDonationTextBoxConfiguration_wepay.prototype=Object.create(smartDonationTex
 
 
 
-smartDonationTextBoxConfiguration_wepay.prototype.InitiateGenerator=function()
+smartDonationTextBoxConfiguration_wepay.prototype.InitiateGenerator=function(options)
 {
-    this.generator=new smartDonationsTextBoxDonationGenerator_wepay(this.containerName,null,this.styles);
+    this.generator=new smartDonationsTextBoxDonationGenerator_wepay(this.containerName,options,this.styles);
 }
 
 smartDonationTextBoxConfiguration_wepay.prototype.GetDonationConfigurationGeneratedCode=function(){
@@ -79,9 +86,9 @@ function smartDonationsThreeButtonsConfiguration_wepay(containerName,options)
 
 smartDonationsThreeButtonsConfiguration_wepay.prototype=Object.create(smartDonationsThreeButtonsConfiguration.prototype);
 
-smartDonationsThreeButtonsConfiguration_wepay.prototype.InitiateGenerator=function()
+smartDonationsThreeButtonsConfiguration_wepay.prototype.InitiateGenerator=function(options)
 {
-    this.generator=new smartDonationsThreeButtonsDonationGenerator_wepay(this.containerName,null,this.styles);
+    this.generator=new smartDonationsThreeButtonsDonationGenerator_wepay(this.containerName,options,this.styles);
 }
 
 
@@ -103,8 +110,8 @@ smartDonationsSliderConfiguration_wepay.prototype=Object.create(smartDonationsSl
 
 
 
-smartDonationsSliderConfiguration_wepay.prototype.InitiateGenerator=function()
+smartDonationsSliderConfiguration_wepay.prototype.InitiateGenerator=function(options)
 {
-    this.generator=new smartDonationsSliderDonationGenerator_wepay(this.containerName,null,this.styles)
+    this.generator=new smartDonationsSliderDonationGenerator_wepay(this.containerName,options,this.styles)
 }
 

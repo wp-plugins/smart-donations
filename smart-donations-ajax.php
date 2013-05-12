@@ -1,11 +1,5 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: edseventeen
- * Date: 3/30/13
- * Time: 11:27 AM
- * To change this template use File | Settings | File Templates.
- */
+
 
 function rednao_smart_donations_save()
 {
@@ -81,6 +75,26 @@ function rednao_smart_donations_save()
 
     echo "{\"DonationId\":\"$donationId\",\"Message\":\"$message\"}";
 
+    die();
+
+}
+
+
+function rednao_smart_donations_list()
+{
+    if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') ) {
+        return;
+    }
+
+    global $wpdb;
+    $result=$wpdb->get_results($wpdb->prepare("SELECT donation_id,donation_name FROM ".SMART_DONATIONS_TABLE_NAME));
+
+    echo "[{\"DonationId\":\"0\",\"Name\":\"Select a donation\"}";
+    foreach($result as $key=>$row)
+    {
+        echo ",{\"DonationId\":\"$row->donation_id\",\"Name\":\"$row->donation_name\"}";
+    }
+    echo"]";
     die();
 
 }

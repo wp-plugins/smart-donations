@@ -5,7 +5,7 @@
  * Description: Place diferent form of donations on your blog...
  * Author: RedNao
  * Author URI: http://rednao.com
- * Version: 1.0.2
+ * Version: 1.5
  * Text Domain: SmartDonations
  * Domain Path: /languages/
  * Network: true
@@ -40,16 +40,45 @@ require_once('smart-donations-ajax.php');
 register_activation_hook(__FILE__,'rednao_smart_donations_plugin_was_activated');
 add_action('admin_menu','rednao_smart_donations_create_menu');
 add_action( 'wp_ajax_rednao_smart_donations_save', 'rednao_smart_donations_save' );
+add_action( 'wp_ajax_rednao_smart_donations_list', 'rednao_smart_donations_list' );
 add_shortcode('sdonations','rednao_smart_donations_short_code');
-
+add_action('init', 'rednao_smart_donations_init');
 require_once('smart-donations-widget.php');
 
 function rednao_smart_donations_create_menu(){
+    wp_enqueue_script('jquery');
+    wp_enqueue_script('jquery-ui-core');
+    wp_enqueue_script('query-ui-dialog');
     add_menu_page('Smart Donations','Smart Donations','manage_options',__FILE__,'rednao_smartdonations_settings_page');
     add_submenu_page(__FILE__,'Smart Donations - Add New','Add New','manage_options',__FILE__.'addnew', 'rednao_smart_donations_add_new');
     add_submenu_page(__FILE__,'Smart Donations - Wish List','Wish List','manage_options',__FILE__.'wishlist', 'rednao_smart_donations_wish_list');
 
 }
+
+function rednao_smart_donations_init()
+{
+    if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') ) {
+        return;
+    }
+
+    if ( get_user_option('rich_editing') == 'true' ) {
+        add_filter( 'mce_external_plugins', 'rednao_smart_donations_add_plugin' );
+        add_filter( 'mce_buttons', 'rednao_smart_donations_register_button' );
+    }
+}
+
+function rednao_smart_donations_add_plugin($plugin_array)
+{
+    $plugin_array['rednao_smart_donations_button']=plugin_dir_url(__FILE__).'js/smartDonationsShortCodeButton.js';
+    return $plugin_array;
+}
+
+function rednao_smart_donations_register_button($buttons)
+{
+    $buttons[]="rednao_smart_donations_button";
+    return $buttons;
+}
+
 
 function rednao_smart_donations_plugin_was_activated()
 {

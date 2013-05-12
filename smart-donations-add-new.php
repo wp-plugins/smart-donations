@@ -33,15 +33,50 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
 
 
     <script type="text/javascript">
+
+        var payPalCurrencies=new Array("USD","AUD","BRL","GBP","CAD","CZK","DKK","EUR","HKD","HUF","ILS","JPY","MXN","TWD","NZD","NOK","PHP","PLN","SGD","SEK","CHF","THB");
+        var wePayCurrencies=new Array("USD");
+
+
         var smartDonations_arrow_closed="<?php echo plugin_dir_url(__FILE__)?>images/arrow_right.png";
         var smartDonations_arrow_open="<?php echo plugin_dir_url(__FILE__)?>images/arrow_down.png";
 
         var smartDonationsRootPath="<?php echo plugin_dir_url(__FILE__)?>";
 
+        function setCurrencyOptions(provider)
+        {
+            var providerCurrencies;
+            if(provider=="wepay")
+                providerCurrencies=wePayCurrencies;
+            else
+                providerCurrencies=payPalCurrencies;
+
+            var comboCurrencies=rnJQuery("#smartDonationsCurrencyDropDown");
+            comboCurrencies.empty();
+
+            for(var i=0;i<providerCurrencies.length;i++)
+                comboCurrencies.append('<option value="'+providerCurrencies[i]+'">'+providerCurrencies[i]+'</option>');
+
+            comboCurrencies.val(providerCurrencies[0]);
+
+
+        }
+
+
+
+        function smartDonationsCurrencyChanged(element)
+        {
+            rnJQuery("#smartDonationsCurrency").val(rnJQuery("#smartDonationsCurrencyDropDown").val());
+        }
+
+
+
+
         function providerChanged() {
             SmartDonations_backFromConfiguration();
             var newProvider=rnJQuery(this).val()
             $("#smartDonationsProvider").val(newProvider);
+            setCurrencyOptions(newProvider);
             switch(newProvider)
             {
                 case 'wepay':
@@ -65,6 +100,8 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
         }
         function SmartDonationsInitialize()
         {
+            rnJQuery( "#smartDonationRadio" ).buttonset();
+            SmartDonationSettings();
             var previousFunction;
             smartDonationsEditDialog= rnJQuery("#smartDonationsEditWindow").dialog({
                 width:720,
@@ -105,18 +142,37 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
 
 
             rnJQuery("#smartDonationsSaveButton").click(SmartDonationsSave);
-
+            rnJQuery("#smartDonationsCurrencyDropDown").change(smartDonationsCurrencyChanged);
             rnJQuery("#smartDonationsEditImageButton").click(SmartDonationsStartStyling);
+            rnJQuery('input[name=smartDonationEditStyle]').change(smartDonationEditTypeChanged);
 
-           if(typeof smartDonationsSavedEmail!='undefined')
-           {
-               rnJQuery('#smartDonationsEmail').val(smartDonationsSavedEmail);
-           }
 
-           if(typeof smartDonationsSavedName!='undefined')
-           {
-               rnJQuery('#smartDonationsName').val(smartDonationsSavedName);
-           }
+            function smartDonationEditTypeChanged()
+            {
+                var typeOfEdition=rnJQuery('input[name=smartDonationEditStyle]:checked').val();
+
+                if(typeOfEdition=='basic')
+                {
+                    rnJQuery('#smartDonationsEditionArea').show();
+                    rnJQuery('#smartDonationsEditionCSSArea').hide();
+                }
+
+                if(typeOfEdition=='advanced')
+                {
+                    rnJQuery('#smartDonationsEditionArea').hide();
+                    rnJQuery('#smartDonationsEditionCSSArea').show();
+                }
+
+            }
+            if(typeof smartDonationsSavedEmail!='undefined')
+            {
+                rnJQuery('#smartDonationsEmail').val(smartDonationsSavedEmail);
+            }
+
+            if(typeof smartDonationsSavedName!='undefined')
+            {
+                rnJQuery('#smartDonationsName').val(smartDonationsSavedName);
+            }
 
             if(typeof smartDonationsSavedReturningUrl!='undefined')
             {
@@ -133,9 +189,15 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
                 rnJQuery("#rednao_smart_donations_provider").val(smartDonationsDonationProvider);
             }
 
+            setCurrencyOptions(rnJQuery("#rednao_smart_donations_provider").val());
+
             if(typeof smartDonationsSavedOptions!='undefined')
             {
                 SmartDonations_donationTypeClicked(null,smartDonationsSavedOptions);
+
+                if(typeof smartDonationsSavedOptions.donation_currency != 'undefined')
+                    rnJQuery("#smartDonationsCurrencyDropDown").val(smartDonationsSavedOptions.donation_currency).change();
+
             }
 
             rnJQuery("#rednao_smart_donations_provider").change(providerChanged);
@@ -187,6 +249,16 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
 
             var donationsOptions=rnJQuery("#smart_donations_component_options, #smart_donations_component_options form").serialize();
 
+            var stylesToSave="";
+
+            var generator=GetCurrentGenerator();
+
+
+            if(generator==null || typeof generator.styles=='undefined')
+                stylesToSave=null;
+            else
+                stylesToSave=rnJQuery.param(smartDonationsDonationType.generator.styles);
+
             var data={
                 action:"rednao_smart_donations_save",
                 name:rnJQuery("#smartDonationsName").val(),
@@ -195,12 +267,19 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
                 donationId:rnJQuery("#smartDonationsDonationId").val(),
                 donationType:rnJQuery("#smartDonationsType").val(),
                 donation_Provider:rnJQuery("#rednao_smart_donations_provider").val(),
-                styles:rnJQuery.param(smartDonationsDonationType.generator.styles),
+                styles:stylesToSave,
                 donationOptions:donationsOptions
             };
 
             rnJQuery.post(ajaxurl,data,ajaxCompleted);
 
+        }
+
+        function GetCurrentGenerator()
+        {
+            if(typeof(smartDonationsDonationType)== 'undefined' || smartDonationsDonationType==null|| typeof smartDonationsDonationType.generator =='undefined')
+                return null;
+            return smartDonationsDonationType.generator;
         }
 
         function ajaxCompleted(result,status)
@@ -293,10 +372,16 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
         <div  id="smartDonationsAdvancedDetail">
             <hr/>
             <div class="category" >
+                <span>Currency</span>
+                <select id="smartDonationsCurrencyDropDown" name="donation_currency"></select>
+                <span class="description">*the selected currency for the donation</span>
+                <br/>
                 <span>Returning Url</span>
                 <input type="text" id="smartDonationsReturningUrl"/>
                 <span class="description">*Page displayed after he does a donation</span>
             </div>
+
+
         </div>
 </form>
 
@@ -307,6 +392,7 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
         <!--Item Container--->
         <input type="hidden" id="smartDonationsType" name="smartDonationsType"/>
         <input type="hidden" id="smartDonationsProvider" name="donation_provider"/>
+        <input type="hidden" id="smartDonationsCurrency" name="donation_currency" value='USD'/>
 
 
         <div id="smartdonationsItemsContainer">
@@ -385,17 +471,30 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
 
     <div id="smartDonationsEditWindow" title="Edit Time!! Click an element to edit it">
 
-        <div id="smartDonationsEditionArea" class="smartDonationsCustomFields">
+        <div id="smartDonationsEditionArea" class="smartDonationsCustomFields smartDonationsEditionArea">
 
         </div>
+
+        <div id="smartDonationsEditionCSSArea" style="display:none" class="smartDonationsCustomFields smartDonationsEditionArea">
+            <span>Here you can add CSS to customize the elemente like you want (example: width:10px;)</span>
+            <textarea id="smartDonationsCSS" style="display: block; height: 250px;width: 680px;">
+
+            </textarea>
+
+            <button id="smartDonationsApplyStyle">Apply</button>
+        </div>
+
+        <div id="smartDonationRadio" class="smartDonationsSlider" style="text-align: right;width: 674px;">
+            <input type="radio" id="radio1" value="basic"  name="smartDonationEditStyle"  checked="checked" /><label style="width:100px" for="radio1">Basic</label>
+            <input type="radio" id="radio2"  value="advanced" name="smartDonationEditStyle" /><label label style="width:100px;margin-left:-5px;" for="radio2">Advanced</label>
+        </div>
+
 
         <div id="smartDonationsPreviewEdition">
                <div id="smartDonationsPreviewEditionContainer" style="margin-top: 20px;"></div>
 
         </div>
     </div>
-
-
 
 
 
