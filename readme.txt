@@ -64,7 +64,7 @@ For now you can edit the css file smartdonations/css/mainStyle.css, i have plans
 * Adding an style editor and fixing IE bugs
 = 1.0.2 =
 * Fixing minor bugs
-= 1.5 "
+= 1.5 =
 * Added currency support, slider range of values and advance style option.
 
 == Upgrade Notice ==
