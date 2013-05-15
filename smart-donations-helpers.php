@@ -57,6 +57,8 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
 
     if($returnComponent==false)
     {
+        if($options===null)
+            return;
     ?>
     <div id="donationContainer<?php echo $random?>"></div>
 
@@ -71,6 +73,8 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
     </script>
 <?php
     }else{
+        if(options===null)
+            return "";
         return "<div id='donationContainer$random'></div>
             <script>
                 var smartDonationsRootPath=\"".plugin_dir_url(__FILE__)."\";

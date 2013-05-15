@@ -539,6 +539,11 @@ function smartDonationsSliderDonationGenerator(containerName,options,donationPro
     this.currentValue=options.smartDonationsDefau
     this.smartDonationAllowedValues=options.smartDonationAllowedValues;
 
+    if(typeof this.styles.SmileStrokeColor=='undefined')
+    {
+        this.styles.SmileStrokeColor="000000";
+        this.styles.SmileFillColor="FFFFFF";
+    }
 
 }
 
@@ -548,6 +553,9 @@ smartDonationsSliderDonationGenerator.prototype=Object.create(smartDonationsBase
 smartDonationsSliderDonationGenerator.prototype.GenerateDefaultStyle=function()
 {
     this.styles.smartDonationsDonationButton_src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
+    this.styles.SmileStrokeColor="000000";
+    this.styles.SmileFillColor="FFFFFF";
+
 }
 
 smartDonationsBaseGenerator.prototype.StyleItem=function()
@@ -601,13 +609,15 @@ smartDonationsSliderDonationGenerator.prototype.ValueUpdated=function(generator,
 smartDonationsSliderDonationGenerator.prototype.printSmile=function(smilePercentage)
 {
 
+
+
     this.paper.clear();
 
     //interpolation
-    this.paper.circle(25, 25, 24);
+    this.paper.circle(25, 25, 24).attr({stroke:'#'+this.styles.SmileStrokeColor,fill:'#'+this.styles.SmileFillColor});
 
-    this.paper.circle(16, 17, 5);
-    this.paper.circle(34, 17, 5);
+    this.paper.circle(16, 17, 5).attr({stroke:'#'+this.styles.SmileStrokeColor,fill:'#'+this.styles.SmileFillColor});
+    this.paper.circle(34, 17, 5).attr({stroke:'#'+this.styles.SmileStrokeColor,fill:'#'+this.styles.SmileFillColor});
 
     this.paper.path("M" + this.interpolate(15, 10, smilePercentage) + " "
         + this.interpolate(35, 25, smilePercentage) + ",  C"
@@ -616,7 +626,7 @@ smartDonationsSliderDonationGenerator.prototype.printSmile=function(smilePercent
         + this.interpolate(35, 35, smilePercentage) + " "
         + this.interpolate(35, 45, smilePercentage) + ",    "
         + this.interpolate(35, 41, smilePercentage) + " "
-        + this.interpolate(35, 25, smilePercentage));
+        + this.interpolate(35, 25, smilePercentage)).attr({stroke:'#'+this.styles.SmileStrokeColor,fill:'#'+this.styles.SmileFillColor});
 
 
     // paper.path("M0," + originY + " C" + smileSizeX.toString() + " " +(originY+smileSizeY).toString() + ", " + (100 - smileSizeX).toString() + " " + (originY+ smileSizeY).toString() + ",50 " + originY ).attr({ stroke: "red" });
@@ -778,7 +788,7 @@ smartDonationsSliderDonationGenerator.prototype.DonationGeneratedCode=function()
                     ' <table class="smartDonationsSliderTable" >\
                     <tr>                            \
                         <td><span class="smartDonationsCurrentDonationText smartDonationsEditableItem">Current Donation:</span><strong  class="smartDonationsAmount smartDonationsSliderDonationText smartDonationsEditableItem">10</strong></td>             \
-                        <td rowspan="2"><div class="smartDonationsSmile smartDonationsSliderSmile "></div></td>                   \
+                        <td rowspan="2"><div class="smartDonationsSmile smartDonationsSliderSmile smartDonationsEditableItem"></div></td>                   \
                     </tr>                                                                                                                               \
                     <tr>      \
                         <td><div class="smartDonationsSlide smartDonationsSliderDiv " ></div></td> \

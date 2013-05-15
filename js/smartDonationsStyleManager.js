@@ -32,7 +32,7 @@ function BindGeneratedItemToStyleEvents()
 {
     smartDonationsPreviousStyleElement=null;
     smartDonationsPreviousElement=null;
-    rnJQuery("#smartDonationsPreviewEditionContainer").find('.smartDonationsEditableItem, .ui-slider-handle, .ui-slider-horizontal, .ui-slider-handle').hover(
+    rnJQuery("#smartDonationsPreviewEditionContainer").find('.smartDonationsEditableItem, .ui-slider-handle, .ui-slider-horizontal, .ui-slider-handle, .smartDonationsSliderSmile').hover(
         function(event){
             event.stopPropagation();
 
@@ -88,6 +88,12 @@ function BindGeneratedItemToStyleEvents()
             {
                 smartDonationsEditImage(element);
             }
+
+            if(element.hasClass('smartDonationsSliderSmile'))
+            {
+                smartDonationsEditSmile(element);
+                return;
+            }
             if(tagName=="DIV"||element.hasClass('ui-slider-handle'))
             {
                 smartDonationsEditDiv(element);
@@ -130,6 +136,8 @@ function SmartDonationsSetStyleText()
         SmartDonationsRecoverPreviousBorder();
 
     var cssText=smartDonationsCurrentElement.attr('style');
+    if(typeof cssText =='undefined'||!cssText)
+        cssText='';
     rnJQuery("#smartDonationsCSS").val(cssText.replace(/[ ]*;[ ]*/g,";\r"));
 }
 function SmartDonationsGetReferenceClass(element)
@@ -182,10 +190,11 @@ function SmartDonationsGetReferenceClass(element)
         return 'smartDonationsAmount';
 
 
+    if(element.hasClass('smartDonationsSliderSmile'))
+        return 'smartDonationsSliderSmile';
+
     if(element.hasClass('wepay-widget-button'))
         return 'wepay-widget-button';
-
-
 
 
 
@@ -328,6 +337,22 @@ function smartDonationsEditWePayButton(element)
 }
 
 
+function smartDonationsEditSmile(element)
+{
+    var events=new Array();
+
+    rnJQuery("#smartDonationsEditionArea").html(
+        "<table>" +
+            SmartDonationsAddColorPickerForRaphael(element,events,'SmileStrokeColor')+
+            SmartDonationsAddColorPickerForRaphael(element,events,'SmileFillColor')+
+
+            "</table>"
+    );
+
+    for(var i=0;i<events.length;i++)
+        events[i]();
+}
+
 /************************************************************************************* ADD FIELDS ***************************************************************************************************/
 
 
@@ -462,6 +487,31 @@ function SmartDonationsAddColorPicker(imageElement,eventListener,attribute)
         "<td>" +
             "<input id='smartDonationsEditColor_"+attribute+"' class='color' value='"+RGBToEx(imageElement.css(attribute))+"'/>"
         "</td>" +
+    "</tr>"
+}
+
+function SmartDonationsAddColorPickerForRaphael(imageElement,eventListener,attribute)
+{
+    eventListener.push(function(){
+        jscolor.init();
+        rnJQuery('#smartDonationsEditColor_'+attribute).change(function()
+        {
+           smartDonationsDonationType.generator.styles[attribute]=this.color.toString();
+           SmartDonationsRefreshDonation(SmartDonationsGetReferenceClass(imageElement));
+        });
+    });
+
+    var selectedColor= smartDonationsDonationType.generator.styles[attribute];
+
+
+
+    return "<tr> " +
+        "<td>" +
+        attribute +
+        "</td>" +
+        "<td>" +
+        "<input id='smartDonationsEditColor_"+attribute+"' class='color' value='"+selectedColor+"'/>"
+    "</td>" +
     "</tr>"
 }
 

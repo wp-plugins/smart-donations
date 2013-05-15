@@ -177,6 +177,9 @@ smartDonationsSliderDonationGenerator_wepay.prototype=Object.create(smartDonatio
 
 smartDonationsSliderDonationGenerator_wepay.prototype.GenerateDefaultStyle=function()
 {
+    this.styles.SmileStrokeColor="000000";
+    this.styles.SmileFillColor="FFFFFF";
+
 }
 
 smartDonationsSliderDonationGenerator_wepay.prototype.DonationGeneratedCode=function()
@@ -189,7 +192,7 @@ smartDonationsSliderDonationGenerator_wepay.prototype.DonationGeneratedCode=func
         ' <table class="smartDonationsSliderTable" >\
         <tr>                            \
             <td><span class="smartDonationsCurrentDonationText smartDonationsEditableItem">Current Donation:</span><strong  class="smartDonationsAmount smartDonationsSliderDonationText smartDonationsEditableItem">10</strong></td>             \
-            <td rowspan="2"><div class="smartDonationsSmile smartDonationsSliderSmile"></div></td>                   \
+            <td rowspan="2"><div class="smartDonationsSmile smartDonationsSliderSmile smartDonationsEditableItem"></div></td>                   \
         </tr>                                                                                                                               \
         <tr>      \
             <td><div class="smartDonationsSlide smartDonationsSliderDiv smartDonationsEmptyBar" ></div></td> \
