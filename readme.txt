@@ -55,18 +55,22 @@ For now you can edit the css file smartdonations/css/mainStyle.css, i have plans
 6. Example of site with donations
 
 == Changelog ==
-
-= 0.5 =
-* Initial release
-= 0.5.1 =
-* Fixing a bug with the slider (thanks Dave!)
-= 1.0 =
-* Adding an style editor and fixing IE bugs
-= 1.0.2 =
-* Fixing minor bugs
-= 1.5 =
-* Added currency support, slider range of values and advance style option. (thx Philippe)
 = 1.5.5 =
 * Added the ability to change the smile stroke and fill color. (thx for the suggestion Ralf)
+= 1.5 =
+* Added currency support, slider range of values and advance style option. (thx Philippe)
+= 1.0.2 =
+* Fixing minor bugs
+= 1.0 =
+* Adding an style editor and fixing IE bugs
+= 0.5.1 =
+* Fixing a bug with the slider (thanks Dave!)
+= 0.5 =
+* Initial release
+
+
+
+
+
 == Upgrade Notice ==
 N/A
