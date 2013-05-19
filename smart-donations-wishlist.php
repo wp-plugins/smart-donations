@@ -44,7 +44,11 @@
     </tr>
 </table>
 
-<div style="margin-top:10px; text-align: center;width:650px; border-style: dashed;border-color:black; border-width: 1px; background-color:#F9F9F9">
+<div style="text-align: center;width:650px;">
+    <?php
+    require_once('smart-donations-support-links.php');
+    ?>
+x; background-color:#F9F9F9">
 <p style="font-size: 14px; font-weight: bolder; font-family:verdana;color: green;">And if you like the component and you want to support it, please make a donation.</p>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
     <input type="hidden" name="cmd" value="_donations">

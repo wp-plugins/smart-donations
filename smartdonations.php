@@ -5,7 +5,7 @@
  * Description: Place diferent form of donations on your blog...
  * Author: RedNao
  * Author URI: http://rednao.com
- * Version: 1.5.5
+ * Version: 1.6
  * Text Domain: SmartDonations
  * Domain Path: /languages/
  * Network: true
@@ -31,6 +31,12 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program; if not, write to the Free Software
  *	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ *  * Thanks to:
+ * Jakub Stacho (http://www.iconfinder.com/iconsets/checkout-icons#readme)
+ * Eggib (http://openclipart.org/detail/174878/)
+ * Aha-Soft (http://www.iconfinder.com/iconsets/24x24-free-pixel-icons#readme)
+ * Kevin Liew (http://www.queness.com/post/106/jquery-tabbed-interfacetabbed-structure-menu-tutorial)
  */
 
 require_once('smart-donations-config.php');
