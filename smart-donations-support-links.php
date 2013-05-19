@@ -53,8 +53,21 @@ wp_enqueue_script('jquery');
         a {color:#ccc;text-decoration:none;}
         a:hover {color:#ccc;text-decoration:none}
 
-        #tabMenu {margin:0;padding:0 0 0 15px;list-style:none;}
-        #tabMenu li {float:left;height:32px;width:39px;cursor:pointer;cursor:hand}
+        #tabMenu {
+            margin:0;
+            padding:0 0 0 15px;
+            list-style:none;
+            height:32px;
+            text-align: left;
+        }
+        #tabMenu li {
+            height:32px;
+            width:39px;
+            cursor:pointer;
+            cursor:hand;
+            display: inline-block;
+            float:left;
+        }
 
         .supportMenuItem {
             margin:0;
@@ -75,7 +88,7 @@ wp_enqueue_script('jquery');
         .supportMenuImage{
             width: 32px;
             height: 32px;
-            margin:2px 0 0 1px;
+            margin:2px 0 0 4px;
             padding: 0px;
 
         }
@@ -112,18 +125,22 @@ wp_enqueue_script('jquery');
 
         .smartDonationsBoxBody div ul {padding:0;width:100%;list-style: none;}
 
-        .smartDonationsBoxBody div ul li.last {border-bottom:none}
+        .smartDonationsBoxBody div ul li.last {
+            border-bottom:none;
+        }
         .smartDonationsBoxBody div li span {font-size:8px;font-style:italic; color:#888;}
     </style>
 <h2 style="color:Green">Please Support!, there are a <span style="color: red">BUNCH</span> of ways to do it.</h2>
 
 <div class="box" style="display: inline-block; text-align: center;">
-    <ul id="tabMenu">
-        <li class="supportMenuItem selected"><img title="Donate!!" class="supportMenuImage" src="<?php echo plugin_dir_url(__FILE__)?>images/dollar.png"/></li>
-        <li class="supportMenuItem"><img title="Affiliates" class="supportMenuImage" src="<?php echo plugin_dir_url(__FILE__)?>images/handshake.png" style="width:32px;height:32px;"/></li>
-        <li class="supportMenuItem"><img title="Rating" class="supportMenuImage" src="<?php echo plugin_dir_url(__FILE__)?>images/star.png" style="width:30px;height:30px;"/></li>
-    </ul>
 
+    <div class="smartDonationsHeaders">
+        <ul id="tabMenu">
+            <li class="supportMenuItem selected"><img title="Donate!!" class="supportMenuImage" src="<?php echo plugin_dir_url(__FILE__)?>images/dollar.png"/></li>
+            <li class="supportMenuItem"><img title="Affiliates" class="supportMenuImage" src="<?php echo plugin_dir_url(__FILE__)?>images/handshake.png" style="width:32px;height:32px;"/></li>
+            <li class="supportMenuItem"><img title="Rating" class="supportMenuImage" src="<?php echo plugin_dir_url(__FILE__)?>images/star.png" style="width:30px;height:30px;"/></li>
+        </ul>
+    </div>
 
     <div class="smartDonationsBoxBody">
 
