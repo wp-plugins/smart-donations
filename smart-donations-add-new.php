@@ -10,6 +10,10 @@
 
 if(!defined('ABSPATH'))
     die('Forbidden');
+
+global $wpdb;
+
+$campaigns=$wpdb->get_results("select campaign_id, name from ".SMART_DONATIONS_CAMPAIGN_TABLE);
 wp_enqueue_script('jquery');
 wp_enqueue_script('isolated-slider',plugin_dir_url(__FILE__).'js/rednao-isolated-jq.js');
 wp_enqueue_script('smart-donations-jscolor',plugin_dir_url(__FILE__).'js/jscolor.js',array('isolated-slider'));
@@ -67,6 +71,11 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
         function smartDonationsCurrencyChanged(element)
         {
             rnJQuery("#smartDonationsCurrency").val(rnJQuery("#smartDonationsCurrencyDropDown").val());
+        }
+
+        function smartDonationsCampaignChanged(element)
+        {
+            rnJQuery("#smartDonationsCampaign").val(rnJQuery("#select_campaign_id").val());
         }
 
 
@@ -143,6 +152,7 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
 
             rnJQuery("#smartDonationsSaveButton").click(SmartDonationsSave);
             rnJQuery("#smartDonationsCurrencyDropDown").change(smartDonationsCurrencyChanged);
+            rnJQuery("#select_campaign_id").change(smartDonationsCampaignChanged);
             rnJQuery("#smartDonationsEditImageButton").click(SmartDonationsStartStyling);
             rnJQuery('input[name=smartDonationEditStyle]').change(smartDonationEditTypeChanged);
 
@@ -191,12 +201,18 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
 
             setCurrencyOptions(rnJQuery("#rednao_smart_donations_provider").val());
 
+
+
+
             if(typeof smartDonationsSavedOptions!='undefined')
             {
                 SmartDonations_donationTypeClicked(null,smartDonationsSavedOptions);
 
                 if(typeof smartDonationsSavedOptions.donation_currency != 'undefined')
                     rnJQuery("#smartDonationsCurrencyDropDown").val(smartDonationsSavedOptions.donation_currency).change();
+
+                if(typeof smartDonationsSavedOptions.compaign_id!='undefined')
+                    rnJQuery("#select_campaign_id").val(smartDonationsSavedOptions.campaign_id).change();
 
             }
 
@@ -346,6 +362,19 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
                     <option value="wepay">WePay</option>
                 </select>
                 <br/>
+                <span>Campaign</span>
+                <select name="campaign_id" id="select_campaign_id" style="margin-bottom:5px;">
+                    <option value="0">Default</option>
+                    <?php
+                    foreach($campaigns  as $campaign)
+                    {
+                        echo "<option value='$campaign->campaign_id'>$campaign->name</option>";
+                    }
+                    ?>
+                </select>
+
+                <br/>
+
                 <span>Name</span>
                 <input type="text" name="smartDonationsName" id="smartDonationsName"/>
                 <span class="description" style="margin-bottom:5px;"> *The name of the donation, this name is displayed in the donations list</span>
@@ -392,6 +421,7 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
         <!--Item Container--->
         <input type="hidden" id="smartDonationsType" name="smartDonationsType"/>
         <input type="hidden" id="smartDonationsProvider" name="donation_provider"/>
+        <input type="hidden" id="smartDonationsCampaign" name="campaign_id" value="0"/>
         <input type="hidden" id="smartDonationsCurrency" name="donation_currency" value='USD'/>
 
 

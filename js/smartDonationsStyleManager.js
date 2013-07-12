@@ -1,6 +1,43 @@
 var smartDonationsCurrentElement;
 var smartDonationsPreviousStyleElement;
 var smartDonationsPreviousElement;
+
+
+function SmartDonationsEditStyle(Generator,Element,Properties)
+{
+    var styles=Generator.styles;
+    if(typeof styles[Element]=='undefined')
+        styles[Element]="";
+    var styleToEdit=styles[Element];
+
+    for(property in Properties)
+        styleToEdit=SmartDonationsReplaceStyle(styleToEdit,property,Properties[property]);
+
+    styles[Element]=styleToEdit;
+
+
+}
+
+function SmartDonationsEditImage(Generator,Element,Src)
+{
+    var styles=Generator.styles;
+    if(typeof styles[Element]=='undefined')
+        styles[Element]="";
+    var styleToEdit=styles[Element];
+
+    styleToEdit=Src;
+    styles[Element]=styleToEdit;
+}
+
+
+
+function SmartDonationsReplaceStyle(style,property,newValue)
+{
+    var re = new RegExp(property+":[^;]*;", "g");
+    style=style.replace(re,'');
+    style+=property+":"+newValue+";";
+    return style;
+}
 function SmartDonationsStartStyling()
 {
     smartDonationsEditDialog.dialog('open');
@@ -60,7 +97,7 @@ function BindGeneratedItemToStyleEvents()
         {
             event.preventDefault();
             event.stopPropagation();
-            var element=rnJQuery(this);
+            var element=rnJQuery("#smartDonationsPreviewEditionContainer").find("."+SmartDonationsGetReferenceClass(rnJQuery(this)));
             smartDonationsCurrentElement=element;
             var tagName=element.prop("tagName").toUpperCase();
 
@@ -94,6 +131,12 @@ function BindGeneratedItemToStyleEvents()
                 smartDonationsEditSmile(element);
                 return;
             }
+            if(element.hasClass('progress'))
+            {
+                smartDonationsEditProgressBar(rnJQuery('.progressBar'));
+                return;
+            }
+
             if(tagName=="DIV"||element.hasClass('ui-slider-handle'))
             {
                 smartDonationsEditDiv(element);
@@ -135,7 +178,8 @@ function SmartDonationsSetStyleText()
     if(smartDonationsPreviousStyleElement)
         SmartDonationsRecoverPreviousBorder();
 
-    var cssText=smartDonationsCurrentElement.attr('style');
+    var elementObject=smartDonationsDonationType.generator.styles[SmartDonationsGetReferenceClass(smartDonationsCurrentElement)];
+    cssText=typeof(elementObject)!='undefined'?elementObject:elementObject.attr('style');
     if(typeof cssText =='undefined'||!cssText)
         cssText='';
     rnJQuery("#smartDonationsCSS").val(cssText.replace(/[ ]*;[ ]*/g,";\r"));
@@ -196,6 +240,34 @@ function SmartDonationsGetReferenceClass(element)
     if(element.hasClass('wepay-widget-button'))
         return 'wepay-widget-button';
 
+
+
+    if(element.hasClass('amountText'))
+        return 'amountText';
+
+    if(element.hasClass('currentText'))
+        return 'currentText';
+
+    if(element.hasClass('goalMessage'))
+        return 'goalMessage';
+
+    if(element.hasClass('progress'))
+        return 'progressBar';
+
+
+
+
+    if(element.hasClass('panelAmount'))
+        return 'panelAmount';
+
+    if(element.hasClass('amountText'))
+        return 'amountText';
+
+    if(element.hasClass('panelTitle'))
+        return 'panelTitle';
+
+    if(element.hasClass('titleText'))
+        return 'titleText';
 
 
 
@@ -353,6 +425,21 @@ function smartDonationsEditSmile(element)
         events[i]();
 }
 
+function smartDonationsEditProgressBar(element)
+{
+    var events=new Array();
+
+    rnJQuery("#smartDonationsEditionArea").html(
+        "<table>" +
+            SmartDonationsAddColorPickerWithAlpha(element,events,'Background-Color',.9)+
+
+            "</table>"
+    );
+
+    for(var i=0;i<events.length;i++)
+        events[i]();
+}
+
 /************************************************************************************* ADD FIELDS ***************************************************************************************************/
 
 
@@ -489,6 +576,41 @@ function SmartDonationsAddColorPicker(imageElement,eventListener,attribute)
         "</td>" +
     "</tr>"
 }
+
+
+function SmartDonationsAddColorPickerWithAlpha(imageElement,eventListener,attribute,alpha)
+{
+    eventListener.push(function(){
+        jscolor.init();
+        rnJQuery('#smartDonationsEditColor_'+attribute).change(function()
+        {
+            SmartDonationsChangeCurrentStyle(attribute.toLowerCase(),'#'+this.color.toString());
+            var backgroundWithAlpha=attribute+":rgba("+hexToRgb(this.color.toString())+','+alpha+");";
+
+            var className=SmartDonationsGetReferenceClass(smartDonationsCurrentElement);
+            smartDonationsDonationType.generator.styles[className]+=backgroundWithAlpha.toLocaleLowerCase();
+            SmartDonationsRefreshDonation(className);
+        });
+    });
+
+    return "<tr> " +
+        "<td>" +
+        attribute +
+        "</td>" +
+        "<td>" +
+        "<input id='smartDonationsEditColor_"+attribute+"' class='color' value='"+RGBToEx(imageElement.css(attribute))+"'/>"
+    "</td>" +
+    "</tr>"
+}
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? parseInt(result[1], 16)+','+parseInt(result[2], 16)+','+parseInt(result[3], 16): '0,0,0';
+
+
+}
+
+
 
 function SmartDonationsAddColorPickerForRaphael(imageElement,eventListener,attribute)
 {

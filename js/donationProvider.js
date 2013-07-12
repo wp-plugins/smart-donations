@@ -21,14 +21,19 @@ smartDonationsPayPalProvider.prototype=Object.create(smartDonationsBaseDonationP
 
 smartDonationsPayPalProvider.prototype.GetStartOfDonationForm=function(generator,defaultQuantity)
 {
+
     var donationText= '<div class="smartDonationsDonationGeneratedItem"  >\
-                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="donationForm" target="_blank">      \
+                <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" class="donationForm" target="_blank">      \
                 <input type="hidden" name="cmd" value="_donations">\
                 <input type="hidden" name="business" value="'+generator.business+'">\
                 <input type="hidden" name="lc" value="US">                       \
                 <input type="hidden" name="no_note" value="0">                    \
                 <input type="hidden" name="currency_code" value="'+generator.donation_currency+'">             \
-                <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">';
+                <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">\
+                <input type="hidden" name="custom" value="'+generator.campaign_id+'">';
+
+    if(typeof smartDonationsRootPath != 'undefined')
+        donationText+='<input type="hidden" name="notify_url" value="'+smartDonationsRootPath+'ipn/rednao_paypal_ipn.php">';
 
     if(generator.returningUrl)
         donationText+='<input type="hidden" name="return" class="amountToDonate" value="'+generator.returningUrl+'">';

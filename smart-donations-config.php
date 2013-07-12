@@ -14,6 +14,10 @@ if(!defined('ABSPATH'))
 define('SMART_DONATIONS_PLUGIN_NAME',dirname(plugin_basename(__FILE__)));
 define('SMART_DONATIONS_DIR',WP_PLUGIN_DIR.'/'.SMART_DONATIONS_PLUGIN_NAME);
 define('SMART_DONATIONS_TABLE_NAME',$wpdb->prefix . "smart_donations_donation_item");
-define('SMART_DONATIONS_LATEST_DB_VERSION',2);
+define('SMART_DONATIONS_TRANSACTION_TABLE',$wpdb->prefix . "smart_donations_transaction_table");
+define('SMART_DONATIONS_CAMPAIGN_TABLE',$wpdb->prefix . "smart_donations_campaign_table");
+define('SMART_DONATIONS_PROGRESS_TABLE',$wpdb->prefix . "smart_donations_progress_table");
+define('SMART_DONATIONS_LATEST_DB_VERSION',3);
+define('REDNAO_URL',"http://localhost/~edseventeen/rednao/");
 
 ?>

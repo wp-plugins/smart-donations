@@ -81,6 +81,12 @@ function smartDonationsBaseGenerator(containerName2,options,donationProvider,sty
     this.returningUrl=options.returningUrl;
     this.donation_currency=SmartdonationsGetValueOrDefault(options.donation_currency,'USD');
 
+
+    if(typeof(options.campaign_id)=='undefined')
+        this.campaign_id=0;
+    else
+        this.campaign_id=options.campaign_id;
+
 }
 
 function SmartdonationsGetValueOrDefault(value,defaultValue)

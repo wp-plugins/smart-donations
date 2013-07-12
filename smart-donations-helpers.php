@@ -2,7 +2,7 @@
 
 
 
-function rednao_smart_donations_json_object($object,$styles)
+function rednao_smart_donations_json_object($object,$styles,$amount,$goal,$donators)
 {
     $json="{";
     $variables=explode("&",$object);
@@ -14,8 +14,25 @@ function rednao_smart_donations_json_object($object,$styles)
     }
     if($styles!=null)
     {
-        $json=$json."\"styles\":".rednao_smart_donations_json_object($styles,null).",";
+        $json=$json."\"styles\":".rednao_smart_donations_json_object($styles,null,null,null,null).",";
     }
+
+    if($amount!=null)
+    {
+        $json=$json."\"Amount\":".$amount.",";
+    }
+
+    if($goal!=null)
+    {
+        $json=$json."\"Goal\":".$goal.",";
+    }
+
+    if($donators!=null)
+    {
+        $json=$json."\"Donators\":".$donators.",";
+    }
+
+
 
 
 
@@ -39,10 +56,11 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
             $styles=$result->styles;
             if($options!=null)
             {
-                $options=rednao_smart_donations_json_object($options,$styles);
+                $options=rednao_smart_donations_json_object($options,$styles,null,null,null);
                 set_transient("rednao_smart_donations_donation_$id",$options,60*60*24*31);
             }
-        }
+        }else
+            $options="";
 
     }
     wp_enqueue_script('jquery');
@@ -57,7 +75,7 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
 
     if($returnComponent==false)
     {
-        if($options===null)
+        if($options==null)
             return;
     ?>
     <div id="donationContainer<?php echo $random?>"></div>
@@ -73,7 +91,7 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
     </script>
 <?php
     }else{
-        if(options===null)
+        if($options==null)
             return "";
         return "<div id='donationContainer$random'></div>
             <script>
@@ -81,6 +99,89 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
                 if(!window.smartDonationsItemsToLoad)
                     window.smartDonationsItemsToLoad=new Array();;
                 window.smartDonationsItemsToLoad.push({'options':$options,'element':'donationContainer$random'});
+            </script>
+           ";
+    }
+}
+
+
+
+
+function rednao_smart_donations_load_progress($id,$title,$returnComponent)
+{
+
+    $options=get_transient("rednao_smart_donations_progress_$id");
+    $options=false;
+    if($options==false)
+    {
+        global $wpdb;
+        $result=$wpdb->get_results($wpdb->prepare("select options,styles,campaign_id from ".SMART_DONATIONS_PROGRESS_TABLE." where progress_id='$id'"));
+        if(count($result)>0)
+        {
+            $result=$result[0];
+            $options=$result->options;
+            $styles=$result->styles;
+            $campaign_id=$result->campaign_id;
+            if($campaign_id==null)
+                return "";
+            $result=$wpdb->get_results($wpdb->prepare("select coalesce(goal,0) goal,sum(mc_fee+mc_gross) amount,(select count(*) from ".SMART_DONATIONS_TRANSACTION_TABLE." where campaign_id=$campaign_id) donators
+                                                    from ".SMART_DONATIONS_TRANSACTION_TABLE." tran
+                                                    left join wp_smart_donations_campaign_table camp
+                                                    on tran.campaign_id=camp.campaign_id
+                                                    where tran.campaign_id=$campaign_id
+                                                    group by tran.campaign_id,goal"));
+
+            $amount=0;
+            $goal=0;
+            $donators=0;
+            if(count($result)>0)
+            {
+                $amount=$result[0]->amount;
+                $goal=$result[0]->goal;
+                $donators=$result[0]->donators;
+            }
+
+            if($options!=null)
+            {
+                $options=rednao_smart_donations_json_object($options,$styles,$amount,$goal,$donators);
+                set_transient("rednao_smart_donations_progress_$id",$options,60*60*24*31);
+            }
+        }
+
+    }
+    wp_enqueue_script('jquery');
+    wp_enqueue_script('isolated-slider',plugin_dir_url(__FILE__).'js/rednao-isolated-jq.js');
+    wp_enqueue_script('smart-donations-progress-gen',plugin_dir_url(__FILE__).'js/smart-donations-progress-gen.js',array('isolated-slider'));
+    wp_enqueue_style('smart-donations-main-style',plugin_dir_url(__FILE__).'css/mainStyle.css');
+    wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css');
+    $random=rand();
+
+    if($returnComponent==false)
+    {
+        if($options===null)
+            return;
+        ?>
+        <div id="progressContainer<?php echo $random?>"></div>
+
+        <script>
+            var smartDonationsRootPath="<?php echo plugin_dir_url(__FILE__)?>";
+
+            if(!window.smartDonationsProgressItemsToLoad)
+                window.smartDonationsProgressItemsToLoad=new Array();;
+
+            window.smartDonationsProgressItemsToLoad.push({'options':<?php echo $options?>,'element':'progressContainer<?php echo $random?>'});
+
+        </script>
+    <?php
+    }else{
+        if(options===null)
+            return "";
+        return "<div id='progressContainer$random'></div>
+            <script>
+                var smartDonationsRootPath=\"".plugin_dir_url(__FILE__)."\";
+                if(!window.smartDonationsProgressItemsToLoad)
+                    window.smartDonationsProgressItemsToLoad=new Array();;
+                window.smartDonationsProgressItemsToLoad.push({'options':$options,'element':'progressContainer$random'});
             </script>
            ";
     }

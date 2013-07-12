@@ -10,42 +10,25 @@
     wp_enqueue_script("jquery");
 ?>
 
-<p style="font-size:25px; font-weight: bold;">Do you want to see something added? Let me Know!!</p>
+<p style="font-size:25px; font-weight: bold;color: red;">If you have an idea, or need support, let me know!!</p>
+
+<br/>
+
+<p style="font-size: 20px; font-weight: bold;">You can reach me in:</p>
+
+<h1 style="margin-bottom:30px; margin-left: 50px;"><a href="https://twitter.com/edgarerojas" target="_blank"  style="padding: 0;margin:0 0 10px 0;font-family: verdana;">Twitter</a></h1>
+
+<h1 style="margin-left: 50px;"><a href="https://www.facebook.com/smartdonations" target="_blank" style="font-family: verdana;"> Facebook </a></h1>
 
 
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 
-<table>
-    <tr>
-        <td>
-            <form target="_blank" method="post" action="http://rednao.com/suggestion.php">
-                <input type="hidden" name="application" value="Smart Donations"/>
-                <textarea style="width:600px;height:300px; font-family: verdana;" name="suggestion"></textarea>
-                <div style="text-align: right"><button style="cursor: hand;cursor: pointer; width:100px;height:25px;">Send Request</button></div>
-            </form>
-        </td>
-        <td style="vertical-align: top">
-            <div style="text-align: center; margin-left:15px;">
-                <p style="font-size:18px; margin:0;padding: 0 0 5px 0;font-weight: bold; ">Author</p>
-                <div>
-                    <img  src="<?php echo plugin_dir_url(__FILE__)?>images/myPhoto.jpg" style="display: block"/>
-                    <div style="text-align: right;">
-                       <a href="https://twitter.com/edgarerojas" target="_blank"> <img  src="<?php echo plugin_dir_url(__FILE__)?>images/twitter.png"/></a>
-                       <a href="https://plus.google.com/117324787123318950809" target="_blank"> <img  src="<?php echo plugin_dir_url(__FILE__)?>images/google.png"/></a>
-                       <a href="https://www.facebook.com/RedNAOSoft" target="_blank"> <img  src="<?php echo plugin_dir_url(__FILE__)?>images/facebook.png"/> </a>
-                    </div>
-
-                    <p style="text-align: left; margin: 0;padding: 0; font-size: 14px;"> <strong>Name: </strong>Edgar Rojas</p>
-                    <p style="text-align: left;padding: 0px;margin: 0; font-size: 14px;"> <strong>Site: </strong><a href="http://rednao.com" target="_blank">http://rednao.com</a></p>
-
-                </div>
-            </div>
-
-        </td>
-    </tr>
-</table>
-
-<div style="text-align: center;width:650px;">
-    <?php
-    require_once('smart-donations-support-links.php');
-    ?>
-</div>
+<br/>
+<div class="fb-comments" data-href="https://www.facebook.com/SmartDonations" data-width="700" data-num-posts="10"></div>

@@ -5,7 +5,7 @@
  * Description: Place diferent form of donations on your blog...
  * Author: RedNao
  * Author URI: http://rednao.com
- * Version: 1.6
+ * Version: 2.0
  * Text Domain: SmartDonations
  * Domain Path: /languages/
  * Network: true
@@ -13,7 +13,6 @@
  * License URI: http://www.gnu.org/licenses/gpl-3.0
  * Slug: smartdonations
  */
-
 
 /**
  *	Copyright (C) 2012-2013 RedNao (email: contactus@rednao.com)
@@ -32,31 +31,45 @@
  *	along with this program; if not, write to the Free Software
  *	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- *  * Thanks to:
+ * Thanks to:
  * Jakub Stacho (http://www.iconfinder.com/iconsets/checkout-icons#readme)
  * Eggib (http://openclipart.org/detail/174878/)
  * Aha-Soft (http://www.iconfinder.com/iconsets/24x24-free-pixel-icons#readme)
  * Kevin Liew (http://www.queness.com/post/106/jquery-tabbed-interfacetabbed-structure-menu-tutorial)
+ * Marcis Gasuns (http://led24.de/iconset/)
  */
 
 require_once('smart-donations-config.php');
 require_once('smart-donations-ajax.php');
-
+require_once('smart-donations-widget.php');
+require_once('smart-donations-progress-widget.php');
 
 register_activation_hook(__FILE__,'rednao_smart_donations_plugin_was_activated');
+add_shortcode('sdonations','rednao_smart_donations_short_code');
+add_shortcode('sdprogress','rednao_smart_donations_progress_short_code');
+
+add_action('init', 'rednao_smart_donations_init');
 add_action('admin_menu','rednao_smart_donations_create_menu');
 add_action( 'wp_ajax_rednao_smart_donations_save', 'rednao_smart_donations_save' );
 add_action( 'wp_ajax_rednao_smart_donations_list', 'rednao_smart_donations_list' );
-add_shortcode('sdonations','rednao_smart_donations_short_code');
-add_action('init', 'rednao_smart_donations_init');
-require_once('smart-donations-widget.php');
+add_action( 'wp_ajax_rednao_smart_donations_add_campaign', 'rednao_smart_donations_add_campaign' );
+add_action( 'wp_ajax_rednao_smart_donations_edit_campaign', 'rednao_smart_donations_edit_campaign' );
+add_action( 'wp_ajax_rednao_smart_donations_save_progress_bar','rednao_smart_donations_save_progress_bar');
+add_action( 'wp_ajax_rednao_smart_donations_execute_analytics','rednao_smart_donations_execute_analytics');
+add_action( 'wp_ajax_rednao_smart_donations_execute_analytics_list','rednao_smart_donations_execute_analytics_list');
+add_action( 'wp_ajax_rednao_smart_donations_execute_analytics_op','rednao_smart_donations_execute_analytics_op');
+add_action( 'wp_ajax_rednao_smart_progress_donations_list','rednao_smart_progress_donations_list');
+
+
 
 function rednao_smart_donations_create_menu(){
     wp_enqueue_script('jquery');
     wp_enqueue_script('jquery-ui-core');
     wp_enqueue_script('query-ui-dialog');
-    add_menu_page('Smart Donations','Smart Donations','manage_options',__FILE__,'rednao_smartdonations_settings_page');
-    add_submenu_page(__FILE__,'Smart Donations - Add New','Add New','manage_options',__FILE__.'addnew', 'rednao_smart_donations_add_new');
+    add_menu_page('Smart Donations','Donation Buttons','manage_options',__FILE__,'rednao_smartdonations_donation_buttons',plugin_dir_url(__FILE__).'images/smartDonationsIcon.png');
+    add_submenu_page(__FILE__,'Campaigns','Campaigns','manage_options',__FILE__.'campaigns', 'rednao_smart_donations_campaigns');
+    add_submenu_page(__FILE__,'Progress Indicators','Progress Indicators','manage_options',__FILE__.'progress_indicators', 'rednao_smart_donations_progress_indicators');
+    add_submenu_page(__FILE__,'Analytics','Analytics','manage_options',__FILE__.'analytics', 'rednao_smart_donations_analytics');
     add_submenu_page(__FILE__,'Smart Donations - Wish List','Wish List','manage_options',__FILE__.'wishlist', 'rednao_smart_donations_wish_list');
 
 }
@@ -92,8 +105,10 @@ function rednao_smart_donations_plugin_was_activated()
 
 
     global $wpdb;
-    if( $dbversion==false || $dbversion<SMART_DONATIONS_LATEST_DB_VERSION )
+    if( true )
     {
+        require_once(ABSPATH.'wp-admin/includes/upgrade.php');
+
         $sql="CREATE TABLE ".SMART_DONATIONS_TABLE_NAME." (
         donation_id int AUTO_INCREMENT,
         donation_name VARCHAR(200) NOT NULL,
@@ -105,9 +120,49 @@ function rednao_smart_donations_plugin_was_activated()
         styles TEXT,
         PRIMARY KEY  (donation_id)
         );";
-
-        require_once(ABSPATH.'wp-admin/includes/upgrade.php');
         dbDelta($sql);
+
+
+        $sql="CREATE TABLE ".SMART_DONATIONS_TRANSACTION_TABLE." (
+        transaction_id double AUTO_INCREMENT,
+        txn_id VARCHAR(200),
+        payer_email VARCHAR(200),
+        first_name VARCHAR(50),
+        last_name VARCHAR(200),
+        mc_fee float NOT NULL,
+        mc_gross VARCHAR(20),
+        date datetime,
+        additional_fields TEXT,
+        status char(1),
+        campaign_id int,
+        PRIMARY KEY  (transaction_id)
+        );";
+        dbDelta($sql);
+
+
+        $sql="CREATE TABLE ".SMART_DONATIONS_CAMPAIGN_TABLE." (
+        campaign_id double AUTO_INCREMENT,
+        name VARCHAR(200) NOT NULL,
+        description VARCHAR(200),
+        goal double ,
+        PRIMARY KEY  (campaign_id)
+        );";
+        dbDelta($sql);
+
+
+
+        $sql="CREATE TABLE ".SMART_DONATIONS_PROGRESS_TABLE." (
+        progress_id int AUTO_INCREMENT,
+        progress_name VARCHAR(200) NOT NULL,
+        campaign_id VARCHAR(200) NOT NULL,
+        progress_type VARCHAR(20) NOT NULL,
+        options TEXT NOT NULL,
+        styles TEXT,
+        PRIMARY KEY  (progress_id)
+        );";
+        dbDelta($sql);
+
+
 
         update_option("REDNAO_SMART_DONATIONS_DB_VERSION",SMART_DONATIONS_LATEST_DB_VERSION);
     }
@@ -119,16 +174,48 @@ function rednao_smart_donations_short_code($attr,$content)
 }
 
 
-function rednao_smart_donations_add_new()
+function rednao_smart_donations_progress_short_code($attr,$content)
 {
-    include(SMART_DONATIONS_DIR.'/smart-donations-add-new.php');
-
+    return rednao_smart_donations_load_progress($content,null,true);
 }
 
-function rednao_smartdonations_settings_page()
+
+
+function rednao_smartdonations_donation_buttons()
 {
     include(SMART_DONATIONS_DIR.'/smart-donations-list.php');
 }
+
+function rednao_smart_donations_campaigns()
+{
+    include(SMART_DONATIONS_DIR.'/smart-donations-campaigns.php');
+}
+
+function rednao_smart_donations_progress_indicators()
+{
+    require_once('smart-donations-license-helpers.php');
+    if(smart_donations_check_license_with_options($error)||$error!=null)
+        include(SMART_DONATIONS_DIR.'/smart-donations-progress-indicators.php');
+    else
+        include(SMART_DONATIONS_DIR.'/smart-donations-progress-pro.php');
+
+
+}
+
+function rednao_smart_donations_analytics()
+{
+
+    require_once('smart-donations-license-helpers.php');
+    if(smart_donations_check_license_with_options($error)||$error!=null)
+        include(SMART_DONATIONS_DIR.'/smart-donations-analytics.php');
+    else
+        include(SMART_DONATIONS_DIR.'/smart-donations-analytics-pro.php');
+
+
+
+}
+
+
 
 function rednao_smart_donations_wish_list()
 {

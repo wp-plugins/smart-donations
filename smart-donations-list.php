@@ -1,24 +1,38 @@
+
+
+
 <?php
 if(!defined('ABSPATH'))
     die('Forbidden');
 
+$action=$_GET['action'];
+if($action==="add"){
+    include(SMART_DONATIONS_DIR.'/smart-donations-add-new.php');
+    return;
+}
+
+echo "<h1>Donation Buttons</h1>";
+echo sprintf('<h2 ><a style="color:blue; text-decoration: underline;" href="?page=%s&action=%s">Add New</a></h2>',$_REQUEST['page'],'add');
+
 require_once("smart-donations-helpers.php");
 
 
-$action=$_GET['action'];
+
 $donation_id=$_GET['id'];
+
 
 
 if($action!=null&&$donation_id!=null)
 {
     global $wpdb;
-    if($action=="delete")
+
+    if($action==="delete")
     {
         $wpdb->query($wpdb->prepare("delete from ".SMART_DONATIONS_TABLE_NAME." WHERE donation_id=$donation_id"));
         delete_transient("rednao_smart_donations_donation_$donation_id");
     }
 
-    if($action=="edit")
+    if($action==="edit")
     {
         $result=$wpdb->get_results($wpdb->prepare("SELECT * FROM ".SMART_DONATIONS_TABLE_NAME." WHERE donation_id=$donation_id"));
 
@@ -99,8 +113,6 @@ $donationList->display();
 
 ?>
 
-    <div style="text-align: center;width:650px;">
-<?php
-    require_once('smart-donations-support-links.php');
-?>
-</div>
+
+
+

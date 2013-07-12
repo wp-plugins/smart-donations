@@ -18,41 +18,6 @@ function smartDonationConfigurationBase(title,containerName,options)
 
 
 
-function SmartDonationsEditStyle(Generator,Element,Properties)
-{
-    var styles=Generator.styles;
-    if(typeof styles[Element]=='undefined')
-        styles[Element]="";
-    var styleToEdit=styles[Element];
-
-    for(property in Properties)
-        styleToEdit=SmartDonationsReplaceStyle(styleToEdit,property,Properties[property]);
-
-    styles[Element]=styleToEdit;
-
-
-}
-
-function SmartDonationsEditImage(Generator,Element,Src)
-{
-    var styles=Generator.styles;
-    if(typeof styles[Element]=='undefined')
-        styles[Element]="";
-    var styleToEdit=styles[Element];
-
-    styleToEdit=Src;
-    styles[Element]=styleToEdit;
-}
-
-
-
-function SmartDonationsReplaceStyle(style,property,newValue)
-{
-    var re = new RegExp(property+":[^;]*;", "g");
-    style=style.replace(re,'');
-    style+=property+":"+newValue+";";
-    return style;
-}
 
 smartDonationConfigurationBase.prototype.InitiateGenerator=function()
 {
