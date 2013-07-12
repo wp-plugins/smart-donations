@@ -80,7 +80,7 @@ function rednao_smart_donations_init()
         return;
     }
 
-    if ( get_user_option('rich_editing') == 'true' ) {
+    if ( get_user_option('rich_editing') == 'true') {
         add_filter( 'mce_external_plugins', 'rednao_smart_donations_add_plugin' );
         add_filter( 'mce_buttons', 'rednao_smart_donations_register_button' );
     }
