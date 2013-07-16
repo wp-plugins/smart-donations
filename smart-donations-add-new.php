@@ -84,7 +84,7 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
         function providerChanged() {
             SmartDonations_backFromConfiguration();
             var newProvider=rnJQuery(this).val()
-            $("#smartDonationsProvider").val(newProvider);
+            rnJQuery("#smartDonationsProvider").val(newProvider);
             setCurrencyOptions(newProvider);
             switch(newProvider)
             {
@@ -227,11 +227,11 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
                     draggable:false,
                     resizable:false,
                     create: function(event, ui){
-                        $('.ui-dialog').wrap('<div class="smartDonationsSlider" />');
+                        rnJQuery('.ui-dialog').wrap('<div class="smartDonationsSlider" />');
 
                     },
                     open: function(event, ui){
-                        $('.ui-widget-overlay').wrap('<div class="smartDonationsSlider" />');
+                        rnJQuery('.ui-widget-overlay').wrap('<div class="smartDonationsSlider" />');
                     }
                 });
 
