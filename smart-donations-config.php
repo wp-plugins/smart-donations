@@ -18,6 +18,6 @@ define('SMART_DONATIONS_TRANSACTION_TABLE',$wpdb->prefix . "smart_donations_tran
 define('SMART_DONATIONS_CAMPAIGN_TABLE',$wpdb->prefix . "smart_donations_campaign_table");
 define('SMART_DONATIONS_PROGRESS_TABLE',$wpdb->prefix . "smart_donations_progress_table");
 define('SMART_DONATIONS_LATEST_DB_VERSION',3);
-define('REDNAO_URL',"http://localhost/~edseventeen/rednao/");
+define('REDNAO_URL',"http://rednao.com/");
 
 ?>
