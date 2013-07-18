@@ -59,7 +59,11 @@ add_action( 'wp_ajax_rednao_smart_donations_execute_analytics','rednao_smart_don
 add_action( 'wp_ajax_rednao_smart_donations_execute_analytics_list','rednao_smart_donations_execute_analytics_list');
 add_action( 'wp_ajax_rednao_smart_donations_execute_analytics_op','rednao_smart_donations_execute_analytics_op');
 add_action( 'wp_ajax_rednao_smart_progress_donations_list','rednao_smart_progress_donations_list');
-
+add_action('http_request_args', 'no_ssl_http_request_args', 10, 2);
+function no_ssl_http_request_args($args, $url) {
+    $args['sslverify'] = false;
+    return $args;
+}
 
 
 function rednao_smart_donations_create_menu(){
