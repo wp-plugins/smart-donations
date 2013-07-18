@@ -28,6 +28,7 @@ echo "<script type='text/javascript' language='javascript'>var smartDonationsLic
 
 
 <?php
+
 wp_enqueue_script('jquery');
 wp_enqueue_script('isolated-slider',plugin_dir_url(__FILE__).'js/rednao-isolated-jq.js');
 wp_enqueue_script('smart-donations-pro',plugin_dir_url(__FILE__).'js/smart-donations-pro.js','isolated-slider');
