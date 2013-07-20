@@ -21,7 +21,7 @@ wp_enqueue_script('jqGridlocale',plugin_dir_url(__FILE__).'js/grid.locale-en.js'
 wp_enqueue_script('jqGrid',plugin_dir_url(__FILE__).'js/jquery.jqGrid.min.js',array('jqGridlocale'));
 
 
-wp_enqueue_style('jqplot',plugin_dir_url(__FILE__).'css/ui.jqgrid.css');
+wp_enqueue_style('jqgrid',plugin_dir_url(__FILE__).'css/ui.jqgrid.css');
 wp_enqueue_style('jqplot',plugin_dir_url(__FILE__).'css/jquery.jqplot.css');
 wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css');
 

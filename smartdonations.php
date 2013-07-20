@@ -106,7 +106,7 @@ function rednao_smart_donations_register_button($buttons)
 function rednao_smart_donations_plugin_was_activated()
 {
     $dbversion=get_option("REDNAO_SMART_DONATIONS_DB_VERSION");
-
+    delete_transient("smart_donations_check_again");
 
     global $wpdb;
     if( true )

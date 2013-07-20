@@ -14,6 +14,8 @@
             return;
         }
         else{
+            if($error==null)
+                $error="Invalid user or license key";
             echo "<div class='error below-h2'><p><strong>Error:</strong> $error</p></div>";
             $licensingError=1;
 
@@ -40,7 +42,7 @@ wp_enqueue_script('smart-donations-pro',plugin_dir_url(__FILE__).'js/smart-donat
 </div>
 
 <div style="display: inline-block; vertical-align: top; margin:10px; padding: 10px; border-width: 1px;border-color: #d3d3d3; width:300px;" id="licenseDiv">
-    <p style="text-align: center">If you already have a pro license <a onclick="Unlock();">Click Here</a></p>
+    <p style="text-align: center;display: inline-block;">If you already have a pro license</p> <a onclick="Unlock();" style="cursor: hand;cursor:pointer;">Click Here</a>
 </div>
 
 <a target="_blank" href="<?php echo REDNAO_URL?>smartdonations.html"> <img id="smartDonationsImageClassic" src="<?php echo plugin_dir_url(__FILE__)?>images/addNewProgressPro.png" alt="" width="760" height="760"></a>

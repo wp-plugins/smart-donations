@@ -271,12 +271,13 @@ function rednao_smart_donations_execute_analytics()
         return;
     }
     $startDate=$_POST['startDate'];
-    $endDate=$_POST['endDate'];
+    $endDateReceived=$_POST['endDate'];
     $displayType=$_POST['displayType'];
     $campaign_id=$_POST['campaign_id'];
 
     $startDate=date('Y-m-d H:i:s', strtotime($startDate));
-    $endDate=date('Y-m-d H:i:s', strtotime($endDate));
+    $endDate=date('Y-m-d H:i:s', strtotime($endDateReceived." 23:59:59"));
+    $endDateWithoutTime=date('Y-m-d H:i:s', strtotime($endDateReceived));
 
     if($startDate==null)
     {
@@ -389,7 +390,7 @@ function rednao_smart_donations_execute_analytics()
             break;
     }
 
-    $endStrTime=strtotime($endDate);
+    $endStrTime=strtotime($endDateWithoutTime);
     $nextValueStrTime=strtotime($startDate);
     $nextValueDate=date('Y-n-j',$nextValueStrTime);
     while($nextValueStrTime<=$endStrTime)

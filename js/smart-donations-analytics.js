@@ -189,21 +189,25 @@ rnJQuery(function () {
         GridCampaign_Id=campaign_id;
         GridDisplayType=displayType;
 
+        var xAxis={
+            renderer: rnJQuery.jqplot.DateAxisRenderer,
+            tickOptions: { formatString: '%d/%b/%Y' },
+            tickInterval: tick,
+            pointLabels: {show: true, edgeTolerance: -15}
+        };
+
+        if(values.length>1)
+        {
+            xAxis.min= values[0][0],
+            xAxis.max=values[values.length - 1][0];
+        }
+
         rnJQuery('#Chart').empty();
         rnJQuery('#Chart').width(values.length * 100);
         rnJQuery.jqplot('Chart', [values], {
             title: 'Donations Summary',
             axes: {
-                xaxis: {
-                    renderer: rnJQuery.jqplot.DateAxisRenderer,
-                    tickOptions: { formatString: '%d/%b/%Y' },
-
-                    min: values[0][0],
-                    max: values[values.length - 1][0],
-                    tickInterval: tick,
-
-                    pointLabels: {show: true, edgeTolerance: -15}
-                }
+                xaxis: xAxis
             },
 
             highlighter: {
