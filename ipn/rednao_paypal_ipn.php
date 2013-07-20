@@ -55,7 +55,8 @@ class rednao_paypal_ipn {
 
     private function DonationWasRefunded()
     {
-        return $_POST['payment_status']==="Refunded";
+        $status=strtolower($_POST['payment_status']);
+        return $status==="refunded"||$status=="denied"||$status=="expired"||$status=="failed"||$status=="reversed"||$status=="voided";
     }
 }
 $ipn=new rednao_paypal_ipn(new wordpress_connection_provide(), new smart_donations_db_privider());
