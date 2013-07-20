@@ -20,4 +20,5 @@ define('SMART_DONATIONS_PROGRESS_TABLE',$wpdb->prefix . "smart_donations_progres
 define('SMART_DONATIONS_LATEST_DB_VERSION',3);
 define('REDNAO_URL',"http://rednao.com/");
 
+
 ?>

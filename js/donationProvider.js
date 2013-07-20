@@ -23,7 +23,7 @@ smartDonationsPayPalProvider.prototype.GetStartOfDonationForm=function(generator
 {
 
     var donationText= '<div class="smartDonationsDonationGeneratedItem"  >\
-                <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" class="donationForm" target="_blank">      \
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="donationForm" target="_blank">      \
                 <input type="hidden" name="cmd" value="_donations">\
                 <input type="hidden" name="business" value="'+generator.business+'">\
                 <input type="hidden" name="lc" value="US">                       \

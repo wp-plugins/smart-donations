@@ -32,22 +32,30 @@ class rednao_paypal_ipn {
             $properties['additional_fields']=$_POST['additional_fields'];
             $properties['campaign_id']=$_POST['custom'];
 
+            $receiverEmail=$_POST["receiver_email"];
+
+
             if($this->DonationWasReceived())
             {
-                $properties['status']='c';
-                $this->dbProvider->InsertTransaction($properties);
+                if($this->ReceiverEmailIsValid($receiverEmail))
+                {
+                    $properties['status']='c';
+                    $this->dbProvider->InsertTransaction($properties);
+                }
             }
+
             if($this->DonationWasRefunded())
             {
-                $this->dbProvider->RefundTransaction($properties);
+                    $this->dbProvider->RefundTransaction($properties['parent_txn_id']);
             }
+
         }
     }
 
 
     private function DonationWasReceived()
     {
-        return $_POST['payment_status']==="Pending";
+        return $_POST['payment_status']==="Pending"||$_POST['payment_status']=="Completed";
 
 
 
@@ -57,6 +65,14 @@ class rednao_paypal_ipn {
     {
         $status=strtolower($_POST['payment_status']);
         return $status==="refunded"||$status=="denied"||$status=="expired"||$status=="failed"||$status=="reversed"||$status=="voided";
+    }
+
+    private function ReceiverEmailIsValid($receiverEmail)
+    {
+        global $wpdb;
+        $count=$wpdb->get_var($wpdb->prepare("select count(*) from ".SMART_DONATIONS_TABLE_NAME." where email='$receiverEmail'"));
+
+        return $count>0;
     }
 }
 $ipn=new rednao_paypal_ipn(new wordpress_connection_provide(), new smart_donations_db_privider());

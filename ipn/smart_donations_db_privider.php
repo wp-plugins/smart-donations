@@ -47,12 +47,12 @@ class smart_donations_db_privider {
             $properties['campaign_id']=0;
     }
 
-    public function RefundTransaction($properties)
+    public function RefundTransaction($txn_id)
     {
         global $wpdb;
-        $wpdb->update(SMART_DONATIONS_TRANSACTION_TABLE,array(
-            'status'=>'r'
-        ),array("txn_id"=>$properties[txn_id]));
+        $wpdb->query($wpdb->prepare("delete from ".SMART_DONATIONS_TRANSACTION_TABLE." WHERE txn_id='$txn_id'"));
+
+
 
 
     }
