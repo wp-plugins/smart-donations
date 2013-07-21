@@ -70,7 +70,7 @@ function rednao_smart_donations_create_menu(){
     wp_enqueue_script('jquery');
     wp_enqueue_script('jquery-ui-core');
     wp_enqueue_script('query-ui-dialog');
-    add_menu_page('Smart Donations','Donation Buttons','manage_options',__FILE__,'rednao_smartdonations_donation_buttons',plugin_dir_url(__FILE__).'images/smartDonationsIcon.png');
+    add_menu_page('Smart Donations','Smart Donations','manage_options',__FILE__,'rednao_smartdonations_donation_buttons',plugin_dir_url(__FILE__).'images/smartDonationsIcon.png');
     add_submenu_page(__FILE__,'Campaigns','Campaigns','manage_options',__FILE__.'campaigns', 'rednao_smart_donations_campaigns');
     add_submenu_page(__FILE__,'Progress Indicators','Progress Indicators','manage_options',__FILE__.'progress_indicators', 'rednao_smart_donations_progress_indicators');
     add_submenu_page(__FILE__,'Analytics','Analytics','manage_options',__FILE__.'analytics', 'rednao_smart_donations_analytics');

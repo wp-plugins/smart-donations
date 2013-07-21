@@ -52,6 +52,7 @@ function ajaxCompleted(result,status)
         });
     }else{
         smartDonationsShortCodeDialog.dialog('open');
+        jQuery('#redNaoSelection').val('button');
     }
 
     ajaxDonationsCompleted(result);

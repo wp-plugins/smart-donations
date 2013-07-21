@@ -111,9 +111,9 @@ function rednao_smart_donations_load_progress($id,$title,$returnComponent)
 {
 
     $options=get_transient("rednao_smart_donations_progress_$id");
-    $options=false;
     if($options==false)
     {
+        $options=null;
         global $wpdb;
         $result=$wpdb->get_results($wpdb->prepare("select options,styles,campaign_id from ".SMART_DONATIONS_PROGRESS_TABLE." where progress_id='$id'"));
         if(count($result)>0)

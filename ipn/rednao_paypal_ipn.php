@@ -34,6 +34,9 @@ class rednao_paypal_ipn {
 
             $receiverEmail=$_POST["receiver_email"];
 
+            if($properties['campaign_id']!==null)
+                delete_transient("rednao_smart_donations_progress_".$properties['campaign_id']);
+
 
             if($this->DonationWasReceived())
             {
@@ -46,7 +49,7 @@ class rednao_paypal_ipn {
 
             if($this->DonationWasRefunded())
             {
-                    $this->dbProvider->RefundTransaction($properties['parent_txn_id']);
+                    $this->dbProvider->RefundTransaction($_POST['parent_txn_id']);
             }
 
         }

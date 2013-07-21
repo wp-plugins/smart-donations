@@ -179,7 +179,14 @@ function SmartDonationsSetStyleText()
         SmartDonationsRecoverPreviousBorder();
 
     var elementObject=smartDonationsDonationType.generator.styles[SmartDonationsGetReferenceClass(smartDonationsCurrentElement)];
-    cssText=typeof(elementObject)!='undefined'?elementObject:elementObject.attr('style');
+    if(typeof(elementObject)!='undefined')
+    {
+        if(typeof(elementObject)=="string")
+            cssText=elementObject;
+        else
+            cssText=elementObject.attr('style');
+    }
+
     if(typeof cssText =='undefined'||!cssText)
         cssText='';
     rnJQuery("#smartDonationsCSS").val(cssText.replace(/[ ]*;[ ]*/g,";\r"));
@@ -269,6 +276,12 @@ function SmartDonationsGetReferenceClass(element)
     if(element.hasClass('titleText'))
         return 'titleText';
 
+    if(element.hasClass('smartDonationsHorizontalThermomenter'))
+        return 'smartDonationsHorizontalThermomenter';
+
+
+    if(element.hasClass('smartDonationsVerticalThermomenter'))
+        return 'smartDonationsVerticalThermomenter';
 
 
 }

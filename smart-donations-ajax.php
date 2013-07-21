@@ -193,6 +193,15 @@ function rednao_smart_donations_edit_campaign()
                 "description"=>$description,
                 "goal"=>$goal),array("campaign_id"=>$campaign_id));
 
+
+    $result=$wpdb->get_results($wpdb->prepare("select progress_id from ".SMART_DONATIONS_PROGRESS_TABLE." where campaign_id=$campaign_id"));
+
+    foreach($result as $key=>$value)
+    {
+        delete_transient("rednao_smart_donations_progress_$value->progress_id");
+    }
+
+
     echo "success";
     die();
 
@@ -651,6 +660,7 @@ function rednao_smart_donations_execute_analytics_op()
     {
         global $wpdb;
         $wpdb->query($wpdb->prepare("delete from ".SMART_DONATIONS_TRANSACTION_TABLE." WHERE transaction_id=$transactionId"));
+        return;
 
     }
     $firstName=$_POST["FirstName"];

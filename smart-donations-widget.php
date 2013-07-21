@@ -64,7 +64,7 @@ class rednao_smart_donations_widget extends WP_Widget
 
     function widget($args, $instance) { // displays the widget
         $id=$instance['donation_id'];
-        return rednao_smart_donations_load_progress($id,$instance['title'],false);
+        return rednao_smart_donations_load_donation($id,$instance['title'],false);
     }
 
 
