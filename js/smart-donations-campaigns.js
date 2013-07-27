@@ -11,7 +11,7 @@ rnJQuery(function()
         open: function(event, ui){
             rnJQuery('.ui-widget-overlay').wrap('<div class="smartDonationsSlider" />');
             rnJQuery(".smartDonationsConfigurationFields").val('');
-        },
+        }
 
     });
 
