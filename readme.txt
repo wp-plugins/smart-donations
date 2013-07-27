@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=edsev
 Tags: donations, donate, donation buttons, donation widget
 Requires at least: 3.0.1
 Tested up to: 3.5
-Stable tag: 1.6
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ Smart Donations
  *  **Slider**.- My favorite, this has an slider that the user can scroll to give you more or less money (you define the minimun and maximun amount), it also has a happy face that gets happier or not that happy depending on how much the donator is donating you.
  
 
-*You can find more here:[Smart Donations](http://rednao.com/smart-donations/ "Smart Donations")
+*You can find more here:[Smart Donations](http://rednao.com/smartdonations.html "Smart Donations")
 == Installation ==
 
 1. Upload smartdonations to the `/wp-content/plugins/` directory
@@ -69,7 +69,8 @@ For now you can edit the css file smartdonations/css/mainStyle.css, i have plans
 * Fixing a bug with the slider (thanks Dave!)
 = 0.5 =
 * Initial release
-
+= 2.0
+* Added progress indicators and analytics.
 
 
 
