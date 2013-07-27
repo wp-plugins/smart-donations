@@ -21,12 +21,21 @@ function Unlock()
         '                               </tr>' +
         '                               <tr>' +
         '                                   <td style="text-align: right" colspan="2">' +
-        '                                       <Button>Apply</Button> ' +
+        '                                       <Button id="applyButton">Apply</Button> ' +
         '                                   </td>' +
         '                               </tr>' +
         '                           </table> ' +
         '                       </form>')
+
+    rnJQuery('#applyButton').click(function()
+    {
+        rnJQuery(this).text('Validating...');
+        rnJQuery(this).prop('disabled','disabled');
+        rnJQuery('#rednaoLicenseForm').submit();
+
+    })
 }
+
 
 
 if(typeof smartDonationsLicensingError !='undefined'&&smartDonationsLicensingError==1)
