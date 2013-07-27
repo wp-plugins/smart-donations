@@ -35,8 +35,15 @@ class rednao_paypal_ipn {
             $receiverEmail=$_POST["receiver_email"];
 
             if($properties['campaign_id']!==null)
-                delete_transient("rednao_smart_donations_progress_".$properties['campaign_id']);
-
+            {
+                $campaign_id=$properties['campaign_id'];
+                global $wpdb;
+                $result=$wpdb->get_results($wpdb->prepare("select progress_id from ".SMART_DONATIONS_PROGRESS_TABLE." where campaign_id=$campaign_id"));
+                foreach($result as $key=>$value)
+                {
+                    delete_transient("rednao_smart_donations_progress_$value->progress_id");
+                }
+            }
 
             if($this->DonationWasReceived())
             {
