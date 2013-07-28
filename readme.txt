@@ -1,7 +1,7 @@
 === Smart Donations ===
 Contributors: EDGARROJAS
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=edseventeen%40gmail.com
-Tags: donations, donate, donation buttons, donation widget
+Tags: donations, donate, donation buttons, donation widget,widget, paypal
 Requires at least: 3.0.1
 Tested up to: 3.5
 Stable tag: 2.0
