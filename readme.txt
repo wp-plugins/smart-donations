@@ -8,41 +8,41 @@ Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin lets you pick different styles of donations that you can add to your posts (as a shortcode) or to any sidebar (as a widget).
+Smart donations lets you pick different styles of donations that you can add to your posts (as a shortcode) or to any sidebar (as a widget).
 
 == Description ==
 
 Smart Donations
 =
 
- This plugin lets you pick different styles of donations and add them to your posts (as a shortcode) or to any sidebar (as a widget). Currently it supports four different styles:
+ Smart donations lets you pick different styles of donations and add them to your posts (as a shortcode) or to any sidebar (as a widget). Currently it supports four different styles of donations:
  
- *  **Classic**.- The classic paypal button.
+ *  **Classic Donation**.- The classic paypal button.
    
  
- *  **TextBox**.- A paypal button with a textbox so the donators can pick right away how much they want to donate.
+ *  **TextBox Donation**.- A paypal button with a text box so the donators can pick right away how much they want to donate.
    
- * **Three buttons**.- This one place three buttons (that you can customize) each one with a different amount (that you define) so the donators can give you money with one click.
+ * **Three Buttons Donation**.- Three donation buttons (that you can customize) each one with a different amounts (that you define) so the donators can donate with one click.
     
- *  **Slider**.- My favorite, this has an slider that the user can scroll to give you more or less money (you define the minimun and maximun amount), it also has a happy face that gets happier or not that happy depending on how much the donator is donating you.
+ *  **Slider Donation**.- This has an slider that the user can scroll to donate more or less money (you define the minimun and maximun amount), it also has a happy face that gets happier or not that happy depending on the donation amount.
  
 
 *You can find more here:[Smart Donations](http://rednao.com/smartdonations.html "Smart Donations")
 == Installation ==
 
-1. Upload smartdonations to the `/wp-content/plugins/` directory
+1. Upload smart donations to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Go to Smart Donations/Add new and create a new donation
+3. Go to Smart Donations /Add new and create a new donation
 4. To add the donation to a widget go to widgets and drag the smart donations widget
 5. To add the donation to a post type [sdonations]donationid[/sdonations] (example:[sdonations]1[/sdonations]), you can find the donationid of your donation on the donations list (i will improve this on a future update)
 
 
 == Frequently Asked Questions ==
 
-= How can i add my own styles to the donations=
+= How can i get help=
 
-For now you can edit the css file smartdonations/css/mainStyle.css, i have plans to improve this on the future.
-
+You can check the smart donations video tutorial at http://rednao.com/tutorials.htm, if you have any question you can reach me at
+https://www.facebook.com/SmartDonations
 
 
 == Screenshots ==
