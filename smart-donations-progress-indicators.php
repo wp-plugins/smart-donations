@@ -39,7 +39,7 @@ if($action!=null)
             if(count($result)>0)
             {
                 $result=$result[0];
-                $options=rednao_smart_donations_json_object($result->options,$result->styles);
+                $options=rednao_smart_donations_json_object($result->options,$result->styles,null,null,null);
 
                 $script=<<<EOF
                         <script type="text/javascript" language="javascript">
