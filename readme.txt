@@ -69,11 +69,14 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 4. Three Buttons
 5. Slider
 6. Example of site with donations
+7. You can customize anything
+8. Example of progress indicators (Pro feature)
+9. Analytics (Pro)
 
 == Changelog ==
-= 2.0.1
+= 2.0.1 =
 * Fixed minnor issues
-= 2.0
+= 2.0 =
 * Added progress indicators and analytics to paypal.
 = 1.6 =
 * Added supporting component and paypal/wepay styles.
