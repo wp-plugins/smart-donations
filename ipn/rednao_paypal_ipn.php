@@ -22,23 +22,67 @@ class rednao_paypal_ipn {
         if($this->connectionProvider->IsValid())
         {
             $properties=array();
-            $properties['txn_id']=$_POST['txn_id'];
-            $properties['payer_email']=$_POST['payer_email'];
-            $properties['first_name']=$_POST['first_name'];
-            $properties['last_name']=$_POST['last_name'];
-            $properties['mc_fee']=$_POST['mc_fee'];
-            $properties['mc_gross']=$_POST['mc_gross'];
-            $properties['date']=$_POST['payment_date'];
-            $properties['additional_fields']=$_POST['additional_fields'];
-            $properties['campaign_id']=$_POST['custom'];
+            if (isset($_POST['txn_id'])) {
+                $properties['txn_id']=$_POST['txn_id'];
+            }else
+                $properties['txn_id']='';
 
-            $receiverEmail=$_POST["receiver_email"];
+
+            if (isset($_POST['payer_email'])) {
+                $properties['payer_email']=$_POST['payer_email'];
+            }else
+                $properties['payer_email']='';
+
+
+            if (isset($_POST['first_name'])) {
+                $properties['first_name']=$_POST['first_name'];
+            }else
+                $properties['first_name']='';
+
+
+            if (isset($_POST['last_name'])) {
+                $properties['last_name']=$_POST['last_name'];
+            }else
+                $properties['last_name']='';
+
+            if (isset($_POST['mc_fee'])) {
+                $properties['mc_fee']=$_POST['mc_fee'];
+            }else
+                $properties['mc_fee']='';
+
+            if (isset($_POST['mc_gross'])) {
+                $properties['mc_gross']=$_POST['mc_gross'];
+            }else
+                $properties['mc_gross']='';
+
+
+            if (isset($_POST['payment_date'])) {
+                $properties['date']=$_POST['payment_date'];
+            }else
+                $properties['date']='';
+
+
+            if (isset($_POST['additional_fields'])) {
+                $properties['additional_fields']=$_POST['additional_fields'];
+            }else
+                $properties['additional_fields']='';
+
+
+            if (isset($_POST['custom'])) {
+                $properties['campaign_id']=$_POST['custom'];
+            }else
+                $properties['campaign_id']='';
+
+            if (isset($_POST["receiver_email"])) {
+                $receiverEmail=$_POST["receiver_email"];
+            }else
+                $receiverEmail='';
 
             if($properties['campaign_id']!==null)
             {
                 $campaign_id=$properties['campaign_id'];
                 global $wpdb;
-                $result=$wpdb->get_results($wpdb->prepare("select progress_id from ".SMART_DONATIONS_PROGRESS_TABLE." where campaign_id=$campaign_id"));
+                $result=$wpdb->get_results($wpdb->prepare("select progress_id from ".SMART_DONATIONS_PROGRESS_TABLE." where campaign_id=%d",$campaign_id));
                 foreach($result as $key=>$value)
                 {
                     delete_transient("rednao_smart_donations_progress_$value->progress_id");
@@ -56,7 +100,11 @@ class rednao_paypal_ipn {
 
             if($this->DonationWasRefunded())
             {
+
+                if (isset($_POST['parent_txn_id'])) {
                     $this->dbProvider->RefundTransaction($_POST['parent_txn_id']);
+                }
+
             }
 
         }
@@ -65,7 +113,10 @@ class rednao_paypal_ipn {
 
     private function DonationWasReceived()
     {
-        return $_POST['payment_status']==="Pending"||$_POST['payment_status']=="Completed";
+        if (isset($_POST['payment_status'])) {
+            return $_POST['payment_status']==="Pending"||$_POST['payment_status']=="Completed";
+        }
+        return false;
 
 
 
@@ -73,14 +124,17 @@ class rednao_paypal_ipn {
 
     private function DonationWasRefunded()
     {
-        $status=strtolower($_POST['payment_status']);
-        return $status==="refunded"||$status=="denied"||$status=="expired"||$status=="failed"||$status=="reversed"||$status=="voided";
+        if (isset($_POST['payment_status'])) {
+            $status=strtolower($_POST['payment_status']);
+            return $status==="refunded"||$status=="denied"||$status=="expired"||$status=="failed"||$status=="reversed"||$status=="voided";
+        }
+        return false;
     }
 
     private function ReceiverEmailIsValid($receiverEmail)
     {
         global $wpdb;
-        $count=$wpdb->get_var($wpdb->prepare("select count(*) from ".SMART_DONATIONS_TABLE_NAME." where email='$receiverEmail'"));
+        $count=$wpdb->get_var($wpdb->prepare("select count(*) from ".SMART_DONATIONS_TABLE_NAME." where email=%s",$receiverEmail));
 
         return $count>0;
     }

@@ -5,7 +5,7 @@
  * Description: Place diferent form of donations on your blog...
  * Author: RedNao
  * Author URI: http://rednao.com
- * Version: 2.0.1
+ * Version: 2.1.1
  * Text Domain: SmartDonations
  * Domain Path: /languages/
  * Network: true
@@ -92,6 +92,8 @@ function rednao_smart_donations_init()
 
 function rednao_smart_donations_add_plugin($plugin_array)
 {
+    wp_enqueue_script('isolated-slider',plugin_dir_url(__FILE__).'js/rednao-isolated-jq.js');
+    wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css');
     $plugin_array['rednao_smart_donations_button']=plugin_dir_url(__FILE__).'js/smartDonationsShortCodeButton.js';
     return $plugin_array;
 }

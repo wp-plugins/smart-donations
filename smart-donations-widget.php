@@ -31,7 +31,7 @@ class rednao_smart_donations_widget extends WP_Widget
         $id = $instance['donation_id'];
 
         global $wpdb;
-        $results =$wpdb->get_results($wpdb->prepare('select donation_id,donation_name from '.SMART_DONATIONS_TABLE_NAME));
+        $results =$wpdb->get_results('select donation_id,donation_name from '.SMART_DONATIONS_TABLE_NAME);
 
         ?>
 

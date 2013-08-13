@@ -74,6 +74,8 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 9. Analytics (Pro)
 
 == Changelog ==
+= 2.1.1 =
+* Fixed Warnings
 = 2.0.1 =
 * Fixed minnor issues
 = 2.0 =

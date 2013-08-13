@@ -31,7 +31,7 @@ class rednao_smart_donations_progress_widget extends WP_Widget
         $id = $instance['progress_id'];
 
         global $wpdb;
-        $results =$wpdb->get_results($wpdb->prepare('select progress_id,progress_name from '.SMART_DONATIONS_PROGRESS_TABLE));
+        $results =$wpdb->get_results('select progress_id,progress_name from '.SMART_DONATIONS_PROGRESS_TABLE);
 
         ?>
 

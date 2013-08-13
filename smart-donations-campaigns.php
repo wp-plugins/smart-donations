@@ -12,15 +12,21 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
 echo "<h1>Campaigns</h1>";
 echo sprintf('<h2 ><a id="sDonationsAddNew" style="color:blue; text-decoration: underline;" href="?page=%s&action=%s">Add New</a></h2>',$_REQUEST['page'],'add');
 
-$campaign_id=$_GET['id'];
-$action=$_GET['action'];
+if (isset($_GET['id'])) {
+    $campaign_id=$_GET['id'];
+}else
+    $campaign_id="";
+if (isset($_GET['action'])) {
+    $action=$_GET['action'];
+}else
+    $action="";
 
 if($action!=null&&$campaign_id!=null)
 {
     global $wpdb;
 
     if($action==="delete")
-        $wpdb->query($wpdb->prepare("delete from ".SMART_DONATIONS_CAMPAIGN_TABLE." WHERE campaign_id=$campaign_id"));
+        $wpdb->query($wpdb->prepare("delete from ".SMART_DONATIONS_CAMPAIGN_TABLE." WHERE campaign_id=%d",$campaign_id));
 
 }
 
@@ -30,10 +36,10 @@ class Donations extends WP_List_Table
     function get_columns()
     {
         return array(
-            name=>'Name',
-            description=>'Description',
-            goal=>'Goal',
-            campaign_id=>'Campaign Id'
+            'name'=>'Name',
+            'description'=>'Description',
+            'goal'=>'Goal',
+            'campaign_id'=>'Campaign Id'
         );
     }
 

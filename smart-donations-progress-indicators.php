@@ -4,7 +4,10 @@ if(!defined('ABSPATH'))
     die('Forbidden');
 
 
-$action=$_GET['action'];
+if (isset($_GET['action'])) {
+    $action=$_GET['action'];
+}else
+    $action='';
 
 if($action==="add")
 {
@@ -19,22 +22,24 @@ wp_enqueue_style('smart-donations-main-style',plugin_dir_url(__FILE__).'css/main
 wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css');
 
 
-
-$progress_id=$_GET['$progress_id'];
+if (isset($_GET['$progress_id'])) {
+    $progress_id=$_GET['$progress_id'];
+}else
+    $progress_id='';
 
 
 if($action!=null)
 {
     global $wpdb;
-    if(progress_id!=null)
+    if($progress_id!=null)
     {
         if($action==="delete")
-            $wpdb->query($wpdb->prepare("delete from ".SMART_DONATIONS_PROGRESS_TABLE." WHERE progress_id=$progress_id"));
+            $wpdb->query($wpdb->prepare("delete from ".SMART_DONATIONS_PROGRESS_TABLE." WHERE progress_id=%d",$progress_id));
 
 
         if($action==="edit")
         {
-            $result=$wpdb->get_results($wpdb->prepare("SELECT * FROM ".SMART_DONATIONS_PROGRESS_TABLE." WHERE progress_id=$progress_id"));
+            $result=$wpdb->get_results($wpdb->prepare("SELECT * FROM ".SMART_DONATIONS_PROGRESS_TABLE." WHERE progress_id=%d",$progress_id));
 
             if(count($result)>0)
             {
@@ -71,10 +76,10 @@ class Donations extends WP_List_Table
     function get_columns()
     {
         return array(
-            progress_name=>'Name',
-            campaign_name=>'Campaign',
-            progress_type=>'Type',
-            progress_id=>'Progress Id'
+            'progress_name'=>'Name',
+            'campaign_name'=>'Campaign',
+            'progress_type'=>'Type',
+            'progress_id'=>'Progress Id'
         );
     }
 

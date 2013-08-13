@@ -21,7 +21,7 @@ class smart_donations_db_privider {
     private function TransactionIsRepeated($txn_id)
     {
         global $wpdb;
-        return $wpdb->get_var($wpdb->prepare("select count(*) from ".SMART_DONATIONS_TRANSACTION_TABLE." where txn_id='$txn_id'"))>0;
+        return $wpdb->get_var($wpdb->prepare("select count(*) from ".SMART_DONATIONS_TRANSACTION_TABLE." where txn_id=%s",$txn_id))>0;
     }
 
     private function InsertIntoDatabase($properties)
@@ -50,7 +50,7 @@ class smart_donations_db_privider {
     public function RefundTransaction($txn_id)
     {
         global $wpdb;
-        $wpdb->query($wpdb->prepare("delete from ".SMART_DONATIONS_TRANSACTION_TABLE." WHERE txn_id='$txn_id'"));
+        $wpdb->query($wpdb->prepare("delete from ".SMART_DONATIONS_TRANSACTION_TABLE." WHERE txn_id=%s",$txn_id));
 
 
 

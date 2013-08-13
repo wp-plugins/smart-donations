@@ -5,12 +5,12 @@
             javascriptUrl=url.substring(0,url.length-3);
             // Register command for when button is clicked
             ed.addCommand('rednao_smart_donations_short_code_clicked', function(a,donationId) {
-                if(jQuery('#redNaoSelection').val()=='button')
+                if(rnJQuery('#redNaoSelection').val()=='button')
                     tinymce.execCommand('mceInsertContent', false, '[sdonations]'+donationId+'[/sdonations]');
                 else
                     tinymce.execCommand('mceInsertContent', false, '[sdprogress]'+donationId+'[/sdprogress]');
-                jQuery("#smartdonationsShortCodeDialog").dialog('close');
-                jQuery("#smartdonationsShortCodeDialog").remove();
+                rnJQuery("#smartdonationsShortCodeDialog").dialog('close');
+                rnJQuery("#smartdonationsShortCodeDialog").remove();
             }),
 
             // Register buttons - trigger above command when clicked
@@ -21,7 +21,7 @@
                     action:"rednao_smart_donations_list"
                 };
 
-                jQuery.post(ajaxurl,data,ajaxCompleted);
+                rnJQuery.post(ajaxurl,data,ajaxCompleted);
 
             }});
         }
@@ -36,40 +36,47 @@ function ajaxCompleted(result,status)
 
     if(smartDonationsShortCodeDialog==null)
     {
-        var smartDonationsPopUpForm='<div><div style="display: block;margin-bottom: 10px;"><select id="redNaoSelection"><option value="button">Donation Button</option><option value="progress">Progress Indicator</option></select></div> <div id="smartdonationsShortCodeDialog"  title="Basic modal dialog"><select id="smartDonationsDonationList">';
+        var smartDonationsPopUpForm='<div style=""><div style="display: block;margin-bottom: 10px;"><select id="redNaoSelection"><option value="button">Donation Button</option><option value="progress">Progress Indicator</option></select></div> <div id="smartdonationsShortCodeDialog"  title="Basic modal dialog"><select id="smartDonationsDonationList">';
         smartDonationsPopUpForm+='</select></div></div>'
-        var dialog=jQuery(smartDonationsPopUpForm);
+        var dialog=rnJQuery(smartDonationsPopUpForm);
 
         smartDonationsShortCodeDialog=dialog.dialog({
         modal:true,
         draggable:false,
-        title:' ',
+        title:'Select a Donation or Progress ',
         resizable:false,
         buttons:[
-            {text: "Apply", click: function() {tinymce.execCommand('rednao_smart_donations_short_code_clicked', false, jQuery('#smartDonationsDonationList').val())}},
-            {text: "Cancel", click: function() {jQuery(this).dialog("close")}}
-        ]
+            {text: "Apply", click: function() {tinymce.execCommand('rednao_smart_donations_short_code_clicked', false, rnJQuery('#smartDonationsDonationList').val())}},
+            {text: "Cancel", click: function() {rnJQuery(this).dialog("close")}}
+        ],
+            create: function(event, ui){
+                rnJQuery('.ui-dialog').wrap('<div class="smartDonationsSlider" />');
+            },
+            open: function(event, ui){
+                rnJQuery('.ui-widget-overlay').wrap('<div class="smartDonationsSlider" />');
+                rnJQuery(".smartDonationsConfigurationFields").val('');
+            }
         });
     }else{
         smartDonationsShortCodeDialog.dialog('open');
-        jQuery('#redNaoSelection').val('button');
+        rnJQuery('#redNaoSelection').val('button');
     }
 
     ajaxDonationsCompleted(result);
 
     function ajaxDonationsCompleted(result) {
-        var donationArray=jQuery.parseJSON(result);
+        var donationArray=rnJQuery.parseJSON(result);
         var options="";
         for(var i=0;i<donationArray.length;i++)
         {
             options+=' <option value="'+donationArray[i].Id+'">'+donationArray[i].Name+'</option>';
         }
 
-        jQuery('#smartDonationsDonationList').empty().append(options);
+        rnJQuery('#smartDonationsDonationList').empty().append(options);
     }
 
-    jQuery("#redNaoSelection").change(function(){
-            if(jQuery("#redNaoSelection").val()=='button')
+    rnJQuery("#redNaoSelection").change(function(){
+            if(rnJQuery("#redNaoSelection").val()=='button')
             {
                 var data={
                     action:"rednao_smart_donations_list"
@@ -82,7 +89,7 @@ function ajaxCompleted(result,status)
                 };
             }
 
-            jQuery.post(ajaxurl,data,ajaxDonationsCompleted);
+            rnJQuery.post(ajaxurl,data,ajaxDonationsCompleted);
         }
     );
 

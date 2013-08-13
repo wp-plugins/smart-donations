@@ -33,7 +33,7 @@ function rednao_smart_donations_save()
 
         if($donationId==null)
         {
-            $count= $wpdb->get_var($wpdb->prepare("SELECT count(*) FROM ".SMART_DONATIONS_TABLE_NAME." where donation_name='$donationName'"));
+            $count= $wpdb->get_var($wpdb->prepare("SELECT count(*) FROM ".SMART_DONATIONS_TABLE_NAME." where donation_name=%s",$donationName));
 
             if($count>0)
             {
@@ -86,7 +86,7 @@ function rednao_smart_donations_list()
     }
 
     global $wpdb;
-    $result=$wpdb->get_results($wpdb->prepare("SELECT donation_id,donation_name FROM ".SMART_DONATIONS_TABLE_NAME));
+    $result=$wpdb->get_results("SELECT donation_id,donation_name FROM ".SMART_DONATIONS_TABLE_NAME);
 
     echo "[{\"Id\":\"0\",\"Name\":\"Select a donation\"}";
     foreach($result as $key=>$row)
@@ -106,7 +106,7 @@ function rednao_smart_progress_donations_list()
     }
 
     global $wpdb;
-    $result=$wpdb->get_results($wpdb->prepare("SELECT progress_id,progress_name  FROM ".SMART_DONATIONS_PROGRESS_TABLE));
+    $result=$wpdb->get_results("SELECT progress_id,progress_name  FROM ".SMART_DONATIONS_PROGRESS_TABLE);
 
     echo "[{\"Id\":\"0\",\"Name\":\"Select a progress indicator\"}";
     foreach($result as $key=>$row)
@@ -127,9 +127,20 @@ function rednao_smart_donations_add_campaign()
 
     global $wpdb;
 
-    $name=$_POST["name"];
-    $description=$_POST["description"];
-    $goal=$_POST["goal"];
+    if (isset($_POST["name"])) {
+        $name=$_POST["name"];
+    }else
+        $name='';
+
+    if (isset($_POST["description"])) {
+        $description=$_POST["description"];
+    }else
+        $description='';
+
+    if (isset($_POST["goal"])) {
+        $goal=$_POST["goal"];
+    }else
+        $goal='';
 
     if($name==null)
     {
@@ -142,7 +153,7 @@ function rednao_smart_donations_add_campaign()
 
 
 
-    $count= $wpdb->get_var($wpdb->prepare("SELECT count(*) FROM ".SMART_DONATIONS_CAMPAIGN_TABLE." where name='$name'"));
+    $count= $wpdb->get_var($wpdb->prepare("SELECT count(*) FROM ".SMART_DONATIONS_CAMPAIGN_TABLE." where name=%s",$name));
 
     if($count>0)
     {
@@ -172,10 +183,24 @@ function rednao_smart_donations_edit_campaign()
 
     global $wpdb;
 
-    $name=$_POST["name"];
-    $description=$_POST["description"];
-    $goal=$_POST["goal"];
-    $campaign_id=$_POST["campaign_id"];
+    if (isset($_POST["name"])) {
+        $name=$_POST["name"];
+    }else
+        $name='';
+    if (isset($_POST["description"])) {
+        $description=$_POST["description"];
+    }else
+        $description='';
+
+    if (isset($_POST["goal"])) {
+        $goal=$_POST["goal"];
+    }else
+        $goal='';
+
+    if (isset($_POST["campaign_id"])) {
+        $campaign_id=$_POST["campaign_id"];
+    }else
+        $campaign_id='';
 
     if($name==null)
     {
@@ -194,7 +219,7 @@ function rednao_smart_donations_edit_campaign()
                 "goal"=>$goal),array("campaign_id"=>$campaign_id));
 
 
-    $result=$wpdb->get_results($wpdb->prepare("select progress_id from ".SMART_DONATIONS_PROGRESS_TABLE." where campaign_id=$campaign_id"));
+    $result=$wpdb->get_results($wpdb->prepare("select progress_id from ".SMART_DONATIONS_PROGRESS_TABLE." where campaign_id=%d",$campaign_id));
 
     foreach($result as $key=>$value)
     {
@@ -214,12 +239,35 @@ function rednao_smart_donations_save_progress_bar()
     if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') ) {
         return;
     }
-    $progress_name=$_POST['progress_name'];
-    $campaign_id=$_POST['campaign_id'];
-    $progress_id=$_POST['progress_id'];
-    $progress_type=$_POST['progress_type'];
-    $styles=$_POST['styles'];
-    $options=$_POST['options'];
+    if (isset($_POST['progress_name'])) {
+        $progress_name=$_POST['progress_name'];
+    }else
+        $progress_name='';
+
+    if (isset($_POST['campaign_id'])) {
+        $campaign_id=$_POST['campaign_id'];
+    }else
+        $campaign_id='';
+
+    if (isset($_POST['progress_id'])) {
+        $progress_id=$_POST['progress_id'];
+    }else
+        $progress_id='';
+
+    if (isset($_POST['progress_type'])) {
+        $progress_type=$_POST['progress_type'];
+    }else
+        $progress_type='';
+
+    if (isset($_POST['styles'])) {
+        $styles=$_POST['styles'];
+    }else
+        $styles='';
+
+    if (isset($_POST['options'])) {
+        $options=$_POST['options'];
+    }else
+        $options='';
     $message="";
     if($progress_name==null)
         $message= "Name is mandatory";
@@ -232,7 +280,7 @@ function rednao_smart_donations_save_progress_bar()
         global $wpdb;
         if($progress_id==null)
         {
-            $count= $wpdb->get_var($wpdb->prepare("SELECT count(*) FROM ".SMART_DONATIONS_PROGRESS_TABLE." where progress_id='progress_id'"));
+            $count= $wpdb->get_var($wpdb->prepare("SELECT count(*) FROM ".SMART_DONATIONS_PROGRESS_TABLE." where progress_id='%d'",$progress_id));
 
             if($count>0)
             {
@@ -279,14 +327,35 @@ function rednao_smart_donations_execute_analytics()
     if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') ) {
         return;
     }
-    $startDate=$_POST['startDate'];
-    $endDateReceived=$_POST['endDate'];
-    $displayType=$_POST['displayType'];
-    $campaign_id=$_POST['campaign_id'];
+    if (isset($_POST['startDate'])) {
+        $startDate=$_POST['startDate'];
+    }else
+        $startDate='';
+
+    if (isset($_POST['endDate'])) {
+        $endDateReceived=$_POST['endDate'];
+    }else
+        $endDateReceived='';
+
+    if (isset($_POST['displayType'])) {
+        $displayType=$_POST['displayType'];
+    }else
+        $displayType='';
+
+    if (isset($_POST['campaign_id'])) {
+        $campaign_id=$_POST['campaign_id'];
+    }else
+        $campaign_id='';
 
     $startDate=date('Y-m-d H:i:s', strtotime($startDate));
     $endDate=date('Y-m-d H:i:s', strtotime($endDateReceived." 23:59:59"));
     $endDateWithoutTime=date('Y-m-d H:i:s', strtotime($endDateReceived));
+
+    if(!is_numeric($campaign_id))
+    {
+        echo "Invalid Camping Id";
+        die();
+    }
 
     if($startDate==null)
     {
@@ -370,7 +439,7 @@ function rednao_smart_donations_execute_analytics()
 
 
     global $wpdb;
-    $result=$wpdb->get_results($wpdb->prepare($query));
+    $result=$wpdb->get_results($query);
 
     $values=array();
     foreach($result as $row)
@@ -405,7 +474,7 @@ function rednao_smart_donations_execute_analytics()
     while($nextValueStrTime<=$endStrTime)
     {
 
-        if($values[$index][0]==$nextValueDate)
+        if(isset($values[$index][0]) && $values[$index][0]==$nextValueDate)
         {
             array_push($returnArray,$values[$index]);
             $index+=1;
@@ -490,7 +559,10 @@ function EndDateIsValid($endDate,$displayType)
 }
 
 function GetPostOrDie($name){
-    $aux=$_POST[$name];
+    if (isset($_POST[$name])) {
+        $aux=$_POST[$name];
+    }else
+        $aux='';
     if($aux==null)
         die();
 
@@ -498,7 +570,10 @@ function GetPostOrDie($name){
 }
 
 function GetGetOrDie($name){
-    $aux=$_GET[$name];
+    if (isset($_GET[$name])) {
+        $aux=$_GET[$name];
+    }else
+        $aux="";
 
     if($aux==null)
         die();
@@ -522,6 +597,18 @@ function rednao_smart_donations_execute_analytics_list()
     $startDate=date('Y-m-d H:i:s', strtotime($startDate));
 
     $step=($rpage-1)*$rows;
+
+    if(!is_numeric($rows) || !is_numeric($rpage))
+    {
+        echo "Invalid arguments";
+    }
+
+    if(!is_numeric($campaign_Id))
+    {
+        echo "Invalid Camping Id";
+        die();
+    }
+
 
     if(!StartDateIsValid($startDate,$displayType))
     {
@@ -621,10 +708,10 @@ function rednao_smart_donations_execute_analytics_list()
 
 
     global $wpdb;
-    $count= $wpdb->get_var($wpdb->prepare($queryCount));
-    $result=$wpdb->get_results($wpdb->prepare($query));
+    $count= $wpdb->get_var($queryCount);
+    $result=$wpdb->get_results($query);
 
-    $firstRecord=ture;
+    $firstRecord=true;
     echo '{"total":"'.ceil($count/$rows).'","records":"'.$count.'","rows": [';
     foreach($result as $row)
     {
@@ -653,23 +740,59 @@ function rednao_smart_donations_execute_analytics_op()
     }
 
 
-    $oper=$_POST["oper"];
-    $transactionId=$_POST["TransactionId"];
+    if (isset($_POST["oper"])) {
+        $oper=$_POST["oper"];
+    }else
+        $oper='';
+
+    if (isset($_POST["TransactionId"])) {
+        $transactionId=$_POST["TransactionId"];
+    }else
+        $transactionId='';
 
     if($oper==="del")
     {
         global $wpdb;
-        $wpdb->query($wpdb->prepare("delete from ".SMART_DONATIONS_TRANSACTION_TABLE." WHERE transaction_id=$transactionId"));
+        $wpdb->query($wpdb->prepare("delete from ".SMART_DONATIONS_TRANSACTION_TABLE." WHERE transaction_id=%d",$transactionId));
         return;
 
     }
-    $firstName=$_POST["FirstName"];
-    $lastName=$_POST["LastName"];
-    $date=$_POST["Date"];
-    $email=$_POST["Email"];
-    $gross=$_POST["Gross"];
-    $fee=$_POST["Fee"];
-    $campaign_id=$_POST["campaign_id"];
+    if (isset($_POST["FirstName"])) {
+        $firstName=$_POST["FirstName"];
+    }else
+        $firstName='';
+
+    if (isset($_POST["LastName"])) {
+        $lastName=$_POST["LastName"];
+    }else
+        $lastName='';
+
+
+    if (isset($_POST["Date"])) {
+        $date=$_POST["Date"];
+    }else
+        $date='';
+
+    if (isset($_POST["Email"])) {
+        $email=$_POST["Email"];
+    }else
+        $email='';
+
+    if (isset($_POST["Gross"])) {
+        $gross=$_POST["Gross"];
+    }else
+        $gross='';
+
+
+    if (isset($_POST["Fee"])) {
+        $fee=$_POST["Fee"];
+    }else
+        $fee='';
+
+    if (isset($_POST["campaign_id"])) {
+        $campaign_id=$_POST["campaign_id"];
+    }else
+        $campaign_id='';
 
 
 

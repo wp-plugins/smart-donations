@@ -5,7 +5,10 @@
 if(!defined('ABSPATH'))
     die('Forbidden');
 
-$action=$_GET['action'];
+if (isset($_GET['action'])) {
+    $action=$_GET['action'];
+}else
+    $action="";
 if($action==="add"){
     include(SMART_DONATIONS_DIR.'/smart-donations-add-new.php');
     return;
@@ -17,8 +20,10 @@ echo sprintf('<h2 ><a style="color:blue; text-decoration: underline;" href="?pag
 require_once("smart-donations-helpers.php");
 
 
-
-$donation_id=$_GET['id'];
+if (isset($_GET['id'])) {
+    $donation_id=$_GET['id'];
+}else
+    $donation_id="";
 
 
 
@@ -28,13 +33,13 @@ if($action!=null&&$donation_id!=null)
 
     if($action==="delete")
     {
-        $wpdb->query($wpdb->prepare("delete from ".SMART_DONATIONS_TABLE_NAME." WHERE donation_id=$donation_id"));
+        $wpdb->query($wpdb->prepare("delete from ".SMART_DONATIONS_TABLE_NAME." WHERE donation_id=%d",$donation_id));
         delete_transient("rednao_smart_donations_donation_$donation_id");
     }
 
     if($action==="edit")
     {
-        $result=$wpdb->get_results($wpdb->prepare("SELECT * FROM ".SMART_DONATIONS_TABLE_NAME." WHERE donation_id=$donation_id"));
+        $result=$wpdb->get_results($wpdb->prepare("SELECT * FROM ".SMART_DONATIONS_TABLE_NAME." WHERE donation_id=%d",$donation_id));
 
         if(count($result)>0)
         {
@@ -73,10 +78,10 @@ class Donations extends WP_List_Table
     function get_columns()
     {
         return array(
-          donation_name=>'Donation Name',
-          email=>'Email',
-          donation_type=>'Type',
-          donation_id=>'Donation Id'
+          'donation_name'=>'Donation Name',
+          'email'=>'Email',
+          'donation_type'=>'Type',
+          'donation_id'=>'Donation Id'
         );
     }
 

@@ -1,8 +1,16 @@
 
 <?php
 require_once('smart-donations-license-helpers.php');
-$email=$_POST['license_email'];
-$key=$_POST['license_key'];
+if (isset($_POST['license_email'])) {
+    $email=$_POST['license_email'];
+}else
+    $email='';
+
+if (isset($_POST['license_key'])) {
+    $key=$_POST['license_key'];
+}else
+    $key='';
+
 $error="";
 $licensingError=0;
 

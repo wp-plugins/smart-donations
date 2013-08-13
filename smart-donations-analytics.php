@@ -49,7 +49,7 @@ if(!defined('ABSPATH'))
         <option value="0" selected="selected">Default</option>
         <?php
         global $wpdb;
-        $results=$wpdb->get_results($wpdb->prepare("select campaign_id,name from ".SMART_DONATIONS_CAMPAIGN_TABLE));
+        $results=$wpdb->get_results("select campaign_id,name from ".SMART_DONATIONS_CAMPAIGN_TABLE);
 
         foreach($results as $result)
         {
