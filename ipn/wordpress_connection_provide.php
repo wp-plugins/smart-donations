@@ -49,7 +49,7 @@ class wordpress_connection_provide  extends connection_provider_base
 
         // STEP 2: Post IPN data back to paypal to validate
 
-        $res=wp_remote_post('https://www.sandbox.paypal.com/cgi-bin/webscr',$args);
+        $res=wp_remote_post('https://www.paypal.com/cgi-bin/webscr',$args);
 
         return strcmp ($res['body'], "VERIFIED") == 0;
 
