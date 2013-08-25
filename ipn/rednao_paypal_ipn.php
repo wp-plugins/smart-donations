@@ -94,9 +94,26 @@ class rednao_paypal_ipn {
                 if($this->ReceiverEmailIsValid($receiverEmail))
                 {
                     $properties['status']='c';
-                    if(strlen($properties['campaign_id'])>0&&!is_numeric($properties['campaign_id'])&&$this->dbProvider->InsertTransaction($properties))
+                    $formId="";
+                    if(!is_numeric($properties['campaign_id']))
                     {
-                        $this->ProcessForm($properties);
+                        $formString=rawurldecode($properties['campaign_id']);
+                        parse_str($formString,$formStringParameters);
+                        if(sizeof($formStringParameters)==2)
+                        {
+                            $properties['campaign_id']=$formStringParameters['campaign_id'];
+                            $formId= $formStringParameters['formId'];
+                        }else
+                        {
+                            this.SendFormError($properties['payer_email'],'the parameters sent by paypal are corrupt',$properties);
+                            return;
+                        }
+                    }
+
+                    $this->dbProvider->InsertTransaction($properties);
+                    if($formId!=null)
+                    {
+                        $this->ProcessForm($properties,$formId);
                     }
                 }
             }
@@ -142,21 +159,9 @@ class rednao_paypal_ipn {
         return $count>0;
     }
 
-    private function ProcessForm($properties)
+    private function ProcessForm($properties,$formId)
     {
-        $formString=rawurldecode($properties['campaign_id']);
-        parse_str($formString,$formStringParameters);
-        if(sizeof($formStringParameters)==2)
-        {
-            $properties['campaign_id']=$formStringParameters['campaign_id'];
-        }else
-        {
-            this.SendFormError($properties['payer_email'],'the parameters sent by paypal are corrupt',$properties);
-            return;
-        }
-
-        $form=get_transient($formStringParameters['formId']);
-
+        $form=get_transient($formId);
         if($form==false)
         {
             this.SendFormError('The submitted form was not found, that means this transaction was processed 3 days after the payment',$properties);
@@ -178,7 +183,6 @@ class rednao_paypal_ipn {
         }
 
 
-        return $formStringParameters;
 
     }
 

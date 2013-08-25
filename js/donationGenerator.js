@@ -34,7 +34,7 @@ function smartDonationsLoadDonation(options,containerName)
         else
         if(donationTypeSelected=="slider")
             aux=new smartDonationsSliderDonationGenerator(containerName,options,null,styles);
-        if(donationTypeSelected=='forms')
+        else if(donationTypeSelected=='forms')
             aux=new smartDonationsFormDonationGenerator(containerName,options,null,styles)
         else
             throw 'Undefined donation type';
