@@ -67,7 +67,7 @@ EOF;
 
 }
 
-
+echo '<div class="updated fade below-h2"><p>Need help? check the video tutorials <a href="http://rednao.com/tutorials.htm" target="_blank">Here</a> or ask me directly in the   <a href="https://www.facebook.com/SmartDonations" target="_blank">Smart Donations Facebook Page</a></p></div>';
 echo "<h1>Progress Indicators</h1>";
 echo sprintf('<h2 ><a id="sDonationsAddNew" style="color:blue; text-decoration: underline;" href="?page=%s&action=%s">Add New</a></h2>',$_REQUEST['page'],'add');
 

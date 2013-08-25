@@ -9,6 +9,7 @@ wp_enqueue_script('campaigns',plugin_dir_url(__FILE__).'js/smart-donations-campa
 wp_enqueue_style('smart-donations-main-style',plugin_dir_url(__FILE__).'css/mainStyle.css');
 wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css');
 
+echo '<div class="updated fade below-h2"><p>Need help? check the video tutorials <a href="http://rednao.com/tutorials.htm" target="_blank">Here</a> or ask me directly in the   <a href="https://www.facebook.com/SmartDonations" target="_blank">Smart Donations Facebook Page</a></p></div>';
 echo "<h1>Campaigns</h1>";
 echo sprintf('<h2 ><a id="sDonationsAddNew" style="color:blue; text-decoration: underline;" href="?page=%s&action=%s">Add New</a></h2>',$_REQUEST['page'],'add');
 

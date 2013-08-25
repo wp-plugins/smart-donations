@@ -113,7 +113,8 @@
     -webkit-box-shadow: 1px 1px 5px #888;
     box-shadow: 1px 1px 5px #888;
 
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y:hidden;
 
 }
 
@@ -474,5 +475,11 @@
     cursor:hand;
 }
 
+.control-group *, input[type=text].redNaoInputText{
+    moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    -ms-box-sizing: content-box;
+    box-sizing: content-box;
 
+}
 

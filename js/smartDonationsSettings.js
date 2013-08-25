@@ -30,6 +30,9 @@ function SmartDonationSettings()
 
 function SmartDonations_backFromConfiguration() {
     rnJQuery("#smartDonationsSlideAnimation").animate({"left":"0"},250/*,function(){rnJQuery("#smartDonationsSlideAnimation").hide();}*/);
+    rnJQuery('#smartdonationsItemsContainer').width(702);
+    rnJQuery('#smartdonationsItemsContainer').height(500);
+    rnJQuery('#smartDonationsItemsContainerBody').css('overflow-y','hidden');
 }
 
 
@@ -74,6 +77,17 @@ function SmartDonations_GetDonationTypeSelected(donationTypeSelected,donationPro
                 rnJQuery('#smartDonationsPreviewContainer').css('margin-top','-10px');
                 return new smartDonationsSliderConfiguration('smartDonationsPreviewContainer',donationOptions);
 
+            }
+
+            if(donationTypeSelected=="forms")
+            {
+
+                rnJQuery('#smartDonationsPreviewContainer').parent().css('display','none');
+                rnJQuery('#smartdonationsItemsContainer').width(1200);
+                rnJQuery('#smartdonationsItemsContainer').height(800);
+                rnJQuery('#smartDonationsItemsContainerBody').css('overflow-y','visible');
+
+                return new smartDonationsFormConfiguration('smartDonationsPreviewContainer',donationOptions);
             }
             break;
         case "wepay":

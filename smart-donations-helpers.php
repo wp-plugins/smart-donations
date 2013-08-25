@@ -45,10 +45,11 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
 {
 
     $options=get_transient("rednao_smart_donations_donation_$id");
+    $options=false;
     if($options==false)
     {
         global $wpdb;
-        $result=$wpdb->get_results($wpdb->prepare("select options,styles from ".SMART_DONATIONS_TABLE_NAME." where donation_id=%d",$id));
+        $result=$wpdb->get_results($wpdb->prepare("select options,styles,donation_type from ".SMART_DONATIONS_TABLE_NAME." where donation_id=%d",$id));
         if(count($result)>0)
         {
             $result=$result[0];
@@ -56,7 +57,13 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
             $styles=$result->styles;
             if($options!=null)
             {
-                $options=rednao_smart_donations_json_object($options,$styles,null,null,null);
+                if($result->donation_type=="forms")
+                {
+                    $options=str_replace("\\\"","\"",$options);
+                }else
+                {
+                    $options=rednao_smart_donations_json_object($options,$styles,null,null,null);
+                }
                 set_transient("rednao_smart_donations_donation_$id",$options,60*60*24*31);
             }
         }else
@@ -69,15 +76,22 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
     wp_enqueue_script('smart-donations-generator',plugin_dir_url(__FILE__).'js/donationGenerator.js',array('isolated-slider','smart-donations-donation-provider'));
     wp_enqueue_script('smart-donations-generator-wepay',plugin_dir_url(__FILE__).'js/donationGenerator_wepay.js',array('smart-donations-generator'));
     wp_enqueue_script('smart-donations-raphael',plugin_dir_url(__FILE__).'js/raphael-min.js',array('isolated-slider'));
+    wp_enqueue_script('smart-donations-formelements',plugin_dir_url(__FILE__).'js/formBuilder/formelements.js',array('isolated-slider'));
     wp_enqueue_style('smart-donations-main-style',plugin_dir_url(__FILE__).'css/mainStyle.css');
     wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css');
+    echo "<script type=\"text/javascript\">var ajaxurl = '".admin_url('admin-ajax.php')."';</script>";
     $random=rand();
 
     if($returnComponent==false)
     {
         if($options==null)
             return;
+
+        if($title)
+            echo "<div><h3 class='widgettitle'>$title</h3>"
+
     ?>
+
     <div id="donationContainer<?php echo $random?>"></div>
 
     <script>
@@ -90,6 +104,9 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
 
     </script>
 <?php
+        if($title)
+            echo "</div>";
+
     }else{
         if($options==null)
             return "";
@@ -170,7 +187,12 @@ function rednao_smart_donations_load_progress($id,$title,$returnComponent)
     {
         if($options===null)
             return;
+
+        if($title)
+            echo "<div><h3 class='widgettitle'>$title</h3>"
         ?>
+
+
         <div id="progressContainer<?php echo $random?>"></div>
 
         <script>
@@ -183,6 +205,8 @@ function rednao_smart_donations_load_progress($id,$title,$returnComponent)
 
         </script>
     <?php
+        if($title)
+            echo "</div>";
     }else{
         if(options===null)
             return "";

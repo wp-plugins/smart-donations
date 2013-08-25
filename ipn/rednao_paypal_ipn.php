@@ -94,7 +94,10 @@ class rednao_paypal_ipn {
                 if($this->ReceiverEmailIsValid($receiverEmail))
                 {
                     $properties['status']='c';
-                    $this->dbProvider->InsertTransaction($properties);
+                    if(strlen($properties['campaign_id'])>0&&!is_numeric($properties['campaign_id'])&&$this->dbProvider->InsertTransaction($properties))
+                    {
+                        $this->ProcessForm($properties);
+                    }
                 }
             }
 
@@ -138,6 +141,96 @@ class rednao_paypal_ipn {
 
         return $count>0;
     }
+
+    private function ProcessForm($properties)
+    {
+        $formString=rawurldecode($properties['campaign_id']);
+        parse_str($formString,$formStringParameters);
+        if(sizeof($formStringParameters)==2)
+        {
+            $properties['campaign_id']=$formStringParameters['campaign_id'];
+        }else
+        {
+            this.SendFormError($properties['payer_email'],'the parameters sent by paypal are corrupt',$properties);
+            return;
+        }
+
+        $form=get_transient($formStringParameters['formId']);
+
+        if($form==false)
+        {
+            this.SendFormError('The submitted form was not found, that means this transaction was processed 3 days after the payment',$properties);
+            return;
+        }
+
+
+
+
+        $formElementsValues=explode('&',$form);
+
+        try
+        {
+            $this->SendFormEmail($formElementsValues,$properties);
+
+        }catch(Exception $e)
+        {
+            $this->SendFormError($e->getMessage(),$properties);
+        }
+
+
+        return $formStringParameters;
+
+    }
+
+    private function SendFormError($error,$properties)
+    {
+
+    }
+
+    private function SendFormEmail($formElementsValues,$properties)
+    {
+        $email='<table border="1" cellspacing="1">';
+
+        $email.="<tr><td style='padding:10px'><b>".Donor."</b></td><td style='padding:10px'>". $properties['payer_email']."</td></tr>";
+
+        foreach($formElementsValues as $value)
+        {
+            $splitValue=explode('=',$value);
+
+            $label=rawurldecode($splitValue[0]);
+            $email.="<tr><td style='padding:10px'><b>".htmlentities($label)."</b></td>";
+            if(sizeof($splitValue)==2)
+            {
+                $value=explode(',',$splitValue[1]);
+
+
+                if(sizeof($value)>=2)
+                {
+                    $email.="<td><table>";
+                    for($i=0;$i<sizeof($value);$i++)
+                    {
+                        $email.="<tr><td style='padding:10px'>".htmlentities(rawurldecode($value[$i]))."</td></tr>";
+                    }
+                    $email.="</table></td>";
+                }else
+                    $email.="<td style='padding:10px'>".htmlentities(rawurldecode($value[0]))."</td>";
+            }
+
+            $email.="</tr>";
+        }
+
+        $email.="</table>";
+        try
+        {
+            $headers  = 'MIME-Version: 1.0'."\r\n";
+            $headers .= 'Content-type: text/html; charset=utf-8'."\r\n";
+            wp_mail($_POST['receiver_email'],'Donation Received',$email,$headers);
+        }catch(Exception $e)
+        {
+            $this->SendFormError($e->getMessage(),$properties);
+        }
+    }
+
 }
 $ipn=new rednao_paypal_ipn(new wordpress_connection_provide(), new smart_donations_db_privider());
 $ipn->ProcessCall();

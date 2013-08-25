@@ -8,20 +8,26 @@
  */
 
 class smart_donations_db_privider {
+    private $_TransactionIsRepeated=NULL;
 
     public function InsertTransaction($properties)
     {
 
         if($this->TransactionIsRepeated($properties[txn_id]))
-            return;
+            return false;
         $this->SanitizeProperties($properties);
         $this->InsertIntoDatabase($properties);
+        return true;
     }
 
     private function TransactionIsRepeated($txn_id)
     {
-        global $wpdb;
-        return $wpdb->get_var($wpdb->prepare("select count(*) from ".SMART_DONATIONS_TRANSACTION_TABLE." where txn_id=%s",$txn_id))>0;
+        if($this->_TransactionIsRepeated===NULL)
+        {
+            global $wpdb;
+            $this->_TransactionIsRepeated=($wpdb->get_var($wpdb->prepare("select count(*) from ".SMART_DONATIONS_TRANSACTION_TABLE." where txn_id=%s",$txn_id))>0);
+        }
+        return $this->_TransactionIsRepeated;
     }
 
     private function InsertIntoDatabase($properties)

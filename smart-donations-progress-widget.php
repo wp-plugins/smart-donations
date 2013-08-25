@@ -29,6 +29,7 @@ class rednao_smart_donations_progress_widget extends WP_Widget
         $defaults = array( 'progress_id' => '0' );
         $instance = wp_parse_args( (array) $instance, $defaults );
         $id = $instance['progress_id'];
+        $title = $instance['title'];
 
         global $wpdb;
         $results =$wpdb->get_results('select progress_id,progress_name from '.SMART_DONATIONS_PROGRESS_TABLE);
@@ -39,7 +40,7 @@ class rednao_smart_donations_progress_widget extends WP_Widget
             Select a progress indicator.
         </p>
         <p>Title
-            <input class="widefat" type="text" name="<?php echo $this->get_field_name("title");?>"/>
+            <input class="widefat" type="text" name="<?php echo $this->get_field_name("title");?>" value="<?php echo $title?>"/>
         </p>
 
         <?php

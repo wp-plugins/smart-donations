@@ -13,7 +13,7 @@ if($action==="add"){
     include(SMART_DONATIONS_DIR.'/smart-donations-add-new.php');
     return;
 }
-
+echo '<div class="updated fade below-h2"><p>Need help? check the video tutorials <a href="http://rednao.com/tutorials.htm" target="_blank">Here</a> or ask me directly in the   <a href="https://www.facebook.com/SmartDonations" target="_blank">Smart Donations Facebook Page</a></p></div>';
 echo "<h1>Donation Buttons</h1>";
 echo sprintf('<h2 ><a style="color:blue; text-decoration: underline;" href="?page=%s&action=%s">Add New</a></h2>',$_REQUEST['page'],'add');
 
@@ -44,7 +44,11 @@ if($action!=null&&$donation_id!=null)
         if(count($result)>0)
         {
             $result=$result[0];
-            $options=rednao_smart_donations_json_object($result->options,$result->styles,null,null,null);
+            if($result->donation_type=='forms')
+            {
+                $options=$result->options;
+            }else
+                $options=rednao_smart_donations_json_object($result->options,$result->styles,null,null,null);
 
             $script=<<<EOF
                         <script type="text/javascript" language="javascript">

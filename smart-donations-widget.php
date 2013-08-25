@@ -29,6 +29,7 @@ class rednao_smart_donations_widget extends WP_Widget
         $defaults = array( 'donation_id' => '0' );
         $instance = wp_parse_args( (array) $instance, $defaults );
         $id = $instance['donation_id'];
+        $title=$instance['title'];
 
         global $wpdb;
         $results =$wpdb->get_results('select donation_id,donation_name from '.SMART_DONATIONS_TABLE_NAME);
@@ -39,7 +40,7 @@ class rednao_smart_donations_widget extends WP_Widget
                 Select a donation.
             </p>
             <p>Title
-                <input class="widefat" type="text" name="<?php echo $this->get_field_name("title");?>"/>
+                <input class="widefat" type="text" name="<?php echo $this->get_field_name("title");?>" value="<?php echo $title;?>"/>
             </p>
 
         <?php

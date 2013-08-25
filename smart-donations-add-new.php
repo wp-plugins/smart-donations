@@ -11,9 +11,18 @@
 if(!defined('ABSPATH'))
     die('Forbidden');
 
+require_once('smart-donations-license-helpers.php');
+
+if(isset($_GET['mode'])&&$_GET['mode']=='pro')
+{
+    require_once(SMART_DONATIONS_DIR.'/smart-donations-forms-pro.php');
+    return;
+}
+
 global $wpdb;
 
 $campaigns=$wpdb->get_results("select campaign_id, name from ".SMART_DONATIONS_CAMPAIGN_TABLE);
+
 wp_enqueue_script('jquery');
 wp_enqueue_script('isolated-slider',plugin_dir_url(__FILE__).'js/rednao-isolated-jq.js');
 wp_enqueue_script('smart-donations-jscolor',plugin_dir_url(__FILE__).'js/jscolor.js',array('isolated-slider'));
@@ -25,10 +34,16 @@ wp_enqueue_script('smart-donations-generator-wepay',plugin_dir_url(__FILE__).'js
 wp_enqueue_script('smart-donations-raphael',plugin_dir_url(__FILE__).'js/raphael-min.js',array('isolated-slider'));
 wp_enqueue_script('smart-donations-settings',plugin_dir_url(__FILE__).'js/smartDonationsSettings.js',array('isolated-slider','smart-donations-configuration','smart-donations-configuration-wepay','smart-donations-generator','smart-donations-donation-provider'));
 wp_enqueue_script('smart-donations-style-manager',plugin_dir_url(__FILE__).'js/smartDonationsStyleManager.js',array('isolated-slider','smart-donations-configuration','smart-donations-configuration-wepay','smart-donations-generator','smart-donations-donation-provider'));
+wp_enqueue_script('smart-donations-formelements',plugin_dir_url(__FILE__).'js/formBuilder/formelements.js',array('isolated-slider'));
+wp_enqueue_script('smart-donations-elementsProperties',plugin_dir_url(__FILE__).'js/formBuilder/elementsproperties.js',array('smart-donations-formelements'));
+wp_enqueue_script('smart-donations-formBuilder',plugin_dir_url(__FILE__).'js/formBuilder/formbuilder.js',array('smart-donations-elementsProperties'));
+wp_enqueue_script('json2');
 
 
 wp_enqueue_style('smart-donations-main-style',plugin_dir_url(__FILE__).'css/mainStyle.css');
 wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css');
+wp_enqueue_style('form-builder-boot-strap',plugin_dir_url(__FILE__).'css/formBuilder/bootstrap.min.css');
+wp_enqueue_style('form-builder-custom',plugin_dir_url(__FILE__).'css/formBuilder/custom.css');
 
 ?>
 
@@ -275,6 +290,21 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
             else
                 stylesToSave=rnJQuery.param(smartDonationsDonationType.generator.styles);
 
+
+            if(generator instanceof smartDonationsFormDonationGenerator)
+            {
+                stylesToSave=null;
+                donationsOptions=new Object();
+                var options=GetCurrentGenerator().GetOptions();
+                options.smartDonationsType=rnJQuery('#smartDonationsType').val();
+                options.donation_provider=rnJQuery('#smartDonationsProvider').val();
+                options.campaign_id=rnJQuery('#smartDonationsCampaign').val();
+                options.donation_currency=rnJQuery('#smartDonationsCurrency').val();
+                options.business=rnJQuery("#smartDonationsEmail").val();
+                options.returningUrl=rnJQuery("#smartDonationsReturningUrl").val();
+                donationsOptions=JSON.stringify(options);
+            }
+
             var data={
                 action:"rednao_smart_donations_save",
                 name:rnJQuery("#smartDonationsName").val(),
@@ -431,6 +461,7 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
             </div>
             <div id="smartDonationsItemsContainerBody">
                 <div id="smartDonationsSlideAnimation">
+
                     <div id="smartDonationsItemsList">
                         <div class="smartDonationsItem">
                             <input type="hidden"  value="classic"/>
@@ -451,6 +482,26 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
                             <input type="hidden"  value="slider"/>
                             <img  id="smartDonationsImageSlider" src="<?php echo plugin_dir_url(__FILE__)?>images/slider_donation.png" alt="">
                         </div>
+
+                        <?php
+                        if(smart_donations_check_license_with_options($error)||$error!=null)
+                        {
+                        ?>
+
+                        <div class="smartDonationsItem">
+                            <input type="hidden"  value="forms"/>
+                            <img  id="smartDonationsImageSlider" src="<?php echo plugin_dir_url(__FILE__)?>images/form_donation.png" alt="">
+                        </div>
+                        <?php } else{?>
+
+
+                        <div class="smartDonationsItem">
+                            <input type="hidden"  />
+                            <a href="?page=smart-donations/smartdonations.php&action=add&mode=pro">
+                            <img  src="<?php echo plugin_dir_url(__FILE__)?>images/form_donation.png" alt=""></a>
+                        </div>
+                        <?php }?>
+
                     </div>
 
 
@@ -473,12 +524,12 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
                             <div id="smartDonationsPreviewContainer">
 
                             </div>
-
-
-
-
                         </div>
+
+
                     </div>
+
+
 
 
 
@@ -526,7 +577,25 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
         </div>
     </div>
 
+<div  id="rednaoPropertiesPanel" style="top: 74px; left: 711px; display: none;">
+    <div class="arrow" ></div>
+    <h3 class="rednaopopover-title">Form Name</h3>
 
+    <div class="rednaopopover-content">
+        <div class="rednaopropertiesform">
+            <div id="rednaoPropertiesList" style="margin:0;padding:0;">
+                <label class="control-label" id="rednaoFormTitle">Form Name</label>
+                <input class="input-large field" data-type="input" type="text" name="name" id="name" value="Form Name">
+            </div>
+            <div>
+                <hr>
+                <button id="rednaoPropertySave" class="rednaoBtn rednaoBtnSave">Save</button>
+                <button id="rednaoPropertyCancel" class="rednaoBtn rednaoBtnCancel">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
 

@@ -28,7 +28,7 @@ smartDonationConfigurationBase.prototype.fillConfiguration=function()
 {
     rnJQuery('#smartDonationsItemTitle').text(this.title);
     rnJQuery('#smartDonationsConfigurationFields').html(this.GetDonationConfigurationGeneratedCode());
-
+    this.DonationConfigurationCompleted();
     var self=this;
     rnJQuery('.smartDonationsSettingField').click(function(){self.SettingChanged(self,this)});
     rnJQuery('.smartDonationsSettingField').keyup(function(){self.SettingChanged(self,this)});
@@ -39,6 +39,10 @@ smartDonationConfigurationBase.prototype.fillConfiguration=function()
     rnJQuery('.smartDonationsSettingField').change();
 
 };
+
+smartDonationConfigurationBase.prototype.DonationConfigurationCompleted=function(){
+
+}
 
 smartDonationConfigurationBase.prototype.SettingChanged=function(configuration,component){
 
@@ -328,3 +332,151 @@ smartDonationsSliderConfiguration.prototype.GetDonationConfigurationGeneratedCod
         "</table>";
 
 };
+
+
+
+/************************************************************************************* Form Configuration ***************************************************************************************************/
+
+
+
+function smartDonationsFormConfiguration(containerName,options)
+{
+    smartDonationConfigurationBase.call(this,'Forms',containerName,options);
+    this.generator=new smartDonationsFormDonationGenerator('target',options,null,this.styles);
+    this.generator.DonationGeneratedListener=this.DonationGenerationCompleted;
+
+}
+smartDonationsFormConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
+
+smartDonationsFormConfiguration.prototype.FillOptionsForNewDonation=function(options)
+{
+    options.FormElements=new Array();
+}
+
+smartDonationsFormConfiguration.prototype.InitiateGenerator=function(options)
+{
+    this.generator=new smartDonationsSliderDonationGenerator(this.containerName,options,null,this.styles);
+}
+
+smartDonationsFormConfiguration.prototype.GetDonationConfigurationGeneratedCode=function(){
+    return ''+
+        '<table id="rednaoformbuilder" class="rednaoformbuilder container">\
+        <tr>\
+        <td style="vertical-align: top;">\
+            <div class="span6">\
+                <div class="clearfix" style="text-align:left;">\
+                 <h2>Your Form</h2>\
+                    <hr>\
+                        <div id="build">\
+                         <div id="target" class="form-horizontal" style="background-color:white;">\
+                                <fieldset id="redNaoElementlist" class="formelements" style="width:600px;">\
+                                    <div class="rednaoformbuilder formelement last" style="height:77px;width:100%;"></div>\
+                                </fieldset>\
+                            </div>\
+                        </div>\
+                    </div>\
+                </div>\
+            </td>\
+            <td style="vertical-align: top;">\
+                <div class="span6">\
+                    <h2>Drag &amp; Drop components</h2>\
+                    <hr>\
+                        <div class="tabbable" style="width:540px">\
+                            <ul class="nav nav-tabs" id="navtab">\
+                                <li id="alayout" class="formtab"><a href="#layout">Layout</a></li>\
+                                <li id="atabinput" class="formtab"><a href="#input">Input</a></li>\
+                                <li><a id="atabradioscheckboxes" class="formtab">Radios / Checkboxes</a></li>\
+                                <li><a id="atabselect" class="formtab">Select</a></li>\
+                                <li><a id="atabbuttons" class="formtab">Buttons</a></li>\
+                            </ul>\
+                            <div class="form-horizontal" id="components">\
+                                <fieldset  >\
+                                    <div class="tab-content">\
+                                        <div class="tab-pane active rednaotablist" id="layout" style="display: none">\
+                                            <div class="component">\
+                                                <div class="control-group rednaotitle">\
+                                                </div>\
+                                            </div>\
+                                        </div>\
+                                        <div class="tab-pane active rednaotablist" id="tabinput">\
+                                            <div class="component">\
+                                                <div class="control-group rednaotextinput">\
+                                                </div>\
+                                            </div>\
+                                            <div class="component">\
+                                                <div class="control-group rednaodonationamount">\
+                                                </div>\
+                                            </div>\
+                                            <div class="component">\
+                                                <div class="control-group rednaoprependedtext">\
+                                                </div>\
+                                            </div>\
+                                            <div class="component">\
+                                                <div class="control-group rednaoappendedtext">\
+                                                </div>\
+                                            </div>\
+                                            <div class="component">\
+                                                <div class="control-group rednaoprependedcheckbox">\
+                                                </div>\
+                                            </div>\
+                                            <div class="component">\
+                                                <div class="control-group rednaoappendedcheckbox">\
+                                                </div>\
+                                            </div>\
+                                            <div class="component">\
+                                                <div class="control-group rednaotextarea">\
+                                                </div>\
+                                            </div>\
+                                        </div>\
+                                        <div class="tab-pane rednaotablist" id="tabradioscheckboxes">\
+                                            <div class="component">\
+                                                <div class="control-group rednaomultipleradios"></div>\
+                                            </div>\
+                                            <div class="component">\
+                                                <div class="control-group rednaoinlineradios"></div>\
+                                            </div>\
+                                            <div class="component">\
+                                                <div class="control-group rednaomultiplecheckboxes">\
+                                                </div>\
+                                            </div>\
+                                            <div class="component">\
+                                                <div class="control-group rednaoinlinecheckboxes">\
+                                                </div>\
+                                            </div>\
+                                        </div>\
+                                        <div class="tab-pane rednaotablist" id="tabselect">\
+                                            <div class="component">\
+                                                <div class="control-group rednaoselectbasic">\
+                                                </div>\
+                                            </div>\
+                                            <div class="component">\
+                                                <div class="control-group rednaoselectmultiple">\
+                                                </div>\
+                                            </div>\
+                                        </div>\
+                                        <div class="tab-pane rednaotablist" id="tabbuttons">\
+                                            <div class="component">\
+                                                <div class="control-group rednaodonationbutton">\
+                                                </div>\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                </fieldset>\
+                            </div>\
+                        </div>\
+                    </div>\
+                </td>\
+            </tr>\
+        </table>';
+
+};
+
+smartDonationsFormConfiguration.prototype.DonationConfigurationCompleted=function(){
+    SmartDonationsStartFormElements();
+}
+
+
+smartDonationsFormConfiguration.prototype.DonationGenerationCompleted=function(){
+    rnJQuery('#redNaoElementlist').append('<div class="rednaoformbuilder formelement last" style="height:77px;width:100%;"></div>');
+    SmartDonationsPrepareDraggableItems();
+}

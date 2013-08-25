@@ -34,6 +34,8 @@ function smartDonationsLoadDonation(options,containerName)
         else
         if(donationTypeSelected=="slider")
             aux=new smartDonationsSliderDonationGenerator(containerName,options,null,styles);
+        if(donationTypeSelected=='forms')
+            aux=new smartDonationsFormDonationGenerator(containerName,options,null,styles)
         else
             throw 'Undefined donation type';
     }else
@@ -80,7 +82,7 @@ function smartDonationsBaseGenerator(containerName2,options,donationProvider,sty
     this.business=options.business;
     this.returningUrl=options.returningUrl;
     this.donation_currency=SmartdonationsGetValueOrDefault(options.donation_currency,'USD');
-
+    this.DonationGeneratedListener=null;
 
     if(typeof(options.campaign_id)=='undefined')
         this.campaign_id=0;
@@ -116,6 +118,8 @@ smartDonationsBaseGenerator.prototype.GenerateDonationItem=function()
     this.GetRootContainer().find(".donationForm").submit(function(){generator.SubmitFired(generator)});
     this.GenerationCompleted();
     this.StyleItem();
+    if(this.DonationGeneratedListener!=null)
+        this.DonationGeneratedListener();
 }
 
 smartDonationsBaseGenerator.prototype.StyleItem=function()
@@ -824,6 +828,135 @@ smartDonationsSliderDonationGenerator.prototype.SubmitFired=function(generator)
 
 
 
+/************************************************************************************* Forms ***************************************************************************************************/
 
 
 
+
+
+function smartDonationsFormDonationGenerator(containerName,options,donationProvider,styles){
+    smartDonationsBaseGenerator.call(this,containerName,options,donationProvider,styles);
+
+    if(!this.returningUrl)
+    {
+        this.returningUrl=document.URL;
+    }
+
+    if(options.isNew)
+        this.FormElements=options.FormElements;
+    else
+        this.GenerateFormElements(options.FormElementsOptions);
+}
+
+smartDonationsFormDonationGenerator.prototype=Object.create(smartDonationsBaseGenerator.prototype);
+
+
+
+smartDonationsFormDonationGenerator.prototype.GenerateFormElements=function(formElementsOptions)
+{
+    this.FormElements=new Array();
+
+    for(var i=0;i<formElementsOptions.length;i++)
+    {
+        this.FormElements.push(RedNaoCreateFormElementByOptions(formElementsOptions[i]));
+    }
+}
+
+
+smartDonationsFormDonationGenerator.prototype.DonationGeneratedCode=function()
+{
+    return this.GetStartOfDonationForm()+this.GetEndOfDonationForm(); //'<form id="redNaoElementlist" class="formelements" style="width:600px;"></form>';
+}
+
+
+smartDonationsFormDonationGenerator.prototype.GenerationCompleted=function()
+{
+    var form=this.GetRootContainer().find('form');
+    form.addClass('formelements').attr('id','redNaoElementlist');
+
+    for(var i=0;i<this.FormElements.length;i++)
+    {
+        this.FormElements[i].AppendElementToContainer(form);
+    }
+
+    var me=this;
+    form.find('.redNaoDonationButton').click(function()
+                                                {
+                                                    try{
+                                                    me.SaveForm();
+
+                                                    }catch(error)
+                                                    {
+
+
+                                                    }finally{
+                                                        return false;
+                                                    }
+                                                }
+                                            );
+
+}
+
+smartDonationsFormDonationGenerator.prototype.GenerateDefaultStyle=function()
+{
+    this.styles.formelements="width:600px;padding:10px;margin:0px;";
+}
+
+
+smartDonationsFormDonationGenerator.prototype.SaveForm=function()
+{
+
+    var formValues="";
+   for(var i=0;i<this.FormElements.length;i++)
+   {
+       var value=this.FormElements[i].GetValueString();
+       if(!value)
+            continue;
+       formValues+="&"+value;
+   }
+
+    if(formValues.length>0)
+        formValues=formValues.substr(1);
+
+    var data={
+        action:"rednao_smart_donations_save_form_values",
+        formString:formValues
+    };
+
+    var me=this;
+
+
+    rnJQuery.post(ajaxurl,data,function(data){me.SubmitForm(data)},"json");
+}
+
+
+smartDonationsFormDonationGenerator.prototype.SubmitForm=function(data)
+{
+    if(data.status=="success")
+    {
+        var form=this.GetRootContainer().find('form');
+        form.attr('target','_self');
+        form.find('input[name=custom]').val(encodeURI('campaign_id='+this.campaign_id+"&formId="+data.randomString))
+        form.submit();
+
+
+    }else
+    {
+        alert("An error occured, please try again");
+    }
+
+}
+
+smartDonationsFormDonationGenerator.prototype.GetOptions=function()
+{
+    var options=new Object();
+    options.FormElementsOptions=new Array();
+
+    for(var i=0;i<this.FormElements.length;i++)
+    {
+        options.FormElementsOptions.push(this.FormElements[i].Options);
+    }
+
+    return options;
+
+}

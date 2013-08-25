@@ -876,4 +876,38 @@ function rednao_smart_donations_execute_analytics_op()
     die();
 
 }
+
+function rednao_smart_donations_save_form_values()
+{
+    if(isset($_POST["formString"]))
+    {
+        $attempts=0;
+        while($attempts<10)
+        {
+            $attempts++;
+            $randomString="rednaoform_".RandomString();
+            if(!get_transient($randomString))
+            {
+                set_transient($randomString,$_POST["formString"],60*60*24*3);
+                echo "{\"status\":\"success\", \"randomString\":\"$randomString\"}";
+                die();
+            }
+
+            echo "{\"status\":\"error\", \"message\":\"Could not generate random string\"}";
+        }
+        echo "{\"status\":\"error\", \"message\":\"Form is empty\"}";
+
+    }
+}
+
+
+function RandomString()
+{
+    $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $randstring = '';
+    for ($i = 0; $i < 20; $i++) {
+        $randstring .= $characters[rand(0, strlen($characters))];
+    }
+    return $randstring;
+}
 ?>

@@ -45,8 +45,8 @@ wp_enqueue_script('smart-donations-pro',plugin_dir_url(__FILE__).'js/smart-donat
 ?>
 
 <div style="display: inline-block">
-    <p>The analytics tab is a pro feature, you can unlick it here:</p>
-    <a target="_blank" style="display: block; font-size: 20px; font-weight: bold; margin-top:5px;margin-bottom:10px;" href="<?php echo REDNAO_URL?>smartdonations.html">Learn More</a>
+    <p>The analytics tab is a pro feature, you can learn more and unlock it here:</p>
+    <a target="_blank" style="display: block; font-size: 20px; font-weight: bold; margin-top:5px;margin-bottom:10px;" href="<?php echo REDNAO_URL?>smartdonations.html">Learn More (Video Tutorials)</a>
 </div>
 
 <div style="display: inline-block; vertical-align: top; margin:10px; padding: 10px; border-width: 1px;border-color: #d3d3d3; width:300px;" id="licenseDiv">
