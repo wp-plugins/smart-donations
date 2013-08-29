@@ -13,7 +13,7 @@ Smart donations lets you pick different styles of donations that you can add to 
 == Description ==
 
 Smart Donations
-=
+
 Want to see a demo? check out the video tutorials here: http://rednao.com/tutorials.htm
 
  Smart donations lets you pick different styles of donations and add them to your posts (as a shortcode) or to any sidebar (as a widget). Currently it supports paypal, wepay and four different styles of donations:
