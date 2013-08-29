@@ -14,6 +14,7 @@ Smart donations lets you pick different styles of donations that you can add to 
 
 Smart Donations
 =
+Want to see a demo? check out the video tutorials here: http://rednao.com/tutorials.htm
 
  Smart donations lets you pick different styles of donations and add them to your posts (as a shortcode) or to any sidebar (as a widget). Currently it supports paypal, wepay and four different styles of donations:
  
@@ -74,6 +75,8 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 9. Analytics (Pro)
 
 == Changelog ==
+= 2.5.1 =
+* Added Donation forms, now you can create custom forms in your donations.
 = 2.1.1 =
 * Fixed Warnings
 = 2.0.1 =
