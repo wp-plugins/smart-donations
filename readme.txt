@@ -1,14 +1,14 @@
 === Smart Donations ===
 Contributors: EDGARROJAS
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=edseventeen%40gmail.com
-Tags: donations, donate, donation buttons, donation widget,widget, paypal, donations, donation page, donation plugin, nonprofit donations, campaign donations, political campaigns, donations, donation widget, donate page, donate plugin
+Tags: donations, donate, donation buttons, donation widget,widget, paypal, donations, donation page, donation plugin, nonprofit donations, campaign donations, political campaigns, donations, donation widget, donate page, donate plugin,charity, fundraising, shortcode, forms, widgets
 Requires at least: 3.0.1
 Tested up to: 3.5
 Stable tag: 2.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Smart donations lets you pick different styles of donations that you can add to your posts (as a shortcode) or to any sidebar (as a widget). You can add paypal or wepay donations. 
+The all in one donation plugin, create different kind of donations, set goals, monitor your results, create donation forms and much more...
 
 == Description ==
 
