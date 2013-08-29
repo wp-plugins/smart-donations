@@ -16,7 +16,7 @@ Smart Donations
 
 Want to see a demo? check out the video tutorials here: http://rednao.com/tutorials.htm
 
- Smart donations lets you pick different styles of donations and add them to your posts (as a shortcode) or to any sidebar (as a widget). Currently it supports paypal, wepay and four different styles of donations:
+ With smart donations you can create different styles of donations, you can add them in a post or sidebar easilyS. Currently it supports paypal, wepay and five different styles of donations:
  
  *  **Classic Donation**.- The classic paypal or wepay button, When The user clicks the button he will be directed to the paypal/wepay page and he will define how much he want to donate there.
  
@@ -26,6 +26,7 @@ Want to see a demo? check out the video tutorials here: http://rednao.com/tutori
     
  *  **Slider Donation**.- This has an slider that the user can scroll to donate more or less money (you define the minimun and maximun amount), it also has a happy face that gets happier or not that happy depending on the donation amount.
  
+ * **Forms**.- You need to ask something to the donors? then Forms donations is the way to go, you can create a custom form the way you want it (you can add text boxes, drop downs, checkboxes etc). Once you get a donation you will get an email with all that information.
 
 PayPal also support IPN notifications so you can keep track of all the donations, you can show a goal meter or analize how well you have been doing in a period of time.
 
