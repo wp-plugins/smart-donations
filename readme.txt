@@ -1,7 +1,7 @@
 === Smart Donations ===
 Contributors: EDGARROJAS
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=edseventeen%40gmail.com
-Tags: donations, donate, donation buttons, donation widget,widget, paypal
+Tags: donations, donate, donation buttons, donation widget,widget, paypal, donations, donation page, donation plugin, nonprofit donations, campaign donations, political campaigns, donations, donation widget, donate page, donate plugin
 Requires at least: 3.0.1
 Tested up to: 3.5
 Stable tag: 2.5.1
@@ -73,6 +73,7 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 7. You can customize anything
 8. Example of progress indicators (Pro feature)
 9. Analytics (Pro)
+10. Forms Donation Style (Pro)
 
 == Changelog ==
 = 2.5.1 =
