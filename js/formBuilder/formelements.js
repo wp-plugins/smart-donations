@@ -330,7 +330,7 @@ DonationAmountElement.prototype.CreateProperties=function()
     this.Properties.push(new SimpleTextProperty(this.Options,"Help","Help",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',class:'redNaoInputText'}));
     this.Properties.push(new CheckBoxProperty(this.Options,"IsRequired","Required",'basic'));
-    this.Properties.push(new CheckBoxProperty(this.Options,"Disabled","Disabled",'basic'));
+    this.Properties.push(new CheckBoxProperty(this.Options,"Disabled","Read Only",'basic'));
 
 
 
@@ -362,7 +362,7 @@ DonationAmountElement.prototype.GenerationCompleted=function()
 {
     if(this.Options.Disabled=='y')
     {
-        rnJQuery('#'+this.Id).find('.redNaoInputText').attr('disabled','disabled').css('background-color','#eeeeee');
+        rnJQuery('#'+this.Id).find('.redNaoInputText').attr('readonly','readonly').css('background-color','#eeeeee');
     }
 }
 
