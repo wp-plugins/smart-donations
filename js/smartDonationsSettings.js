@@ -33,6 +33,7 @@ function SmartDonations_backFromConfiguration() {
     rnJQuery('#smartdonationsItemsContainer').width(702);
     rnJQuery('#smartdonationsItemsContainer').height(500);
     rnJQuery('#smartDonationsItemsContainerBody').css('overflow-y','hidden');
+    rnJQuery('#smartDonationsPreviewContainer').parent().css('display','block');
 }
 
 

@@ -546,7 +546,7 @@ function smartDonationsSliderDonationGenerator(containerName,options,donationPro
     this.smartDonationsMaxValue=options.smartDonationsMaxValue;
     this.smartDonationsDefaultValue=options.smartDonationsDefaultValue;
     this.smartDonationIncrementOf=options.smartDonationIncrementOf;
-    this.currentValue=options.smartDonationsDefau
+    this.currentValue=options.smartDonationsDefaultValue;
     this.smartDonationAllowedValues=options.smartDonationAllowedValues;
 
     if(typeof this.styles.SmileStrokeColor=='undefined')
@@ -565,6 +565,8 @@ smartDonationsSliderDonationGenerator.prototype.GenerateDefaultStyle=function()
     this.styles.smartDonationsDonationButton_src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
     this.styles.SmileStrokeColor="000000";
     this.styles.SmileFillColor="FFFFFF";
+    this.styles.smartDonationsSliderTable="border-style: none;margin: 0;text-align: center;width: auto;margin: auto;";
+    this.styles.smartDonationsSliderTd="border-style:none;padding:0;margin:0;"
 
 }
 
@@ -797,15 +799,15 @@ smartDonationsSliderDonationGenerator.prototype.DonationGeneratedCode=function()
                 +                     this.GetDonationText()+
                     ' <table class="smartDonationsSliderTable" >\
                     <tr>                            \
-                        <td><span class="smartDonationsCurrentDonationText smartDonationsEditableItem">Current Donation:</span><strong  class="smartDonationsAmount smartDonationsSliderDonationText smartDonationsEditableItem">10</strong></td>             \
-                        <td rowspan="2"><div class="smartDonationsSmile smartDonationsSliderSmile smartDonationsEditableItem"></div></td>                   \
+                        <td class="smartDonationsSliderTd"><span class="smartDonationsCurrentDonationText smartDonationsEditableItem">Current Donation:</span><strong  class="smartDonationsAmount smartDonationsSliderDonationText smartDonationsEditableItem">10</strong></td>             \
+                        <td rowspan="2" class="smartDonationsSliderTd"><div class="smartDonationsSmile smartDonationsSliderSmile smartDonationsEditableItem"></div></td>                   \
                     </tr>                                                                                                                               \
                     <tr>      \
-                        <td><div class="smartDonationsSlide smartDonationsSliderDiv " ></div></td> \
-                        <td></td>                                         \
+                        <td class="smartDonationsSliderTd"><div class="smartDonationsSlide smartDonationsSliderDiv" ></div></td> \
+                        <td class="smartDonationsSliderTd"></td>                                         \
                     </tr> \
                     <tr>\
-                        <td>\
+                        <td class="smartDonationsSliderTd">\
                             '+this.GetButtonTag()+'\
                         </td>\
                     </tr>\
@@ -907,13 +909,28 @@ smartDonationsFormDonationGenerator.prototype.SaveForm=function()
 {
 
     var formValues="";
+    var formIsValid=true;
+
+    this.GetRootContainer().find('.redNaoValidationMessage').remove();
+    this.GetRootContainer().find('.redNaoInputText,.redNaoRealCheckBox,.redNaoInputRadio,.redNaoInputCheckBox,.redNaoSelect,.redNaoTextArea').css('border-color','#ccc');
    for(var i=0;i<this.FormElements.length;i++)
    {
+
+       if(this.FormElements[i].Options.IsRequired&&!this.FormElements[i].IsValid())
+       {
+           formIsValid=false;
+           rnJQuery('#'+this.FormElements[i].Id).find('.redNaoInputText,.redNaoRealCheckBox,.redNaoInputRadio,.redNaoInputCheckBox,.redNaoSelect,.redNaoTextArea').css('border-color','red');
+           continue;
+       }
        var value=this.FormElements[i].GetValueString();
-       if(!value)
-            continue;
        formValues+="&"+value;
    }
+    if(!formIsValid)
+    {
+        this.GetRootContainer().prepend('<p class="redNaoValidationMessage" style="margin:0;padding: 0; font-style: italic; color:red;font-family:Arial;font-size:12px;">*Please fill all the required fields</p>')
+        return;
+    }
+
 
     if(formValues.length>0)
         formValues=formValues.substr(1);

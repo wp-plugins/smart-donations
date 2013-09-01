@@ -123,7 +123,7 @@ CheckBoxProperty.prototype=Object.create(ElementPropertiesBase.prototype);
 
 CheckBoxProperty.prototype.GenerateHtml=function()
 {
-    return '<label class="checkbox control-group">\
+    return '<label class="checkbox control-group" style="display: block;">\
                 <input type="checkbox" class="input-inline field" name="checked" id="'+this.PropertyId+'" '+(this.GetPropertyCurrentValue()=='y'? 'checked="checked"':'')+'/> '+this.PropertyTitle+'\
             </label>';
 }

@@ -16,7 +16,7 @@ Smart Donations
 
 Want to see a demo? check out the video tutorials here: http://rednao.com/tutorials.htm
 
- With smart donations you can create different styles of donations, you can add them in a post or sidebar easilyS. Currently it supports paypal, wepay and five different styles of donations:
+ With smart donations you can create different styles of donations, you can add them in a post or sidebar easily. Currently it supports paypal, wepay and five different styles of donations:
  
  *  **Classic Donation**.- The classic paypal or wepay button, When The user clicks the button he will be directed to the paypal/wepay page and he will define how much he want to donate there.
  
@@ -77,6 +77,8 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 10. Forms Donation Style (Pro)
 
 == Changelog ==
+= 2.5.5 =
+* Added Option to add required fields in a form and fixing minor issues.
 = 2.5.1 =
 * Added Donation forms, now you can create custom forms in your donations.
 = 2.1.1 =
