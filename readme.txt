@@ -80,19 +80,19 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 = 2.5.5 =
 * Added Option to add required fields in a paypal donation form and fixing minor issues.
 = 2.5.1 =
-* Added Donation forms, now you can create custom forms in your donations.
+* Added paypal Donation forms, now you can create custom forms in your donations.
 = 2.1.1 =
-* Fixed Warnings
+* Fixed Warnings in paypal donation ipn.
 = 2.0.1 =
-* Fixed minnor issues
+* Fixed minnor issues with donation items
 = 2.0 =
-* Added progress indicators and analytics to paypal.
+* Added donation progress indicators and analytics to paypal.
 = 1.6 =
-* Added supporting component and paypal/wepay styles.
+* Added donation supporting component and paypal/wepay styles.
 = 1.5.5 =
-* Added the ability to change the smile stroke and fill color. (thx for the suggestion Ralf)
+* Added the ability to change the smile stroke and fill color of the slider donation style. (thx for the suggestion Ralf)
 = 1.5 =
-* Added currency support for paypal, slider range of values and advance style option. (thx Philippe)
+* Added currency support for paypal, and added  slider range of values and advance style option to donations. (thx Philippe)
 = 1.0.2 =
 * Fixing minor bugs with the paypal buttons
 = 1.0 =
