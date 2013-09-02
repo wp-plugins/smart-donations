@@ -78,7 +78,7 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 
 == Changelog ==
 = 2.5.5 =
-* Added Option to add required fields in a form and fixing minor issues.
+* Added Option to add required fields in a paypal donation form and fixing minor issues.
 = 2.5.1 =
 * Added Donation forms, now you can create custom forms in your donations.
 = 2.1.1 =
