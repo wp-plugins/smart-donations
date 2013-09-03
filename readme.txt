@@ -16,17 +16,17 @@ Smart Donations
 
 Want to see a demo? check out the video tutorials here: http://rednao.com/tutorials.htm
 
- With smart donations you can create different styles of donations, you can add them in a post or sidebar easily. Currently it supports paypal, wepay and five different styles of donations:
+ With this plugin you can create different styles of donations, you can add them in a post or sidebar easily. Currently it supports paypal, wepay and five different styles of donations:
  
- *  **Classic Donation**.- The classic paypal or wepay button, When The user clicks the button he will be directed to the paypal/wepay page and he will define how much he want to donate there.
+ *  **Classic Donation**.- The classic paypal or wepay button, When The user clicks the button he will be directed to the paypal/wepay page and he will define how much he want to donate there. (Paypal or wepay)
  
- *  **TextBox Donation**.- A paypal or wepay button with a text box so the donators can pick right away how much they want to donate.
+ *  **TextBox Donation**.- A paypal or wepay button with a text box so the donators can pick right away how much they want to donate. (Paypal or wepay)
    
- * **Three Buttons Donation**.- Three donation buttons (they dont have to be paypal buttons, you can customize them) each one with a different amounts (that you define) so the donators can donate with one click.
+ * **Three Buttons Donation**.- Three donation buttons (they dont have to be paypal buttons, you can customize them) each one with a different amounts (that you define) so the donators can donate with one click. (Paypal or wepay)
     
- *  **Slider Donation**.- This has an slider that the user can scroll to donate more or less money (you define the minimun and maximun amount), it also has a happy face that gets happier or not that happy depending on the donation amount.
+ *  **Slider Donation**.- This has an slider that the user can scroll to donate more or less money (you define the minimun and maximun amount), it also has a happy face that gets happier or not that happy depending on the donation amount. (Paypal or wepay)
  
- * **Forms**.- You need to ask something to the donors? then Forms donations is the way to go, you can create a custom form the way you want it (you can add text boxes, drop downs, checkboxes etc). Once you get a donation you will get an email with all that information.
+ * **Forms**.- You need to ask something to the donors? then Forms donations is the way to go, you can create a custom form the way you want it (you can add text boxes, drop downs, checkboxes etc). Once you get a donation you will get an email with all that information. (Paypal only)
 
 PayPal also support IPN notifications so you can keep track of all the donations, you can show a goal meter or analize how well you have been doing in a period of time.
 
@@ -94,11 +94,11 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 = 1.5 =
 * Added currency support for paypal, and added  slider range of values and advance style option to donations. (thx Philippe)
 = 1.0.2 =
-* Fixing minor bugs with the paypal buttons
+* Fixing minor bugs with the paypal donation buttons
 = 1.0 =
 * Adding an style editor and fixing IE bugs
 = 0.5.1 =
-* Fixing a bug with the slider (thanks Dave!)
+* Fixing a bug with the donation slider (thanks Dave!)
 = 0.5 =
 * Initial release
 
