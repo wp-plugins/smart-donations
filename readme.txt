@@ -65,16 +65,16 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 
 == Screenshots ==
 
-1. Here you pick the donation style
-2. Classic 
-3. Text Box
-4. Three Buttons
-5. Slider
+1. Here you pick the donation style, paypal or wepay
+2. Classic Donation (paypal or wepay)
+3. Text Box Donation (paypal or wepay)
+4. Three Buttons Donation (paypal or wepay)
+5. Slider Donation (paypal or wepay)
 6. Example of site with donations
-7. You can customize anything
-8. Example of progress indicators (Pro feature)
-9. Analytics (Pro)
-10. Forms Donation Style (Pro)
+7. You can customize any donation or progress indicator
+8. Example of a donation progress indicators (Pro feature)
+9. Analytics of all your donations(Pro)
+10. Forms Donation Style (Pro, only paypal)
 
 == Changelog ==
 = 2.5.5 =
