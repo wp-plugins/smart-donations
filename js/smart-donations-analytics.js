@@ -268,6 +268,28 @@ rnJQuery(function () {
         {
             if(b.responseText)
                 rnJQuery.jgrid.info_dialog(rnJQuery.jgrid.errors.errcap, '<div class="ui-state-error">' + b.responseText + '</div>', rnJQuery.jgrid.edit.bClose, {buttonalign: 'right'});
+            else
+            {
+                var myInfo = '<div class="ui-state-highlight ui-corner-all">' +
+                        '<span class="ui-icon ui-icon-info" ' +
+                        'style="float: left; margin-right: .3em;"></span>' +
+                        '<span>Information saved</span></div>';
+
+                $infoTr = rnJQuery("#TblGrid_grid >tbody>tr.tinfo"),
+                $infoTd = $infoTr.children("td.topinfo");
+                $infoTd.html(myInfo);
+                $infoTr.show();
+
+                // hide the info after 3 sec timeout
+                setTimeout(function () {
+                    $infoTd.children("div")
+                        .fadeOut("slow", function () {
+                            // Animation complete.
+                            $infoTr.hide();
+                        });
+                }, 3000);
+            }
+
         });
 
 

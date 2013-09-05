@@ -151,9 +151,9 @@ function rednao_smart_donations_load_progress($id,$title,$returnComponent)
                                                     where tran.campaign_id=%d
                                                     group by tran.campaign_id,goal",$campaign_id,$campaign_id));
             else
-                $result=$wpdb->get_results($wpdb->prepare("select coalesce(goal,0) goal,sum(mc_gross) amount,(select count(*) from wp_smart_donations_transaction_table where campaign_id=%d) donators
-                                                    from wp_smart_donations_campaign_table camp
-                                                    left join wp_smart_donations_transaction_table tran
+                $result=$wpdb->get_results($wpdb->prepare("select coalesce(goal,0) goal,sum(mc_gross) amount,(select count(*) from ".SMART_DONATIONS_TRANSACTION_TABLE." where campaign_id=%d) donators
+                                                    from ".SMART_DONATIONS_CAMPAIGN_TABLE." camp
+                                                    left join ".SMART_DONATIONS_TRANSACTION_TABLE." tran
                                                     on tran.campaign_id=camp.campaign_id
                                                     where camp.campaign_id=%d
                                                     group by tran.campaign_id,goal",$campaign_id,$campaign_id));

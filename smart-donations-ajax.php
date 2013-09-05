@@ -739,6 +739,11 @@ function rednao_smart_donations_execute_analytics_op()
         return;
     }
 
+    if (isset($_POST["campaign_id"])) {
+        $campaign_id=$_POST["campaign_id"];
+    }else
+        $campaign_id='';
+
 
     if (isset($_POST["oper"])) {
         $oper=$_POST["oper"];
@@ -753,7 +758,15 @@ function rednao_smart_donations_execute_analytics_op()
     if($oper==="del")
     {
         global $wpdb;
+
+        $campaign_id=$wpdb->get_var($wpdb->prepare("select campaign_id from ".SMART_DONATIONS_TRANSACTION_TABLE." WHERE transaction_id=%d",$transactionId));
         $wpdb->query($wpdb->prepare("delete from ".SMART_DONATIONS_TRANSACTION_TABLE." WHERE transaction_id=%d",$transactionId));
+
+        $result=$wpdb->get_results($wpdb->prepare("select progress_id from ".SMART_DONATIONS_PROGRESS_TABLE." where campaign_id=%d",$campaign_id));
+        foreach($result as $key=>$value)
+        {
+            delete_transient("rednao_smart_donations_progress_$value->progress_id");
+        }
         return;
 
     }
@@ -789,10 +802,7 @@ function rednao_smart_donations_execute_analytics_op()
     }else
         $fee='';
 
-    if (isset($_POST["campaign_id"])) {
-        $campaign_id=$_POST["campaign_id"];
-    }else
-        $campaign_id='';
+
 
 
 
@@ -856,6 +866,12 @@ function rednao_smart_donations_execute_analytics_op()
             'mc_fee'=>$fee,
             'mc_gross'=>$gross
         ),array("transaction_id"=>$transactionId));
+
+        $result=$wpdb->get_results($wpdb->prepare("select progress_id from ".SMART_DONATIONS_PROGRESS_TABLE." where campaign_id=%d",$campaign_id));
+        foreach($result as $key=>$value)
+        {
+            delete_transient("rednao_smart_donations_progress_$value->progress_id");
+        }
     }
 
     if($oper=="add")
@@ -871,6 +887,12 @@ function rednao_smart_donations_execute_analytics_op()
             'mc_gross'=>$gross,
             'campaign_id'=>$campaign_id
         ));
+
+        $result=$wpdb->get_results($wpdb->prepare("select progress_id from ".SMART_DONATIONS_PROGRESS_TABLE." where campaign_id=%d",$campaign_id));
+        foreach($result as $key=>$value)
+        {
+            delete_transient("rednao_smart_donations_progress_$value->progress_id");
+        }
     }
 
     die();
