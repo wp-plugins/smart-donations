@@ -16,7 +16,7 @@ Smart Donations
 
 Want to see a demo? check out the video tutorials here: http://rednao.com/tutorials.htm
 
- The all in one donation plugin, create different kind of donations, set goals, monitor your results, create donation forms. Currently it supports paypal, wepay and five different styles of donations:
+ The all in one donation plugin, create different kind of donations, set goals, monitor your results, create donation forms, set thank you emails. Currently it supports paypal, wepay and five different styles of donations:
  
  *  **Classic Donation**.- The classic paypal or wepay button, When The user clicks the button he will be directed to the paypal/wepay page and he will define how much he want to donate there. (Paypal or wepay)
  
