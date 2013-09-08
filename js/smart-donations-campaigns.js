@@ -27,7 +27,6 @@ rnJQuery(function()
 
     function ClearDialog()
     {
-        ClearDialog();
         rnJQuery("#smart_donations_campaign_name").val(''),
         rnJQuery("#smart_donations_campaign_description").val(''),
         rnJQuery("#smart_donations_campaign_goal").val(0);
