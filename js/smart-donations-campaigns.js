@@ -20,13 +20,14 @@ rnJQuery(function()
     rnJQuery("#sDonationsAddNew").click(function(event)
     {
         event.preventDefault();
-        ClearDialog();
+
 
         OpenCreateDialog();
     });
 
     function ClearDialog()
     {
+        ClearDialog();
         rnJQuery("#smart_donations_campaign_name").val(''),
         rnJQuery("#smart_donations_campaign_description").val(''),
         rnJQuery("#smart_donations_campaign_goal").val(0);
@@ -76,6 +77,7 @@ rnJQuery(function()
 
 
     function OpenEditDialog(campaign) {
+        ClearDialog();
         smartDonationsCampaignDialog.dialog('open');
         smartDonationsCampaignDialog.dialog("option","title","Edit Campaign");
 
