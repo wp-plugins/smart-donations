@@ -67,7 +67,7 @@ function FormElementBase(options)
         this.Options=new Object();
         this.Options.Styles=new Object();
         this.Options.ClassName="";
-        this.Options.IsRequired=0;
+        this.Options.IsRequired='n';
         this.Options.Styles.rednao_control_label='float: left;width: 160px;padding-top: 5px;text-align: right;'
         this.Options.Styles.redNaoControls="margin-left:180px;text-align:left;"
         this.Options.Styles.redNaoHelp="margin:0px;padding:0px;text-align:left;"
@@ -77,13 +77,14 @@ function FormElementBase(options)
     {
         this.IsNew=false;
         if(typeof options.IsRequired=='undefined')
-            options.IsRequired=0;
+            options.IsRequired='n';
         this.Options=options;
 
     }
     FormElementBase.IdCounter++;
     this.Id='redNaoFormElement'+FormElementBase.IdCounter;
     this.Properties=null;
+    this.amount=0;
 
     this.GenerateDefaultStyle();
 
@@ -309,7 +310,7 @@ function DonationAmountElement(options)
         this.Options.Placeholder="Amount";
         this.Options.Help="Help";
         this.Options.DefaultValue=0;
-        this.Options.Disabled=0;
+        this.Options.Disabled='n';
     }
 
     if(typeof  this.Options.DefaultValue=='undefined')
@@ -341,7 +342,7 @@ DonationAmountElement.prototype.GenerateInlineElement=function()
 
     return '<label class="rednao_control_label" >'+this.Options.Label+'</label>\
                 <div class="redNaoControls">\
-                    <input  name="amount" type="text" placeholder="'+this.Options.Placeholder+'" class="redNaoInputText" value="'+this.Options.DefaultValue+'"  >'+
+                    <input   type="text" placeholder="'+this.Options.Placeholder+'" class="redNaoInputText" value="'+this.Options.DefaultValue+'"  >'+
         (this.Options.Help?' <p class="redNaoHelp">'+this.Options.Help+'</p>':'')+
         '</div>';
 }
@@ -355,6 +356,14 @@ DonationAmountElement.prototype.GenerateDefaultStyle=function()
 
 DonationAmountElement.prototype.GetValueString=function()
 {
+    try
+    {
+        this.amount=parseFloat(rnJQuery('#'+this.Id+ ' .redNaoInputText').val());
+    }catch(exception)
+    {
+
+    }
+
     return  encodeURI(this.Options.Label)+"="+encodeURI(rnJQuery('#'+this.Id+ ' .redNaoInputText').val());
 }
 
@@ -709,7 +718,19 @@ function MultipleRadioElement(options)
     {
         this.Options.Label="Multiple Radio";
         this.Options.ClassName="rednaomultipleradios";
-        this.Options.Options=new Array('Option 1','Option 2');
+        this.Options.Options=new Array({label:'Option 1(10$)',amount:10},{label:'Option 2(20$)',amount:20},{label:'Option 3(30$)',amount:30});
+    }else
+    {
+        if(this.Options.Options.length>0&&typeof this.Options.Options[i]=='string')
+        {
+            var aux=new Array();
+            for(var i=0;i<this.Options.Options.length;i++)
+            {
+                aux.push({label:this.Options.Options[i],amount:0});
+            }
+
+            this.Options.Options=aux;
+        }
     }
 
 
@@ -737,7 +758,7 @@ MultipleRadioElement.prototype.GenerateInlineElement=function()
     for(var i=0;i<this.Options.Options.length;i++)
     {
         html+='<label class="redNaoRadio" for="radios-0">\
-                    <input class="redNaoRadio redNaoInputRadio" type="radio" name="'+this.GetPropertyName()+'"  value="'+RedNaoFormElementEscape(this.Options.Options[i])+'" '+checked+'>'+rnJQuery.trim(this.Options.Options[i])+'</input>\
+                    <input class="redNaoRadio redNaoInputRadio" type="radio" name="'+this.GetPropertyName()+'"  value="'+this.Options.Options[i].amount+'" '+checked+'>'+rnJQuery.trim(this.Options.Options[i].label)+'</input>\
                 </label>';
 
         checked="";
@@ -758,8 +779,10 @@ MultipleRadioElement.prototype.GenerateDefaultStyle=function()
 
 MultipleRadioElement.prototype.GetValueString=function()
 {
-
-    return  encodeURI(this.Options.Label)+"="+encodeURI(rnJQuery.trim(rnJQuery('#'+this.Id+ ' .redNaoInputRadio:checked').parent().text()));
+    var jQueryElement=rnJQuery('#'+this.Id+ ' .redNaoInputRadio:checked');
+    if(jQueryElement.length>0)
+        this.amount=parseFloat(jQueryElement.val());
+    return  encodeURI(this.Options.Label)+"="+encodeURI(rnJQuery.trim(jQueryElement.parent().text()));
 }
 
 
@@ -778,7 +801,19 @@ function InlineRadioElement(options)
     {
         this.Options.Label="Inline Radio";
         this.Options.ClassName="rednaoinlineradios";
-        this.Options.Options=new Array('Option 1','Option 2');
+        this.Options.Options=new Array({label:'Option 1(10$)',amount:10},{label:'Option 2(20$)',amount:20},{label:'Option 3(30$)',amount:30});
+    }else
+    {
+        if(this.Options.Options.length>0&&typeof this.Options.Options[i]=='string')
+        {
+            var aux=new Array();
+            for(var i=0;i<this.Options.Options.length;i++)
+            {
+                aux.push({label:this.Options.Options[i],amount:0});
+            }
+
+            this.Options.Options=aux;
+        }
     }
 
 
@@ -806,7 +841,7 @@ InlineRadioElement.prototype.GenerateInlineElement=function()
     for(var i=0;i<this.Options.Options.length;i++)
     {
         html+='<label class="redNaoRadio" >\
-                    <input class="redNaoInputRadio" type="radio" name="'+this.GetPropertyName()+'"  value="'+RedNaoFormElementEscape(this.Options.Options[i])+'" '+checked+'/>'+this.Options.Options[i]+'\
+                    <input class="redNaoInputRadio" type="radio" name="'+this.GetPropertyName()+'"  value="'+this.Options.Options[i].amount+'" '+checked+'/>'+this.Options.Options[i].label+'\
                 </label>';
 
         checked="";
@@ -826,8 +861,10 @@ InlineRadioElement.prototype.GenerateDefaultStyle=function()
 
 InlineRadioElement.prototype.GetValueString=function()
 {
-
-    return  encodeURI(this.Options.Label)+"="+encodeURI(rnJQuery.trim(rnJQuery('#'+this.Id+ ' .redNaoInputRadio:checked').parent().text()));
+    var jQueryElement=rnJQuery('#'+this.Id+ ' .redNaoInputRadio:checked');
+    if(jQueryElement.length>0)
+        this.amount=parseFloat(jQueryElement.val());
+    return  encodeURI(this.Options.Label)+"="+encodeURI(rnJQuery.trim(jQueryElement.parent().text()));
 }
 
 InlineRadioElement.prototype.IsValid=function()
@@ -846,7 +883,19 @@ function MultipleCheckBoxElement(options)
     {
         this.Options.Label="Multiple Checkbox";
         this.Options.ClassName="rednaomultiplecheckboxes";
-        this.Options.Options=new Array('Check 1','Check 2','Check 3');
+        this.Options.Options=new Array({label:'Check 1(10$)',amount:10},{label:'Check 2(20$)',amount:20},{label:'Check 3(30$)',amount:30});
+    }else
+    {
+        if(this.Options.Options.length>0&&typeof this.Options.Options[i]=='string')
+        {
+            var aux=new Array();
+            for(var i=0;i<this.Options.Options.length;i++)
+            {
+                aux.push({label:this.Options.Options[i],amount:0});
+            }
+
+            this.Options.Options=aux;
+        }
     }
 
 
@@ -872,7 +921,7 @@ MultipleCheckBoxElement.prototype.GenerateInlineElement=function()
     for(var i=0;i<this.Options.Options.length;i++)
     {
         html+='<label class="redNaoCheckBox" for="radios-0">\
-                    <input type="checkbox" class="redNaoInputCheckBox" name="'+this.GetPropertyName()+'"  value="'+RedNaoFormElementEscape(this.Options.Options[i])+'" '+checked+'/>'+this.Options.Options[i]+'\
+                    <input type="checkbox" class="redNaoInputCheckBox" name="'+this.GetPropertyName()+'"  value="'+this.Options.Options[i].amount+'" '+checked+'/>'+this.Options.Options[i].label+'\
                 </label>';
 
         checked="";
@@ -897,8 +946,10 @@ MultipleCheckBoxElement.prototype.GetValueString=function()
 {
     var valueString="";
     var me=this;
+    this.amount=0;
     rnJQuery('#'+this.Id+ ' .redNaoInputCheckBox:checked').each(function()
     {
+        me.amount+=parseFloat(rnJQuery(this).val());
         valueString+=','+encodeURI(rnJQuery.trim(rnJQuery(this).parent().text()));
     })
     if(valueString.length>0)
@@ -924,7 +975,19 @@ function InlineCheckboxElement(options)
     {
         this.Options.Label="Inline Checkbox";
         this.Options.ClassName="rednaoinlinecheckboxes";
-        this.Options.Options=new Array('1','2','3','4');
+        this.Options.Options=new Array({label:'Option 1(10$)',amount:10},{label:'Option 2(20$)',amount:20},{label:'Option 3(30$)',amount:30});
+    }else
+    {
+        if(this.Options.Options.length>0&&typeof this.Options.Options[i]=='string')
+        {
+            var aux=new Array();
+            for(var i=0;i<this.Options.Options.length;i++)
+            {
+                aux.push({label:this.Options.Options[i],amount:0});
+            }
+
+            this.Options.Options=aux;
+        }
     }
 
 
@@ -948,7 +1011,7 @@ InlineCheckboxElement.prototype.GenerateInlineElement=function()
     for(var i=0;i<this.Options.Options.length;i++)
     {
         html+='<label class="redNaoCheckBox" >\
-                    <input  class="redNaoInputCheckBox" type="checkbox" name="'+this.GetPropertyName()+'"  value="'+RedNaoFormElementEscape(this.Options.Options[i])+'" '+checked+'/>'+this.Options.Options[i]+'\
+                    <input  class="redNaoInputCheckBox" type="checkbox" name="'+this.GetPropertyName()+'"  value="'+this.Options.Options[i].amount+'" '+checked+'/>'+this.Options.Options[i].label+'\
                 </label>';
 
         checked="";
@@ -970,8 +1033,10 @@ InlineCheckboxElement.prototype.GetValueString=function()
 {
     var valueString="";
     var me=this;
+    this.amount=0;
     rnJQuery('#'+this.Id+ ' .redNaoInputCheckBox:checked').each(function()
     {
+        me.amount+=parseFloat(rnJQuery(this).val());
         valueString+=','+encodeURI(rnJQuery.trim(rnJQuery(this).parent().text()));
     })
     if(valueString.length>0)
@@ -997,7 +1062,19 @@ function SelectBasicElement(options)
     {
         this.Options.Label="Select Basic";
         this.Options.ClassName="rednaoselectbasic";
-        this.Options.Options=new Array('Option 1','Option 2','Option 3','Option 4');
+        this.Options.Options=new Array({label:'Option 1(10$)',amount:10},{label:'Option 2(20$)',amount:20},{label:'Option 3(30$)',amount:30});
+    }else
+    {
+        if(this.Options.Options.length>0&&typeof this.Options.Options[i]=='string')
+        {
+            var aux=new Array();
+            for(var i=0;i<this.Options.Options.length;i++)
+            {
+                aux.push({label:this.Options.Options[i],amount:0});
+            }
+
+            this.Options.Options=aux;
+        }
     }
 
 
@@ -1026,7 +1103,7 @@ SelectBasicElement.prototype.GenerateInlineElement=function()
     var selected='selected="selected"';
     for(var i=0;i<this.Options.Options.length;i++)
     {
-        html+='<option   value="'+RedNaoFormElementEscape(this.Options.Options[i])+'" '+selected+'>'+this.Options.Options[i]+'</opton>'
+        html+='<option   value="'+this.Options.Options[i].amount+'" '+selected+'>'+this.Options.Options[i].label+'</opton>'
 
         selected="";
 
@@ -1043,7 +1120,10 @@ SelectBasicElement.prototype.GenerateDefaultStyle=function()
 
 SelectBasicElement.prototype.GetValueString=function()
 {
-    return  encodeURI(this.Options.Label)+"="+encodeURI(rnJQuery('#'+this.Id+ ' .redNaoSelect option:selected').text());
+    var jQueryElement=rnJQuery('#'+this.Id+ ' .redNaoSelect option:selected');
+    if(jQueryElement.length>0)
+        this.amount=parseFloat(jQueryElement.val());
+    return  encodeURI(this.Options.Label)+"="+encodeURI(jQueryElement.text());
 }
 
 
@@ -1066,7 +1146,19 @@ function SelectMultipleElement(options)
     {
         this.Options.Label="Select Multiple Element";
         this.Options.ClassName="rednaoselectmultiple";
-        this.Options.Options=new Array('Option 1','Option 2','Option 3','Option 4');
+        this.Options.Options=new Array({label:'Option 1(10$)',amount:10},{label:'Option 2(20$)',amount:20},{label:'Option 3(30$)',amount:30});
+    }else
+    {
+        if(this.Options.Options.length>0&&typeof this.Options.Options[i]=='string')
+        {
+            var aux=new Array();
+            for(var i=0;i<this.Options.Options.length;i++)
+            {
+                aux.push({label:this.Options.Options[i],amount:0});
+            }
+
+            this.Options.Options=aux;
+        }
     }
 
 
@@ -1096,7 +1188,7 @@ SelectMultipleElement.prototype.GenerateInlineElement=function()
     var selected='selected="selected"';
     for(var i=0;i<this.Options.Options.length;i++)
     {
-        html+='<option   value="'+RedNaoFormElementEscape(this.Options.Options[i])+'" '+selected+'>'+this.Options.Options[i]+'</opton>'
+        html+='<option   value="'+this.Options.Options[i].amount+'" '+selected+'>'+this.Options.Options[i].label+'</opton>'
 
         selected="";
 
@@ -1116,8 +1208,10 @@ SelectMultipleElement.prototype.GetValueString=function()
 {
     var valueString="";
     var me=this;
+    this.amount=0;
     rnJQuery('#'+this.Id+ ' .redNaoSelect option:selected').each(function()
     {
+        me.amount+=parseFloat(rnJQuery(this).val());
         valueString+=','+encodeURI(rnJQuery.trim(rnJQuery(this).text()));
     })
     if(valueString.length>0)

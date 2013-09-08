@@ -155,22 +155,53 @@ ArrayProperty.prototype.GenerateHtml=function()
     var valuesText="";
     for(var i=0;i<currentValues.length;i++)
     {
-        valuesText+='\n'+currentValues[i];
+        if(typeof currentValues[i]=='string')
+            valuesText+='\n'+currentValues[i];
+        else{
+            valuesText+='\n'+currentValues[i].label;
+            if(currentValues[i].amount>0)
+            {
+                valuesText+=';'+currentValues[i].amount;
+            }
+        }
     }
 
     if(valuesText.length>0)
         valuesText=valuesText.substr(1);
 
-    return '<textarea class="field" data-type="textarea-split" style="min-height: 200px;width: 206px;" id="'+this.PropertyId+'">'+valuesText+'</textarea>';
+    return '<span class="description" >If you want to set amounts please separate the text and the amount with a semicolon (e.g. Teddy;20)</span><textarea class="field" data-type="textarea-split" style="min-height: 200px;width: 206px;" id="'+this.PropertyId+'">'+valuesText+'</textarea>';
 }
 
 ArrayProperty.prototype.UpdateProperty=function()
 {
     var newValue=rnJQuery("#"+this.PropertyId).val();;
 
+    var valueArray=newValue.split(/\r\n|\r|\n/g);
+
+    var processedValueArray=new Array();
+
+    for(var i=0;i<valueArray.length;i++)
+    {
+        if(!valueArray[i])
+            break;
+        var splittedValue=valueArray[i].split(';');
+        var amount=0;
+
+        if(splittedValue.length==2)
+        {
+            try
+            {
+                amount=parseFloat(splittedValue[1]);
+            }catch(exception)
+            {
+                amount=0;
+            }
+        }
+
+        processedValueArray.push({label:splittedValue[0],amount:amount});
+    }
 
 
-
-    this.Manipulator.SetValue(this.PropertiesObject,this.PropertyName, newValue.split(/\r\n|\r|\n/g),this.AdditionalInformation);
+    this.Manipulator.SetValue(this.PropertiesObject,this.PropertyName, processedValueArray,this.AdditionalInformation);
 
 }

@@ -302,6 +302,7 @@ wp_enqueue_style('form-builder-custom',plugin_dir_url(__FILE__).'css/formBuilder
                 options.donation_currency=rnJQuery('#smartDonationsCurrency').val();
                 options.business=rnJQuery("#smartDonationsEmail").val();
                 options.returningUrl=rnJQuery("#smartDonationsReturningUrl").val();
+                options.emailToNotify=rnJQuery('#smartDonationsNotifyToEmail').val();
                 donationsOptions=JSON.stringify(options);
             }
 

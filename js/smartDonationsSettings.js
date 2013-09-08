@@ -89,6 +89,7 @@ function SmartDonations_GetDonationTypeSelected(donationTypeSelected,donationPro
                 rnJQuery('#smartDonationsItemsContainerBody').css('overflow-y','visible');
 
                 return new smartDonationsFormConfiguration('smartDonationsPreviewContainer',donationOptions);
+
             }
             break;
         case "wepay":
@@ -114,7 +115,6 @@ function SmartDonations_SetSmartDonationConfiguration(rthis,div,donationTypeSele
 {
     var business=rnJQuery('#smartDonationsEmail').val();
     var donationProvider=rnJQuery('#rednao_smart_donations_provider').val();
-
 
 
 

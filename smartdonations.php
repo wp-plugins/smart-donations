@@ -5,7 +5,7 @@
  * Description: Place diferent form of donations on your blog...
  * Author: RedNao
  * Author URI: http://rednao.com
- * Version: 2.5.6
+ * Version: 2.9
  * Text Domain: SmartDonations
  * Domain Path: /languages/
  * Network: true
@@ -155,6 +155,8 @@ function rednao_smart_donations_plugin_was_activated()
         name VARCHAR(200) NOT NULL,
         description VARCHAR(200),
         goal double ,
+        thank_you_email TEXT,
+        email_subject VARCHAR(200),
         PRIMARY KEY  (campaign_id)
         );";
         dbDelta($sql);

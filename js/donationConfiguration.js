@@ -345,6 +345,7 @@ function smartDonationsFormConfiguration(containerName,options)
     this.generator=new smartDonationsFormDonationGenerator('target',options,null,this.styles);
     this.generator.DonationGeneratedListener=this.DonationGenerationCompleted;
 
+
 }
 smartDonationsFormConfiguration.prototype=Object.create(smartDonationConfigurationBase.prototype);
 
@@ -378,7 +379,12 @@ smartDonationsFormConfiguration.prototype.GetDonationConfigurationGeneratedCode=
                 </div>\
             </td>\
             <td style="vertical-align: top;">\
-                <div class="span6">\
+            <div id="formBuilderButtonSet" class="smartDonationsSlider">\
+        <input type="radio" id="formRadio1" value="Components"  name="smartDonationFormEditStyle"  checked="checked" style="display:inline-block;"/><label style="width:100px;display:inline-block;" for="formRadio1">Components</label>\
+        <input type="radio" id="formRadio2"  value="General" name="smartDonationFormEditStyle" style="display:inline-block;"/><label label style="width:100px;margin-left:-5px;display:inline-block;" for="formRadio2">General</label>\
+        </div>\
+        <div id="formBuilderContainer">\
+        <div class="span6" id="smartDonationsFormBuilderComponents">\
                     <h2>Drag &amp; Drop components</h2>\
                     <hr>\
                         <div class="tabbable" style="width:540px">\
@@ -465,6 +471,13 @@ smartDonationsFormConfiguration.prototype.GetDonationConfigurationGeneratedCode=
                             </div>\
                         </div>\
                     </div>\
+                     <div id="formPropertiesContainer" style="padding:5px;display:none;">\
+                        <span>Notify to</span>\
+                        <input type="text" name="smartDonationsName" id="smartDonationsNotifyToEmail" style="width:500px"/>\
+                        <span class="description" style="margin-bottom:5px; display:block;"> *Emails to notify when a donation is received, if empty the paypal email will be used</span>\
+                        <span class="description" >Please separate each address with a semicolon (example: person1@hotmail.com;person2@gmail.com)</span>\
+                     </div>\
+                    </div>\
                 </td>\
             </tr>\
         </table>';
@@ -473,6 +486,34 @@ smartDonationsFormConfiguration.prototype.GetDonationConfigurationGeneratedCode=
 
 smartDonationsFormConfiguration.prototype.DonationConfigurationCompleted=function(){
     SmartDonationsStartFormElements();
+
+
+    rnJQuery('#smartDonationsNotifyToEmail').val(smartDonationsDonationType.generator.emailToNotify);
+
+    rnJQuery( "#formBuilderButtonSet" ).buttonset();
+    rnJQuery('input[name=smartDonationFormEditStyle]').change(smartDonationFormEditTypeChanged);
+
+
+    function smartDonationFormEditTypeChanged()
+    {
+        var typeOfEdition=rnJQuery('input[name=smartDonationFormEditStyle]:checked').val();
+
+        if(typeOfEdition=='Components')
+        {
+            rnJQuery('#smartDonationsFormBuilderComponents').show();
+            rnJQuery('#formPropertiesContainer').hide();
+        }
+
+        if(typeOfEdition=='General')
+        {
+            rnJQuery('#smartDonationsFormBuilderComponents').hide();
+            rnJQuery('#formPropertiesContainer').show();
+        }
+
+    }
+
+
+
 }
 
 

@@ -110,7 +110,32 @@ class rednao_paypal_ipn {
                         }
                     }
 
-                    $this->dbProvider->InsertTransaction($properties);
+                    if($this->dbProvider->InsertTransaction($properties))
+                    {
+                        $campaign_id=$properties['campaign_id'];
+                        if($campaign_id>0)
+                        {
+                            global $wpdb;
+                            $results=$wpdb->get_results($wpdb->prepare("SELECT email_subject,thank_you_email FROM ".SMART_DONATIONS_CAMPAIGN_TABLE." where campaign_id=%d",$campaign_id));
+
+                            if(count($results)>0)
+                            {
+                                $result=$results[0];
+                                if($result->email_subject!=null){
+                                    try
+                                    {
+                                        $headers  = 'MIME-Version: 1.0'."\r\n";
+                                        $headers .= 'Content-type: text/html; charset=utf-8'."\r\n";
+                                        wp_mail($_POST['receiver_email'],$result->email_subject,$result->thank_you_email,$headers);
+                                    }catch(Exception $e)
+                                    {
+                                        $this->SendFormError($e->getMessage(),$properties);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     if($formId!=null)
                     {
                         $this->ProcessForm($properties,$formId);

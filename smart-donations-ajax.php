@@ -142,11 +142,25 @@ function rednao_smart_donations_add_campaign()
     }else
         $goal='';
 
+
+    if (isset($_POST["thank_you_email"])) {
+        $thank_you_email=$_POST["thank_you_email"];
+    }else
+        $thank_you_email='';
+
+    if (isset($_POST["email_subject"])) {
+        $email_subject=$_POST["email_subject"];
+    }else
+        $email_subject='';
+
     if($name==null)
     {
         echo "Campaign name is mandatory";
         die();
     }
+
+
+
 
     if(!is_numeric($goal))
         $goal=0;
@@ -165,6 +179,8 @@ function rednao_smart_donations_add_campaign()
         'name'=>$name,
         'description'=>$description,
         'goal'=>$goal,
+        'thank_you_email'=>$thank_you_email,
+        'email_subject'=>$email_subject
     ));
 
     echo "success";
@@ -202,6 +218,16 @@ function rednao_smart_donations_edit_campaign()
     }else
         $campaign_id='';
 
+    if (isset($_POST["thank_you_email"])) {
+        $thank_you_email=$_POST["thank_you_email"];
+    }else
+        $thank_you_email='';
+
+    if (isset($_POST["email_subject"])) {
+        $email_subject=$_POST["email_subject"];
+    }else
+        $email_subject='';
+
     if($name==null)
     {
         echo "Campaign name is mandatory";
@@ -216,7 +242,9 @@ function rednao_smart_donations_edit_campaign()
     $count= $wpdb->update(SMART_DONATIONS_CAMPAIGN_TABLE,array(
                 "name"=>$name,
                 "description"=>$description,
-                "goal"=>$goal),array("campaign_id"=>$campaign_id));
+                "goal"=>$goal,
+                "thank_you_email"=>$thank_you_email,
+                "email_subject"=>$email_subject),array("campaign_id"=>$campaign_id));
 
 
     $result=$wpdb->get_results($wpdb->prepare("select progress_id from ".SMART_DONATIONS_PROGRESS_TABLE." where campaign_id=%d",$campaign_id));

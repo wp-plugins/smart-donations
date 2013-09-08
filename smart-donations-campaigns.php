@@ -54,7 +54,7 @@ class Donations extends WP_List_Table
     {
         $this->_column_headers=array($this->get_columns(),array('campaign_id'),$this->get_sortable_columns());
         global $wpdb;
-        $this->items=$result=$wpdb->get_results("SELECT campaign_id,name,description,goal FROM ".SMART_DONATIONS_CAMPAIGN_TABLE);
+        $this->items=$result=$wpdb->get_results("SELECT campaign_id,name,description,goal,thank_you_email,email_subject FROM ".SMART_DONATIONS_CAMPAIGN_TABLE);
 
         if(count($this->items)>0)
         {
@@ -64,6 +64,8 @@ class Donations extends WP_List_Table
                 $json.='{"campaign_id":"'.urldecode($item->campaign_id).'",';
                 $json.='"description":"'.urldecode($item->description).'",';
                 $json.='"goal":"'.urldecode($item->goal).'",';
+                $json.='"thank_you_email":"'.urldecode($item->thank_you_email).'",';
+                $json.='"email_subject":"'.urldecode($item->email_subject).'",';
                 $json.='"name":"'.urldecode($item->name).'"},';
             }
             $json=substr($json,0,-1);
@@ -118,6 +120,14 @@ $donationList->display();
             <td><input type="text" name="goal" id="smart_donations_campaign_goal" class="smartDonationsConfigurationFields smartDonationsNumericField"></td>
         </tr>
 
+
+
+        <tr><td > <span>Send thank you email</span> </td><td><input type="checkbox" id="smartDonationsSendThankYouEmail" /></td></tr>
+
+        <tr><td colspan="2" style="padding-top:30px;"><span >Email Subject:</span></td></tr>
+        <tr><td colspan="2"><input type="text"   id="smartDonationsEmailSubject" name="email_subject" style="width: 400px;background-color: #ddd" disabled="disabled"></textarea> </td></tr>
+        <tr><td colspan="2" style="padding-top:10px;"><span >Email Text:</span></td></tr>
+        <tr><td colspan="2"><textarea   id="smartDonationsThankYouEmail" name="thank_you_email" style="height:200px;width: 500px;background-color: #ddd" disabled="disabled"></textarea> </td></tr>
         <tr>
             <td colspan="2"><div style="text-align: right"><button id="campaignSaveButton">Save</button></div></td>
         </tr>

@@ -848,6 +848,11 @@ function smartDonationsFormDonationGenerator(containerName,options,donationProvi
         this.FormElements=options.FormElements;
     else
         this.GenerateFormElements(options.FormElementsOptions);
+
+    if(typeof options.emailToNotify =='undefined')
+        this.emailToNotify='';
+    else
+        this.emailToNotify=options.emailToNotify;
 }
 
 smartDonationsFormDonationGenerator.prototype=Object.create(smartDonationsBaseGenerator.prototype);
@@ -910,19 +915,21 @@ smartDonationsFormDonationGenerator.prototype.SaveForm=function()
 
     var formValues="";
     var formIsValid=true;
+    var amount=0;
 
     this.GetRootContainer().find('.redNaoValidationMessage').remove();
     this.GetRootContainer().find('.redNaoInputText,.redNaoRealCheckBox,.redNaoInputRadio,.redNaoInputCheckBox,.redNaoSelect,.redNaoTextArea').css('border-color','#ccc');
    for(var i=0;i<this.FormElements.length;i++)
    {
 
-       if(this.FormElements[i].Options.IsRequired&&!this.FormElements[i].IsValid())
+       if((this.FormElements[i].Options.IsRequired||this.FormElements[i].Options.IsRequired=='y')&&!this.FormElements[i].IsValid())
        {
            formIsValid=false;
            rnJQuery('#'+this.FormElements[i].Id).find('.redNaoInputText,.redNaoRealCheckBox,.redNaoInputRadio,.redNaoInputCheckBox,.redNaoSelect,.redNaoTextArea').css('border-color','red');
            continue;
        }
        var value=this.FormElements[i].GetValueString();
+       amount+=this.FormElements[i].amount;
        formValues+="&"+value;
    }
     if(!formIsValid)
@@ -943,17 +950,19 @@ smartDonationsFormDonationGenerator.prototype.SaveForm=function()
     var me=this;
 
 
-    rnJQuery.post(ajaxurl,data,function(data){me.SubmitForm(data)},"json");
+    rnJQuery.post(ajaxurl,data,function(data){me.SubmitForm(data,amount)},"json");
 }
 
 
-smartDonationsFormDonationGenerator.prototype.SubmitForm=function(data)
+smartDonationsFormDonationGenerator.prototype.SubmitForm=function(data,amount)
 {
     if(data.status=="success")
     {
         var form=this.GetRootContainer().find('form');
         form.attr('target','_self');
         form.find('input[name=custom]').val(encodeURI('campaign_id='+this.campaign_id+"&formId="+data.randomString))
+        if(amount>0)
+            form.append('<input type="hidden" name="amount" class="amountToDonate" value="'+amount+'">')
         form.submit();
 
 
