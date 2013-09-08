@@ -77,6 +77,8 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 10. Forms Donation Style (Pro, only paypal)
 
 == Changelog ==
+= 2.9 =
+* Fixed a bug in Form donations, added thank you email to the donation campaigns and added the possibility to include amounts in the donation check, radio and combo boxes.
 = 2.5.6 =
 * Fixing issue with manual donations.
 = 2.5.5 =
