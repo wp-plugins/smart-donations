@@ -907,6 +907,7 @@ MultipleCheckBoxElement.prototype.CreateProperties=function()
 {
     this.Properties.push(new SimpleTextProperty(this.Options,"Label","Label",'basic'));
     this.Properties.push(new ArrayProperty(this.Options,"Options","Options",'basic'));
+    this.Properties.push(new CheckBoxProperty(this.Options,"IsRequired","Required",'basic'));
 
 
 }
@@ -999,6 +1000,7 @@ InlineCheckboxElement.prototype.CreateProperties=function()
 {
     this.Properties.push(new SimpleTextProperty(this.Options,"Label","Label",'basic'));
     this.Properties.push(new ArrayProperty(this.Options,"Options","Options",'basic'));
+    this.Properties.push(new CheckBoxProperty(this.Options,"IsRequired","Required",'basic'));
 }
 
 InlineCheckboxElement.prototype.GenerateInlineElement=function()

@@ -931,6 +931,10 @@ function rednao_smart_donations_save_form_values()
 {
     if(isset($_POST["formString"]))
     {
+        if(isset($_POST['emailToNotify']))
+            $emailsToNotify=$_POST['emailToNotify'];
+        else
+            $emailsToNotify='';
         $attempts=0;
         while($attempts<10)
         {
@@ -938,7 +942,7 @@ function rednao_smart_donations_save_form_values()
             $randomString="rednaoform_".RandomString();
             if(!get_transient($randomString))
             {
-                set_transient($randomString,$_POST["formString"],60*60*24*3);
+                set_transient($randomString,$emailsToNotify.'rednaosplitter'.$_POST["formString"],60*60*24*3);
                 echo "{\"status\":\"success\", \"randomString\":\"$randomString\"}";
                 die();
             }

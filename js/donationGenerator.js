@@ -922,7 +922,7 @@ smartDonationsFormDonationGenerator.prototype.SaveForm=function()
    for(var i=0;i<this.FormElements.length;i++)
    {
 
-       if((this.FormElements[i].Options.IsRequired||this.FormElements[i].Options.IsRequired=='y')&&!this.FormElements[i].IsValid())
+       if((this.FormElements[i].Options.IsRequired==1||this.FormElements[i].Options.IsRequired=='y')&&!this.FormElements[i].IsValid())
        {
            formIsValid=false;
            rnJQuery('#'+this.FormElements[i].Id).find('.redNaoInputText,.redNaoRealCheckBox,.redNaoInputRadio,.redNaoInputCheckBox,.redNaoSelect,.redNaoTextArea').css('border-color','red');
@@ -944,6 +944,7 @@ smartDonationsFormDonationGenerator.prototype.SaveForm=function()
 
     var data={
         action:"rednao_smart_donations_save_form_values",
+        emailToNotify:this.emailToNotify,
         formString:formValues
     };
 

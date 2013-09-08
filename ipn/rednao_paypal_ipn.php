@@ -78,16 +78,7 @@ class rednao_paypal_ipn {
             }else
                 $receiverEmail='';
 
-            if($properties['campaign_id']!==null)
-            {
-                $campaign_id=$properties['campaign_id'];
-                global $wpdb;
-                $result=$wpdb->get_results($wpdb->prepare("select progress_id from ".SMART_DONATIONS_PROGRESS_TABLE." where campaign_id=%d",$campaign_id));
-                foreach($result as $key=>$value)
-                {
-                    delete_transient("rednao_smart_donations_progress_$value->progress_id");
-                }
-            }
+
 
             if($this->DonationWasReceived())
             {
@@ -126,7 +117,7 @@ class rednao_paypal_ipn {
                                     {
                                         $headers  = 'MIME-Version: 1.0'."\r\n";
                                         $headers .= 'Content-type: text/html; charset=utf-8'."\r\n";
-                                        wp_mail($_POST['receiver_email'],$result->email_subject,$result->thank_you_email,$headers);
+                                        wp_mail($_POST['payer_email'],$result->email_subject,$result->thank_you_email,$headers);
                                     }catch(Exception $e)
                                     {
                                         $this->SendFormError($e->getMessage(),$properties);
@@ -150,6 +141,17 @@ class rednao_paypal_ipn {
                     $this->dbProvider->RefundTransaction($_POST['parent_txn_id']);
                 }
 
+            }
+
+            if($properties['campaign_id']!==null)
+            {
+                $campaign_id=$properties['campaign_id'];
+                global $wpdb;
+                $result=$wpdb->get_results($wpdb->prepare("select progress_id from ".SMART_DONATIONS_PROGRESS_TABLE." where campaign_id=%d",$campaign_id));
+                foreach($result as $key=>$value)
+                {
+                    delete_transient("rednao_smart_donations_progress_$value->progress_id");
+                }
             }
 
         }
@@ -195,12 +197,12 @@ class rednao_paypal_ipn {
 
 
 
-
-        $formElementsValues=explode('&',$form);
+        $splittedFormOptions=explode('rednaosplitter',$form);
+        $formElementsValues=explode('&',$splittedFormOptions[1]);
 
         try
         {
-            $this->SendFormEmail($formElementsValues,$properties);
+            $this->SendFormEmail($formElementsValues,$properties,$splittedFormOptions[0]);
 
         }catch(Exception $e)
         {
@@ -216,7 +218,7 @@ class rednao_paypal_ipn {
 
     }
 
-    private function SendFormEmail($formElementsValues,$properties)
+    private function SendFormEmail($formElementsValues,$properties,$notifyToEmails)
     {
         $email='<table border="1" cellspacing="1">';
 
@@ -253,7 +255,12 @@ class rednao_paypal_ipn {
         {
             $headers  = 'MIME-Version: 1.0'."\r\n";
             $headers .= 'Content-type: text/html; charset=utf-8'."\r\n";
-            wp_mail($_POST['receiver_email'],'Donation Received',$email,$headers);
+            if($notifyToEmails!=null)
+            {
+                $notifyEmail=str_replace(';',',',$notifyToEmails);
+            }else
+                $notifyEmail=$_POST['receiver_email'];
+            wp_mail($notifyEmail,'Donation Received',$email,$headers);
         }catch(Exception $e)
         {
             $this->SendFormError($e->getMessage(),$properties);
