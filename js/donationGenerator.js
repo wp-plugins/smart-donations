@@ -156,7 +156,8 @@ smartDonationsBaseGenerator.prototype.ChangeAmountToDonate=function(amount)
     try
     {
         var amount=parseFloat(amount);
-        this.GetRootContainer().find(".amountToDonate").val(amount);
+        if(!isNaN(amount))
+            this.GetRootContainer().find(".amountToDonate").val(amount);
     }catch(exception)
     {
 
@@ -226,7 +227,6 @@ function smartDonationsTextBoxDonationGenerator(containerName,options,donationPr
     this.smartDonationsComment=options.smartDonationsComment;
     this.smartDonationsRecommendedDonation=options.smartDonationsRecommendedDonation;
     this.smartDonationsStyle=options.smartDonationsStyle;
-
 }
 
 smartDonationsTextBoxDonationGenerator.prototype=Object.create(smartDonationsBaseGenerator.prototype);
@@ -274,7 +274,7 @@ smartDonationsTextBoxDonationGenerator.prototype.DonationGeneratedCode=function(
 {
     if(this.smartDonationsStyle==1)
     {
-        return  this.GetStartOfDonationForm(this.smartDonationsRecommendedDonation)+
+        return  this.GetStartOfDonationForm((this.smartDonationsRecommendedDonation?this.smartDonationsRecommendedDonation:0))+
             '<table class="smartDonationsTextBoxDonationContainer">\
                               <tr>\
                                   <td>'+
@@ -291,7 +291,7 @@ smartDonationsTextBoxDonationGenerator.prototype.DonationGeneratedCode=function(
 
     if(this.smartDonationsStyle==2)
     {
-        return  this.GetStartOfDonationForm(this.smartDonationsRecommendedDonation)+
+        return  this.GetStartOfDonationForm((this.smartDonationsRecommendedDonation?this.smartDonationsRecommendedDonation:0))+
             '<table class="smartDonationsTextBoxDonationContainer">\
                               <tr>\
                                   <td>'+
@@ -309,7 +309,7 @@ smartDonationsTextBoxDonationGenerator.prototype.DonationGeneratedCode=function(
 
     if(this.smartDonationsStyle==3)
     {
-        return  this.GetStartOfDonationForm(this.smartDonationsRecommendedDonation)+
+        return  this.GetStartOfDonationForm((this.smartDonationsRecommendedDonation?this.smartDonationsRecommendedDonation:0))+
              '<table class="smartDonationsTextBoxDonationContainer">\
                                <tr>\
                                    <td>'+

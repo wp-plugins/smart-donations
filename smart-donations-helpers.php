@@ -10,7 +10,7 @@ function rednao_smart_donations_json_object($object,$styles,$amount,$goal,$donat
     {
         $variable=explode('=',$val);
 
-        $json=$json."\"$variable[0]\":\"".(count($variable)>1?urldecode($variable[1]):"")."\",";
+        $json=$json."\"$variable[0]\":\"".(count($variable)>1?str_replace("\"","\\\"", urldecode($variable[1])):"")."\",";
     }
     if($styles!=null)
     {

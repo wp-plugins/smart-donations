@@ -331,6 +331,7 @@ wp_enqueue_style('form-builder-custom',plugin_dir_url(__FILE__).'css/formBuilder
 
         function ajaxCompleted(result,status)
         {
+
             var obj=rnJQuery.parseJSON(result);
             alert(obj.Message);
             if(obj.DonationId!="0")

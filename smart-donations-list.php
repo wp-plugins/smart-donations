@@ -53,7 +53,7 @@ if($action!=null&&$donation_id!=null)
             $result=$result[0];
             if($result->donation_type=='forms')
             {
-                $options=$result->options;
+                $options="jQuery.parseJSON('".$result->options."')";
             }else
                 $options=rednao_smart_donations_json_object($result->options,$result->styles,null,null,null);
 
@@ -63,7 +63,7 @@ if($action!=null&&$donation_id!=null)
                             var smartDonationsSavedEmail="%s";
                             var smartDonationsSavedName="%s";
                             var smartDonationsSavedReturningUrl="%s";
-                            var smartDonationsSavedOptions=jQuery.parseJSON('%s');
+                            var smartDonationsSavedOptions=%s;
                             var smartDonationsDonationProvider="%s";
                         </script>
 EOF;
