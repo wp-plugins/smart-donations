@@ -8,7 +8,7 @@ Stable tag: 2.9.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The all in one donation plugin, create different kind of donations, set goals, monitor your results, create donation forms, set thank you emails and much more...
+The all in one donation plugin, create different kind of donations, set goals, monitor your results, donation forms, thank you emails and more...
 
 == Description ==
 
