@@ -93,20 +93,7 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 * Fixed minnor issues with donation items
 = 2.0 =
 * Added donation progress indicators and analytics to paypal.
-= 1.6 =
-* Added donation supporting component and paypal/wepay styles.
-= 1.5.5 =
-* Added the ability to change the smile stroke and fill color of the slider donation style. (thx for the suggestion Ralf)
-= 1.5 =
-* Added currency support for paypal, and added  slider range of values and advance style option to donations. (thx Philippe)
-= 1.0.2 =
-* Fixing minor bugs with the paypal donation buttons
-= 1.0 =
-* Adding an style editor and fixing IE bugs
-= 0.5.1 =
-* Fixing a bug with the donation slider (thanks Dave!)
-= 0.5 =
-* Initial release
+
 
 
 
