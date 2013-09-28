@@ -49,6 +49,7 @@ function SmartDonations_donationTypeClicked(div,donationOptions) {
         donationOptions={};
         donationOptions.isNew=true;
         donationOptions.donation_currency=rnJQuery("#smartDonationsCurrency").val();
+        donationOptions.donation_description=rnJQuery('#smartDonationsDescription').val();
         var donationTypeSelected= rnJQuery(div).find(':hidden').val();
     }
 

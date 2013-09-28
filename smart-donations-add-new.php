@@ -93,6 +93,11 @@ wp_enqueue_style('form-builder-custom',plugin_dir_url(__FILE__).'css/formBuilder
             rnJQuery("#smartDonationsCampaign").val(rnJQuery("#select_campaign_id").val());
         }
 
+        function donationDescriptionChanged(element)
+        {
+            rnJQuery('#smartDonationsDescription').val(rnJQuery('#smartDonationsDonationDescription').val());
+        }
+
 
 
 
@@ -170,6 +175,7 @@ wp_enqueue_style('form-builder-custom',plugin_dir_url(__FILE__).'css/formBuilder
             rnJQuery("#select_campaign_id").change(smartDonationsCampaignChanged);
             rnJQuery("#smartDonationsEditImageButton").click(SmartDonationsStartStyling);
             rnJQuery('input[name=smartDonationEditStyle]').change(smartDonationEditTypeChanged);
+            rnJQuery('#smartDonationsDonationDescription').change(donationDescriptionChanged);
 
 
             function smartDonationEditTypeChanged()
@@ -228,6 +234,9 @@ wp_enqueue_style('form-builder-custom',plugin_dir_url(__FILE__).'css/formBuilder
 
                 if(typeof smartDonationsSavedOptions.compaign_id!='undefined')
                     rnJQuery("#select_campaign_id").val(smartDonationsSavedOptions.campaign_id).change();
+
+                if(typeof smartDonationsSavedOptions.donation_description!='undefined')
+                    rnJQuery('#smartDonationsDonationDescription').val(smartDonationsSavedOptions.donation_description).change();
 
             }
 
@@ -303,6 +312,7 @@ wp_enqueue_style('form-builder-custom',plugin_dir_url(__FILE__).'css/formBuilder
                 options.business=rnJQuery("#smartDonationsEmail").val();
                 options.returningUrl=rnJQuery("#smartDonationsReturningUrl").val();
                 options.emailToNotify=rnJQuery('#smartDonationsNotifyToEmail').val();
+                options.donation_description=rnJQuery('#smartDonationsDescription').val();
                 donationsOptions=JSON.stringify(options);
             }
 
@@ -440,6 +450,10 @@ wp_enqueue_style('form-builder-custom',plugin_dir_url(__FILE__).'css/formBuilder
                 <span>Returning Url</span>
                 <input type="text" id="smartDonationsReturningUrl"/>
                 <span class="description">*Page displayed after he does a donation</span>
+                <br/>
+                <span>Donation Description</span>
+                <input type="text" id="smartDonationsDonationDescription"/>
+                <span class="description">*This text is going to be shown in the paypal invoice</span>
             </div>
 
 
@@ -455,6 +469,7 @@ wp_enqueue_style('form-builder-custom',plugin_dir_url(__FILE__).'css/formBuilder
         <input type="hidden" id="smartDonationsProvider" name="donation_provider"/>
         <input type="hidden" id="smartDonationsCampaign" name="campaign_id" value="0"/>
         <input type="hidden" id="smartDonationsCurrency" name="donation_currency" value='USD'/>
+        <input type="hidden" id="smartDonationsDescription" name="donation_description" value='Donation'/>
 
 
         <div id="smartdonationsItemsContainer">

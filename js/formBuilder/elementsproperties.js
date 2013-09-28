@@ -30,6 +30,11 @@ RedNaoStyleManipulator.prototype.GetValue=function(propertiesObject,propertyName
 {
     var re = new RegExp(propertyName+":[^;]*;", "");
     var result=propertiesObject[additionalInformation.class].match(re);
+    if(result==null&&typeof additionalInformation.default!='undefined')
+    {
+        result=[propertyName+':'+additionalInformation.default];
+    }
+
     if(result.length>0)
     {
         var splittedResult=result[0].split(':');

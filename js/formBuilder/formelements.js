@@ -72,6 +72,7 @@ function FormElementBase(options)
         this.Options.Styles.redNaoControls="margin-left:180px;text-align:left;"
         this.Options.Styles.redNaoHelp="margin:0px;padding:0px;text-align:left;"
         this.IsNew=true;
+        this.GenerateDefaultStyle();
     }
     else
     {
@@ -86,7 +87,7 @@ function FormElementBase(options)
     this.Properties=null;
     this.amount=0;
 
-    this.GenerateDefaultStyle();
+
 
 
 
@@ -102,7 +103,7 @@ FormElementBase.prototype.GenerateDefaultStyle=function()
 
 FormElementBase.prototype.GenerateHtml=function(jqueryElement)
 {
-    jqueryElement.replaceWith( '<div class="rednao-control-group '+this.Options.ClassName+'" id="'+this.Id+'" style="margin-bottom:15px;">'+this.GenerateInlineElement()+'</div>');
+    jqueryElement.replaceWith( '<div class="rednao-control-group '+this.Options.ClassName+'" id="'+this.Id+'" style="margin-bottom:15px;clear:both;">'+this.GenerateInlineElement()+'</div>');
     this.ApplyStyle();
     this.GenerationCompleted();
 
@@ -1240,6 +1241,11 @@ function DonationButtonElement(options)
     {
         this.Options.Label="Donation Button";
         this.Options.ClassName="rednaodonationbutton";
+        this.Options.Image='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif';
+    }else
+    {
+        if(typeof this.Options.Image=='undefined')
+            this.Options.Image='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif';
     }
 
 
@@ -1251,16 +1257,19 @@ DonationButtonElement.prototype.CreateProperties=function()
 {
     this.Properties.push(new SimpleTextProperty(this.Options,"Label","Label",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options.Styles,"margin-left","Spacing",{type:'style',class:'redNaoDonationButton'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',class:'redNaoDonationButton',default:'auto'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"height","Height",{type:'style',class:'redNaoDonationButton',default:'auto'}));
+    this.Properties.push(new SimpleTextProperty(this.Options,"Image","Image Url",'basic'));
 }
 
 DonationButtonElement.prototype.GenerateInlineElement=function()
 {
-    return '<div class="redNaoControls"><input type="image" class="redNaoDonationButton" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"></div>';
+    return '<div class="redNaoControls"><input type="image" class="redNaoDonationButton" src="'+this.Options.Image+'" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"></div>';
 }
 
 DonationButtonElement.prototype.GenerateDefaultStyle=function()
 {
-    this.Options.Styles.redNaoDonationButton='margin-left:0px;';
+    this.Options.Styles.redNaoDonationButton='margin-left:0px;width:auto;height:auto;';
 }
 
 DonationButtonElement.prototype.GetValueString=function()
