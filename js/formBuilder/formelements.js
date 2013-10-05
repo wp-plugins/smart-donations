@@ -1366,6 +1366,7 @@ RecurrenceElement.prototype.GenerateDefaultStyle=function()
 
 RecurrenceElement.prototype.GetValueString=function()
 {
-    return '';
+    var jQueryElement=rnJQuery('#'+this.Id+ ' .redNaoSelect option:selected');
+    return  encodeURI(this.Options.Label)+"="+encodeURI(jQueryElement.text());
 
 }
