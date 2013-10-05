@@ -160,8 +160,13 @@ class rednao_paypal_ipn {
 
     private function DonationWasReceived()
     {
+        $txn_type='';
+        if(isset($_POST['txn_type'] ))
+            $txn_type=$_POST['txn_type'];
+
+
         if (isset($_POST['payment_status'])) {
-            return $_POST['payment_status']==="Pending"||$_POST['payment_status']=="Completed";
+            return $_POST['payment_status']==="Pending"||$_POST['payment_status']=="Completed"||$txn_type == "subscr_payment";
         }
         return false;
 

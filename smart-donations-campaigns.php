@@ -64,7 +64,7 @@ class Donations extends WP_List_Table
                 $json.='{"campaign_id":"'.urldecode($item->campaign_id).'",';
                 $json.='"description":"'.urldecode($item->description).'",';
                 $json.='"goal":"'.urldecode($item->goal).'",';
-                $json.='"thank_you_email":"'.urldecode($item->thank_you_email).'",';
+                $json.='"thank_you_email":"'.str_replace("\r","", str_replace("\n","\\n",urldecode($item->thank_you_email))).'",';
                 $json.='"email_subject":"'.urldecode($item->email_subject).'",';
                 $json.='"name":"'.urldecode($item->name).'"},';
             }

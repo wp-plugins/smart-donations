@@ -939,6 +939,15 @@ smartDonationsFormDonationGenerator.prototype.SaveForm=function()
         return;
     }
 
+    if(this.IsRecurrentPayment(this.GetRootContainer().find('form')))
+    {
+        if(amount<=0)
+        {
+            alert('Please set a donation amount before proceeding');
+            return;
+        }
+    }
+
 
     if(formValues.length>0)
         formValues=formValues.substr(1);
@@ -965,6 +974,17 @@ smartDonationsFormDonationGenerator.prototype.SubmitForm=function(data,amount)
         form.find('input[name=custom]').val(encodeURI('campaign_id='+this.campaign_id+"&formId="+data.randomString))
         if(amount>0)
             form.append('<input type="hidden" name="amount" class="amountToDonate" value="'+amount+'">')
+
+        if(this.IsRecurrentPayment(form))
+        {
+            if(amount<=0)
+            {
+                alert('Please set a donation amount before proceeding');
+                return;
+            }
+            this.TurnFormIntoRecurrentPayment(form);
+        }
+
         form.submit();
 
 
@@ -973,6 +993,18 @@ smartDonationsFormDonationGenerator.prototype.SubmitForm=function(data,amount)
         alert("An error occured, please try again");
     }
 
+}
+
+smartDonationsFormDonationGenerator.prototype.TurnFormIntoRecurrentPayment=function(form)
+{
+    form.find('.amountToDonate').attr('name','a3');
+    form.find('.smartDonationsPaypalCommand').val('_xclick-subscriptions');
+    form.append('<input type="hidden" name="src" value="1"><input type="hidden" name="p3" value="1"><input type="hidden" name="t3" value="'+form.find('.redNaoRecurrence').find(':selected').val()+'">');
+}
+
+smartDonationsFormDonationGenerator.prototype.IsRecurrentPayment=function(form)
+{
+    return form.find('.redNaoRecurrence').length>0&&form.find('.redNaoRecurrence').find(':selected').val()!='OT';
 }
 
 smartDonationsFormDonationGenerator.prototype.GetOptions=function()

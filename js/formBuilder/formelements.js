@@ -47,6 +47,8 @@ function RedNaoCreateFormElementByName(elementName,options)
         return new InlineRadioElement(options);
     if(elementName=='rednaodonationbutton')
         return new DonationButtonElement(options);
+    if(elementName=='rednaodonationrecurrence')
+        return new RecurrenceElement(options);
 
 }
 
@@ -1273,6 +1275,96 @@ DonationButtonElement.prototype.GenerateDefaultStyle=function()
 }
 
 DonationButtonElement.prototype.GetValueString=function()
+{
+    return '';
+
+}
+
+
+
+
+/************************************************************************************* Recurrence Element  ***************************************************************************************************/
+
+
+
+function RecurrenceElement(options)
+{
+    FormElementBase.call(this,options);
+    this.Title="Donation Button";
+
+    if(this.IsNew)
+    {
+        this.Options.Label="Recurrence";
+        this.Options.ClassName="rednaodonationrecurrence";
+        this.Options.ShowOneTime='y';
+        this.Options.ShowDaily='y';
+        this.Options.ShowWeekly='y';
+        this.Options.ShowMonthly='y';
+        this.Options.ShowYearly='y';
+
+    }
+
+
+}
+
+RecurrenceElement.prototype=Object.create(FormElementBase.prototype);
+
+RecurrenceElement.prototype.CreateProperties=function()
+{
+    this.Properties.push(new SimpleTextProperty(this.Options,"Label","Label",'basic'));
+    this.Properties.push(new CheckBoxProperty(this.Options,"ShowOneTime","Show one time option",'basic'));
+    this.Properties.push(new CheckBoxProperty(this.Options,"ShowDaily","Show daily option",'basic'));
+    this.Properties.push(new CheckBoxProperty(this.Options,"ShowWeekly","Show weekly option",'basic'));
+    this.Properties.push(new CheckBoxProperty(this.Options,"ShowMonthly","Show monthly option",'basic'));
+    this.Properties.push(new CheckBoxProperty(this.Options,"ShowYearly","Show yearly option",'basic'));
+}
+
+RecurrenceElement.prototype.GenerateInlineElement=function()
+{
+    var html= '<label class="rednao_control_label">'+this.Options.Label+'</label>\<div class="redNaoControls"><select class="redNaoSelect redNaoRecurrence">';
+    var selected='selected="selected"';
+
+    if(this.Options.ShowOneTime=='y')
+    {
+         html+='<option value="OT" '+selected+'>One Time</option>';
+        selected='';
+    }
+
+    if(this.Options.ShowDaily=='y')
+    {
+        html+='<option value="D" '+selected+'>Daily</option>';
+        selected='';
+    }
+
+    if(this.Options.ShowWeekly=='y')
+    {
+        html+='<option value="W" '+selected+'>Weekly</option>';
+        selected='';
+    }
+
+    if(this.Options.ShowMonthly=='y')
+    {
+        html+='<option value="M" '+selected+'>Monthly</option>';
+        selected='';
+    }
+
+    if(this.Options.ShowYearly=='y')
+    {
+        html+='<option value="Y" '+selected+'>Yearly</option>';
+        selected='';
+    }
+
+    html+='</select></div>';
+
+    return html;
+}
+
+RecurrenceElement.prototype.GenerateDefaultStyle=function()
+{
+    this.Options.Styles.redNaoSelect='width:auto;border: 1px solid #ccc;height:30px;line-height:30px;padding:4px 6px;';
+}
+
+RecurrenceElement.prototype.GetValueString=function()
 {
     return '';
 

@@ -393,7 +393,7 @@ smartDonationsFormConfiguration.prototype.GetDonationConfigurationGeneratedCode=
                                 <li id="atabinput" class="formtab"><a href="#input">Input</a></li>\
                                 <li><a id="atabradioscheckboxes" class="formtab">Radios / Checkboxes</a></li>\
                                 <li><a id="atabselect" class="formtab">Select</a></li>\
-                                <li><a id="atabbuttons" class="formtab">Buttons</a></li>\
+                                <li><a id="atabbuttons" class="formtab">Paypal</a></li>\
                             </ul>\
                             <div class="form-horizontal" id="components">\
                                 <fieldset  >\
@@ -407,10 +407,6 @@ smartDonationsFormConfiguration.prototype.GetDonationConfigurationGeneratedCode=
                                         <div class="tab-pane active rednaotablist" id="tabinput">\
                                             <div class="component">\
                                                 <div class="control-group rednaotextinput">\
-                                                </div>\
-                                            </div>\
-                                            <div class="component">\
-                                                <div class="control-group rednaodonationamount">\
                                                 </div>\
                                             </div>\
                                             <div class="component">\
@@ -462,6 +458,14 @@ smartDonationsFormConfiguration.prototype.GetDonationConfigurationGeneratedCode=
                                         </div>\
                                         <div class="tab-pane rednaotablist" id="tabbuttons">\
                                             <div class="component">\
+                                                <div class="control-group rednaodonationrecurrence">\
+                                                </div>\
+                                            </div>\
+                                            <div class="component">\
+                                                <div class="control-group rednaodonationamount">\
+                                                </div>\
+                                            </div>\
+                                             <div class="component">\
                                                 <div class="control-group rednaodonationbutton">\
                                                 </div>\
                                             </div>\

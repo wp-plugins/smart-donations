@@ -27,7 +27,7 @@ smartDonationsPayPalProvider.prototype.GetStartOfDonationForm=function(generator
 
     var donationText= '<div class="smartDonationsDonationGeneratedItem"  >\
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="donationForm" target="_blank">      \
-                <input type="hidden" name="cmd" value="_donations">\
+                <input type="hidden" name="cmd" class="smartDonationsPaypalCommand" value="_donations">\
                 <input type="hidden" name="item_name" value="'+itemName+'">\
                 <input type="hidden" name="business" value="'+generator.business+'">\
                 <input type="hidden" name="lc" value="US">                       \
@@ -40,7 +40,7 @@ smartDonationsPayPalProvider.prototype.GetStartOfDonationForm=function(generator
         donationText+='<input type="hidden" name="notify_url" value="'+smartDonationsRootPath+'ipn/rednao_paypal_ipn.php">';
 
     if(generator.returningUrl)
-        donationText+='<input type="hidden" name="return" class="amountToDonate" value="'+generator.returningUrl+'">';
+        donationText+='<input type="hidden" name="return" value="'+generator.returningUrl+'">';
 
     var quantity=-1;
 
