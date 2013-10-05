@@ -169,9 +169,12 @@ class rednao_paypal_ipn
         if (isset($_POST['txn_type']))
             $txn_type = $_POST['txn_type'];
 
+        if($txn_type == "subscr_signup")
+            return true;
+
 
         if (isset($_POST['payment_status'])) {
-            return $_POST['payment_status'] === "Pending" || $_POST['payment_status'] == "Completed" || $txn_type == "subscr_payment" || $txn_type == "subscr_signup";
+            return $_POST['payment_status'] === "Pending" || $_POST['payment_status'] == "Completed" || $txn_type == "subscr_payment";
         }
         return false;
 
