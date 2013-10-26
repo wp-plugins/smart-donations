@@ -795,6 +795,7 @@ function rednao_smart_donations_execute_analytics_op()
         {
             delete_transient("rednao_smart_donations_progress_$value->progress_id");
         }
+        delete_transient("rednao_smart_donations_wall_".$campaign_id);
         return;
 
     }
@@ -923,6 +924,7 @@ function rednao_smart_donations_execute_analytics_op()
         {
             delete_transient("rednao_smart_donations_progress_$value->progress_id");
         }
+        delete_transient("rednao_smart_donations_wall_".$campaign_id);
     }
 
     die();

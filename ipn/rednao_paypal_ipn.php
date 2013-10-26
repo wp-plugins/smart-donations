@@ -134,6 +134,7 @@ class rednao_paypal_ipn
                 foreach ($result as $key => $value) {
                     delete_transient("rednao_smart_donations_progress_$value->progress_id");
                 }
+                delete_transient("rednao_smart_donations_wall_".$campaign_id);
             }
 
         }
