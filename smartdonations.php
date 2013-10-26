@@ -5,7 +5,7 @@
  * Description: Place diferent form of donations on your blog...
  * Author: RedNao
  * Author URI: http://rednao.com
- * Version: 3.0
+ * Version: 3.1
  * Text Domain: SmartDonations
  * Domain Path: /languages/
  * Network: true
@@ -43,6 +43,7 @@ require_once('smart-donations-config.php');
 require_once('smart-donations-ajax.php');
 require_once('smart-donations-widget.php');
 require_once('smart-donations-progress-widget.php');
+
 
 register_activation_hook(__FILE__,'rednao_smart_donations_plugin_was_activated');
 add_shortcode('sdonations','rednao_smart_donations_short_code');
@@ -115,7 +116,7 @@ function rednao_smart_donations_plugin_was_activated()
     delete_transient("smart_donations_check_again");
 
     global $wpdb;
-    if( true )
+    if( $dbversion<SMART_DONATIONS_LATEST_DB_VERSION )
     {
         require_once(ABSPATH.'wp-admin/includes/upgrade.php');
 
@@ -145,7 +146,9 @@ function rednao_smart_donations_plugin_was_activated()
         additional_fields TEXT,
         status char(1),
         campaign_id int,
-        PRIMARY KEY  (transaction_id)
+        PRIMARY KEY  (transaction_id),
+        KEY idx_payer_email(payer_email),
+        KEY idx_campaign_id(campaign_id)
         );";
         dbDelta($sql);
 
@@ -173,8 +176,6 @@ function rednao_smart_donations_plugin_was_activated()
         PRIMARY KEY  (progress_id)
         );";
         dbDelta($sql);
-
-
 
         update_option("REDNAO_SMART_DONATIONS_DB_VERSION",SMART_DONATIONS_LATEST_DB_VERSION);
     }
@@ -234,6 +235,11 @@ function rednao_smart_donations_wish_list()
     include(SMART_DONATIONS_DIR.'/smart-donations-wishlist.php');
 }
 
+require_once('smart-donations-license-helpers.php');
+if(smart_donations_check_license_with_options($error)||$error!=null)
+{
+    require_once('smart-donations-wall-widget.php');
+}
 
 
 ?>

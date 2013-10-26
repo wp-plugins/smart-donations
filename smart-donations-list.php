@@ -13,13 +13,7 @@ if($action==="add"){
     include(SMART_DONATIONS_DIR.'/smart-donations-add-new.php');
     return;
 }
-if(rand(0,1)==0)
-{
-    echo '<div class="updated fade below-h2"><p>Need help? check the video tutorials <a href="http://rednao.com/tutorials.htm" target="_blank">Here</a> or ask me directly in the   <a href="https://www.facebook.com/SmartDonations" target="_blank">Smart Donations Facebook Page</a></p></div>';
-}else
-{
-    echo '<div class="updated fade below-h2"><p>If you want to get tips and updates join me in the <a  target="_blank" href="http://eepurl.com/EGNgr">Smart Donations Mailing List</a></p></div>';
-}
+require_once('smart-donations-messages.php');
 
 echo "<h1>Donation Buttons</h1>";
 echo sprintf('<h2 ><a style="color:blue; text-decoration: underline;" href="?page=%s&action=%s">Add New</a></h2>',$_REQUEST['page'],'add');

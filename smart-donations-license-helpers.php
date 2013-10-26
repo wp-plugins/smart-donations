@@ -10,12 +10,7 @@ function smart_donations_check_license($email,$key,&$error,$isNew)
         {
             update_option('smart_donations_email',$email);
             update_option('smart_donations_key',$key);
-
-            if($isNew)
-            {
-                update_option('smart_donations_email',$email);
-                update_option('smart_donations_key',$key);
-            }
+            require_once('smart-donations-wall-widget.php');
 
             set_transient("smart_donations_check_again",1,60*60*24*7);
             return true;

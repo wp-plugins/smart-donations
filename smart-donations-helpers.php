@@ -88,7 +88,7 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
             return;
 
         if($title)
-            echo "<div><h3 class='widgettitle'>$title</h3>"
+            echo "<div class='widget-wrapper'><h3 class='widgettitle'>$title</h3>"
 
     ?>
 
@@ -189,7 +189,7 @@ function rednao_smart_donations_load_progress($id,$title,$returnComponent)
             return;
 
         if($title)
-            echo "<div><h3 class='widgettitle'>$title</h3>"
+            echo "<div class='widget-wrapper'><h3 class='widgettitle'>$title</h3>"
         ?>
 
 
@@ -220,5 +220,81 @@ function rednao_smart_donations_load_progress($id,$title,$returnComponent)
            ";
     }
 }
+
+
+
+function rednao_smart_donations_load_wall($campaignId,$title,$numberOfRows,$currency,$decimalSign,$thousandSeparator)
+{
+
+    $rows=Array();
+    $options=get_transient("rednao_smart_donations_wall_$campaignId");
+    if($options==false)
+    {
+        $options=null;
+        global $wpdb;
+        $results=$wpdb->get_results($wpdb->prepare("select payer_email,first_name,last_name, sum(mc_fee+mc_gross) amount from ".SMART_DONATIONS_TRANSACTION_TABLE." where campaign_id=%d group by payer_email order by amount desc limit %d" ,$campaignId,$numberOfRows));
+        if(count($results)>0)
+        {
+
+
+            foreach($results as $row)
+            {
+                array_push($rows,Array( "payer_email"=>htmlspecialchars($row->payer_email),
+                                        "first_name"=>htmlspecialchars($row->first_name),
+                                        "last_name"=>htmlspecialchars($row->last_name),
+                                        "amount"=>htmlspecialchars($row->amount),
+                ));
+            }
+            set_transient("rednao_smart_donations_wall_$campaignId",$rows,60*60*24*31);
+        }
+
+    }else
+        $rows=$options;
+    echo "<div class='widget-wrapper'><h3 class='widgettitle'>$title</h3><table class='smartDonationsWallTable'>";
+    $count=1;
+    foreach($rows as $row)
+    {
+        echo "<tr class='smartDonationsWallRow'>";
+        echo " <td><span class='smartdonationsWallCounter'>$count. </span><span class='smartDonationsWallDonatorName'>".$row['first_name']." ".$row['last_name']."<span></td>";
+        echo "<td style='text-align:right'><span class='smartDonationsWallDonatorAmount' >".$currency." ".number_format($row['amount'],2,$decimalSign,$thousandSeparator);$row['amount']."<span></td>";
+        echo "</tr>";
+        $count+=1;
+    }
+    echo"</table></div>";
+    wp_enqueue_style('smart-donations-main-style',plugin_dir_url(__FILE__).'css/mainStyle.css');
+    /*wp_enqueue_script('jquery');
+    wp_enqueue_script('isolated-slider',plugin_dir_url(__FILE__).'js/rednao-isolated-jq.js');
+    wp_enqueue_script('smart-donations-progress-gen',plugin_dir_url(__FILE__).'js/smart-donations-progress-gen.js',array('isolated-slider'));
+    wp_enqueue_style('smart-donations-main-style',plugin_dir_url(__FILE__).'css/mainStyle.css');
+    wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css');
+    $random=rand();
+
+
+        if($options===null)
+            return;
+
+        if($title)
+            echo "<div class='widget-wrapper'><h3 class='widgettitle'>$title</h3>"
+        ?>
+
+
+        <div id="progressContainer<?php echo $random?>"></div>
+
+        <script>
+            var smartDonationsRootPath="<?php echo plugin_dir_url(__FILE__)?>";
+
+            if(!window.smartDonationsProgressItemsToLoad)
+                window.smartDonationsProgressItemsToLoad=new Array();;
+
+            window.smartDonationsProgressItemsToLoad.push({'options':<?php echo $options?>,'element':'progressContainer<?php echo $random?>'});
+
+        </script>
+        <?php
+        if($title)
+            echo "</div>";*/
+
+
+}
+
 
 ?>

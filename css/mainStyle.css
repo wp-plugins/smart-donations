@@ -483,5 +483,32 @@
 
 }
 
+.smartDonationsWallDonatorName,.smartdonationsWallCounter{
+    font-weight: bold;
+}
+
+.smartDonationsWallTable{
+    border-collapse:separate;
+    border-spacing: 0 5px;
+    margin:0;
+    padding:0px;
+    width: 100%;
+
+}
+
+.smartDonationsWallTable td{
+    margin:0px;
+    padding:0px;
+    border-bottom: 1px dotted #C7C7C7;
 
 
+}
+
+.smartDonationsWallTable tr{
+    margin:0px;
+    padding: 0px;
+}
+
+.smartDonationsWallDonatorAmount{
+    margin-left:10px;
+}

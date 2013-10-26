@@ -75,8 +75,11 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 8. Example of a donation progress indicators (Pro feature)
 9. Analytics of all your donations(Pro)
 10. Forms Donation Style (Pro, only paypal)
+11. Donation Wall
 
 == Changelog ==
+= 3.1 =
+* Added donation wall for paypal donations (pro feature)
 = 2.9.9 =
 * Added feature to let you change the paypal donation description and the paypal button in the donation forms.
 = 2.9.5 =
