@@ -2,7 +2,7 @@
 
 
 
-function rednao_smart_donations_json_object($object,$styles,$amount,$goal,$donators)
+function rednao_smart_donations_json_object($object,$styles,$amount,$goal,$donators,$returningUrl)
 {
     $json="{";
     $variables=explode("&",$object);
@@ -14,7 +14,7 @@ function rednao_smart_donations_json_object($object,$styles,$amount,$goal,$donat
     }
     if($styles!=null)
     {
-        $json=$json."\"styles\":".rednao_smart_donations_json_object($styles,null,null,null,null).",";
+        $json=$json."\"styles\":".rednao_smart_donations_json_object($styles,null,null,null,null,null).",";
     }
 
     if($amount!=null)
@@ -30,6 +30,11 @@ function rednao_smart_donations_json_object($object,$styles,$amount,$goal,$donat
     if($donators!=null)
     {
         $json=$json."\"Donators\":".$donators.",";
+    }
+
+    if($returningUrl!=null)
+    {
+        $json=$json."\"returningUrl\":\"".$returningUrl."\",";
     }
 
 
@@ -49,12 +54,13 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
     if($options==false)
     {
         global $wpdb;
-        $result=$wpdb->get_results($wpdb->prepare("select options,styles,donation_type from ".SMART_DONATIONS_TABLE_NAME." where donation_id=%d",$id));
+        $result=$wpdb->get_results($wpdb->prepare("select options,styles,donation_type,returning_url from ".SMART_DONATIONS_TABLE_NAME." where donation_id=%d",$id));
         if(count($result)>0)
         {
             $result=$result[0];
             $options=$result->options;
             $styles=$result->styles;
+            $returningUrl=$result->returning_url;
             if($options!=null)
             {
                 if($result->donation_type=="forms")
@@ -62,7 +68,7 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
                     $options=str_replace("\\\"","\"",$options);
                 }else
                 {
-                    $options=rednao_smart_donations_json_object($options,$styles,null,null,null);
+                    $options=rednao_smart_donations_json_object($options,$styles,null,null,null,$returningUrl);
                 }
                 set_transient("rednao_smart_donations_donation_$id",$options,60*60*24*31);
             }
@@ -170,7 +176,7 @@ function rednao_smart_donations_load_progress($id,$title,$returnComponent)
 
             if($options!=null)
             {
-                $options=rednao_smart_donations_json_object($options,$styles,$amount,$goal,$donators);
+                $options=rednao_smart_donations_json_object($options,$styles,$amount,$goal,$donators,null);
                 set_transient("rednao_smart_donations_progress_$id",$options,60*60*24*31);
             }
         }

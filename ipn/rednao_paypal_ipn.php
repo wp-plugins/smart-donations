@@ -104,6 +104,13 @@ class rednao_paypal_ipn
                         $this->ProcessThankYouEmailIfAny($properties);
                     else
                     {
+                        $form="";
+                        if($formId!=null)
+                            $form = get_transient($formId);
+
+                            $properties['form_information']=$form?$form:"";
+
+
                         if ($this->dbProvider->InsertTransaction($properties)) {
                             if($txn_type!='subscr_payment')
                                 $this->ProcessThankYouEmailIfAny($properties);

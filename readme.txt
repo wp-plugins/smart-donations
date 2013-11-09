@@ -20,7 +20,7 @@ Want to see a demo? check out the video tutorials here: http://rednao.com/smartd
  
  *  **Classic Donation**.- The classic paypal or wepay button, When The user clicks the button he will be directed to the paypal/wepay page and he will define how much he want to donate there. (Paypal or wepay)
  
- *  **TextBox Donation**.- A paypal or wepay button with a text box so the donators can pick right away how much they want to donate. (Paypal or wepay)
+ *  **TextBox Donation**.- A paypal or wepay button with a text box so the donors can pick right away how much they want to donate. (Paypal or wepay)
    
  * **Three Buttons Donation**.- Three donation buttons (they dont have to be paypal buttons, you can customize them) each one with a different amounts (that you define) so the donators can donate with one click. (Paypal or wepay)
     

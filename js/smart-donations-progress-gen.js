@@ -156,6 +156,13 @@ function smartdonationsGoalBar(containerName,options){
 
     this.orientation=options.orientation;
     this.comment=options.comment;
+
+    if(typeof options.currencySign=='undefined')
+        this.currencySign="$"
+    else
+        this.currencySign=options.currencySign;
+
+
 }
 smartdonationsGoalBar.prototype=Object.create(smartDonationsBaseProgressIndicator.prototype);
 
@@ -251,7 +258,7 @@ smartdonationsGoalBar.prototype.createThermometer=function thermometer(generator
         percentageAmount = Math.min(Math.round(progressAmount / goalAmount * 1000) / 10, 100); //make sure we have 1 decimal point
 
     //let's format the numbers and put them back in the DOM
-    $goal.find(".amountText").text("$" + generator.formatCurrency(goalAmount));
+    $goal.find(".amountText").text(generator.currencySign + generator.formatCurrency(goalAmount));
 
 
 
@@ -288,7 +295,7 @@ smartdonationsGoalBar.prototype.createThermometer=function thermometer(generator
             }
         }
         jQuery(this).find(".amount").hide();
-        $progress.find(".currentText").text("$" + generator.formatCurrency(progressAmount));
+        $progress.find(".currentText").text(generator.currencySign + generator.formatCurrency(progressAmount));
         if(isColliding)
             $thermo.find(".goal .amount").fadeOut(500,function()
             {
@@ -365,7 +372,7 @@ smartDonationsPanels.prototype.DonationGeneratedCode=function(){
             <span class="amountText smartDonationsEditableItem">'+this.Donators+'</span>\
         </div>\
         <div class="panelTitle smartDonationsEditableItem">\
-        <span class="titleText smartDonationsEditableItem" >Donators</span>\
+        <span class="titleText smartDonationsEditableItem" >Donors</span>\
         </div>\
         </div>';
     }

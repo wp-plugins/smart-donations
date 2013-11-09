@@ -5,7 +5,7 @@
  * Description: Place diferent form of donations on your blog...
  * Author: RedNao
  * Author URI: http://rednao.com
- * Version: 3.1
+ * Version: 3.2
  * Text Domain: SmartDonations
  * Domain Path: /languages/
  * Network: true
@@ -116,6 +116,7 @@ function rednao_smart_donations_plugin_was_activated()
     delete_transient("smart_donations_check_again");
 
     global $wpdb;
+
     if( $dbversion<SMART_DONATIONS_LATEST_DB_VERSION )
     {
         require_once(ABSPATH.'wp-admin/includes/upgrade.php');
@@ -133,7 +134,8 @@ function rednao_smart_donations_plugin_was_activated()
         );";
         dbDelta($sql);
 
-
+        $wpdb->query("ALTER TABLE ".SMART_DONATIONS_TRANSACTION_TABLE." DROP INDEX idx_payer_email");
+        $wpdb->query("ALTER TABLE ".SMART_DONATIONS_TRANSACTION_TABLE." DROP INDEX idx_campaign_id");
         $sql="CREATE TABLE ".SMART_DONATIONS_TRANSACTION_TABLE." (
         transaction_id double AUTO_INCREMENT,
         txn_id VARCHAR(200),
@@ -146,13 +148,14 @@ function rednao_smart_donations_plugin_was_activated()
         additional_fields TEXT,
         status char(1),
         campaign_id int,
+        form_information MEDIUMTEXT,
         PRIMARY KEY  (transaction_id),
         KEY idx_payer_email(payer_email),
         KEY idx_campaign_id(campaign_id)
         );";
         dbDelta($sql);
 
-
+    return;
         $sql="CREATE TABLE ".SMART_DONATIONS_CAMPAIGN_TABLE." (
         campaign_id double AUTO_INCREMENT,
         name VARCHAR(200) NOT NULL,
@@ -242,4 +245,3 @@ if(smart_donations_check_license_with_options($error)||$error!=null)
 }
 
 
-?>

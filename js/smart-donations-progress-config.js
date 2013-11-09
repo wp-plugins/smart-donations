@@ -99,7 +99,11 @@ SmartDonationsConfigurationProgressIndicator.prototype.GetProgressConfigurationG
         "</tr>" +
         "<tr>" +
         "<td>Comment</td>" +
-        "<td><input type='text' class='smartDonationsSettingField' class='smartDonationsCommentField' name='comment' value='Thank you, we are almost there!!'/></td>" +
+        "<td><input type='text' class='smartDonationsSettingField smartDonationsCommentField' name='comment' value='Thank you, we are almost there!!'/></td>" +
+        "</tr>"+
+        "<tr>" +
+        "<td>Currency Sign</td>" +
+        "<td><input type='text' class='smartDonationsSettingField' style='width:50px;text-align: center;' name='currencySign' value='$'/></td>" +
         "</tr>"+
         "</table>";
 
@@ -146,7 +150,7 @@ SmartDonationsConfigurationPanels.prototype.GetProgressConfigurationGeneratedCod
         "<td>Hide Goals</td> "+
         "<td><input name='hidegoals' class='smartDonationsSettingField' type='checkbox'  /> </td> "+
         "</tr>"+
-        "<td>Hide Donators</td> "+
+        "<td>Hide Donors</td> "+
         "<td><input name='hidedonators' class='smartDonationsSettingField' type='checkbox' /> </td> "+
         "</tr>"+
         "</table>";
