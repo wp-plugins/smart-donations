@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=edsev
 Tags: donations, donate, donation buttons, donation widget,widget, paypal, donations, donation page, donation plugin, nonprofit donations, campaign donations, political campaigns, donations, donation widget, donate page, donate plugin,charity, fundraising, shortcode, forms, widgets
 Requires at least: 3.1
 Tested up to: 3.5
-Stable tag: 3.1
+Stable tag: 3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,8 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 11. Donation Wall
 
 == Changelog ==
+= 3.2 =
+* Added customization for cash sign in the paypal progress indicator, fixed a problem with the returning url of the donation buttons.
 = 3.1 =
 * Added donation wall for paypal donations (pro feature)
 = 2.9.9 =
