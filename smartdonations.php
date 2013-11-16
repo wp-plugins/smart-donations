@@ -5,7 +5,7 @@
  * Description: Place diferent form of donations on your blog...
  * Author: RedNao
  * Author URI: http://rednao.com
- * Version: 3.3
+ * Version: 3.4
  * Text Domain: SmartDonations
  * Domain Path: /languages/
  * Network: true
@@ -46,6 +46,7 @@ require_once('smart-donations-progress-widget.php');
 
 
 register_activation_hook(__FILE__,'rednao_smart_donations_plugin_was_activated');
+add_action('admin_init','rednao_smart_donations_plugin_was_activated');
 add_shortcode('sdonations','rednao_smart_donations_short_code');
 add_shortcode('sdprogress','rednao_smart_donations_progress_short_code');
 
@@ -113,12 +114,13 @@ function rednao_smart_donations_register_button($buttons)
 function rednao_smart_donations_plugin_was_activated()
 {
     $dbversion=get_option("REDNAO_SMART_DONATIONS_DB_VERSION");
-    delete_transient("smart_donations_check_again");
 
     global $wpdb;
 
-    if( $dbversion<SMART_DONATIONS_LATEST_DB_VERSION )
+    if(!$dbversion|| $dbversion<SMART_DONATIONS_LATEST_DB_VERSION )
     {
+        delete_transient("smart_donations_check_again");
+
         require_once(ABSPATH.'wp-admin/includes/upgrade.php');
 
         $sql="CREATE TABLE ".SMART_DONATIONS_TABLE_NAME." (

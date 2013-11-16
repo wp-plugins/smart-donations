@@ -49,7 +49,7 @@ if($action!=null&&$donation_id!=null)
             {
                 $options="jQuery.parseJSON('".$result->options."')";
             }else
-                $options=rednao_smart_donations_json_object($result->options,$result->styles,null,null,null);
+                $options=rednao_smart_donations_json_object($result->options,$result->styles,null,null,null,null);
 
             $script=<<<EOF
                         <script type="text/javascript" language="javascript">
