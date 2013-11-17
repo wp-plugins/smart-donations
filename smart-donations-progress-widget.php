@@ -26,7 +26,7 @@ class rednao_smart_donations_progress_widget extends WP_Widget
 
     function form($instance)
     {
-        $defaults = array( 'progress_id' => '0' );
+        $defaults = array( 'progress_id' => '0','title'=>'' );
         $instance = wp_parse_args( (array) $instance, $defaults );
         $id = $instance['progress_id'];
         $title = $instance['title'];

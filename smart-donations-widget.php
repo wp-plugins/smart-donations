@@ -26,7 +26,7 @@ class rednao_smart_donations_widget extends WP_Widget
 
     function form($instance)
     {
-        $defaults = array( 'donation_id' => '0' );
+        $defaults = array( 'donation_id' => '0','title'=>'' );
         $instance = wp_parse_args( (array) $instance, $defaults );
         $id = $instance['donation_id'];
         $title=$instance['title'];
