@@ -178,7 +178,7 @@ class rednao_paypal_ipn
                         $headers = 'MIME-Version: 1.0' . "\r\n";
                         $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
                         if($result->email_from!='')
-                            $headers= 'From: '.$result->email_from.' <'.$result->email_from. '>'. '\r\n';
+                            $headers= 'From: '.$result->email_from.' <'.$result->email_from. '>'. "\r\n";
                         wp_mail($_POST['payer_email'], $result->email_subject, $result->thank_you_email, $headers);
                     } catch (Exception $e) {
                         $this->SendFormError($e->getMessage(), $properties);
@@ -292,7 +292,7 @@ class rednao_paypal_ipn
             $headers = 'MIME-Version: 1.0' . "\r\n";
             $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
             if($email!='')
-                $headers= 'From: '.$email.' <'.$email. '>'. '\r\n';
+                $headers= 'From: '.$email.' <'.$email. '>'. "\r\n";
 
             if ($notifyToEmails != null) {
                 $notifyEmail = str_replace(';', ',', $notifyToEmails);
