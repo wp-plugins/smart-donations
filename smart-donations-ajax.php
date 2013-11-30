@@ -159,6 +159,11 @@ function rednao_smart_donations_add_campaign()
         die();
     }
 
+    if(isset($_POST["email_from"]))
+        $email_from=$_POST["email_from"];
+    else
+        $email_from="";
+
 
 
 
@@ -180,7 +185,8 @@ function rednao_smart_donations_add_campaign()
         'description'=>$description,
         'goal'=>$goal,
         'thank_you_email'=>$thank_you_email,
-        'email_subject'=>$email_subject
+        'email_subject'=>$email_subject,
+        'email_from'=>$email_from
     ));
 
     echo "success";
@@ -228,6 +234,11 @@ function rednao_smart_donations_edit_campaign()
     }else
         $email_subject='';
 
+    if(isset($_POST["email_from"]))
+        $email_from=$_POST["email_from"];
+    else
+        $email_from="";
+
     if($name==null)
     {
         echo "Campaign name is mandatory";
@@ -244,7 +255,8 @@ function rednao_smart_donations_edit_campaign()
                 "description"=>$description,
                 "goal"=>$goal,
                 "thank_you_email"=>$thank_you_email,
-                "email_subject"=>$email_subject),array("campaign_id"=>$campaign_id));
+                "email_subject"=>$email_subject,
+                "email_from"=>$email_from),array("campaign_id"=>$campaign_id));
 
 
     $result=$wpdb->get_results($wpdb->prepare("select progress_id from ".SMART_DONATIONS_PROGRESS_TABLE." where campaign_id=%d",$campaign_id));

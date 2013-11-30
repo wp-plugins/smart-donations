@@ -32,6 +32,7 @@ rnJQuery(function()
         rnJQuery("#smart_donations_campaign_goal").val(0);
         rnJQuery("#smartDonationsThankYouEmail").val('');
         rnJQuery("#smartDonationsEmailSubject").val('');
+        rnJQuery("#smartDonationsEmailFrom").val('');
         rnJQuery('#smartDonationsSendThankYouEmail').removeAttr('checked');
 
         DisableThankYouEmail();
@@ -45,6 +46,11 @@ rnJQuery(function()
 
         rnJQuery("#campaignSaveButton").unbind("click").click(function()
         {
+            if(!EmailIsValid())
+            {
+                alert("Invalid email address");
+                return;
+            }
            rnJQuery(this).attr('disabled', 'disabled');
             var data={
                 action:"rednao_smart_donations_add_campaign",
@@ -52,7 +58,8 @@ rnJQuery(function()
                 description:rnJQuery("#smart_donations_campaign_description").val(),
                 goal:rnJQuery("#smart_donations_campaign_goal").val(),
                 thank_you_email:rnJQuery('#smartDonationsThankYouEmail').val(),
-                email_subject:rnJQuery('#smartDonationsEmailSubject').val()
+                email_subject:rnJQuery('#smartDonationsEmailSubject').val(),
+                email_from:rnJQuery('#smartDonationsEmailFrom').val()
             };
 
             rnJQuery.post(ajaxurl,data,ajaxCompleted);
@@ -74,6 +81,15 @@ rnJQuery(function()
         }
     }
 
+    function EmailIsValid() {
+        var email=rnJQuery('#smartDonationsEmailFrom').val();
+        if(email=="")
+            return true;
+        expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        return expr.test(email);
+
+    }
+
 
     function OpenEditDialog(campaign) {
         ClearDialog();
@@ -82,6 +98,11 @@ rnJQuery(function()
 
         rnJQuery("#campaignSaveButton").unbind("click").click(function()
         {
+            if(!EmailIsValid())
+            {
+                alert("Invalid email address");
+                return;
+            }
             rnJQuery(this).attr('disabled', 'disabled');
             var data={
                 action:"rednao_smart_donations_edit_campaign",
@@ -90,7 +111,8 @@ rnJQuery(function()
                 description:rnJQuery("#smart_donations_campaign_description").val(),
                 thank_you_email:rnJQuery('#smartDonationsThankYouEmail').val(),
                 goal:rnJQuery("#smart_donations_campaign_goal").val(),
-                email_subject:rnJQuery('#smartDonationsEmailSubject').val()
+                email_subject:rnJQuery('#smartDonationsEmailSubject').val(),
+                email_from:rnJQuery('#smartDonationsEmailFrom').val()
             };
 
             rnJQuery.post(ajaxurl,data,ajaxCompleted);
@@ -101,6 +123,7 @@ rnJQuery(function()
         rnJQuery("#smart_donations_campaign_goal").val(campaign.goal);
         rnJQuery("#smartDonationsThankYouEmail").val(campaign.thank_you_email);
         rnJQuery("#smartDonationsEmailSubject").val(campaign.email_subject);
+        rnJQuery("#smartDonationsEmailFrom").val(campaign.email_from);
 
         if(campaign.email_subject||campaign.thank_you_email)
             rnJQuery('#smartDonationsSendThankYouEmail').attr('checked','checked');
@@ -153,6 +176,9 @@ rnJQuery(function()
         rnJQuery('#smartDonationsEmailSubject').removeAttr('disabled');
         rnJQuery('#smartDonationsEmailSubject').css('background-color','#fff');
 
+        rnJQuery('#smartDonationsEmailFrom').removeAttr('disabled');
+        rnJQuery('#smartDonationsEmailFrom').css('background-color','#fff');
+
     }
 
     function DisableThankYouEmail()
@@ -164,6 +190,10 @@ rnJQuery(function()
         rnJQuery('#smartDonationsEmailSubject').attr('disabled','disabled');
         rnJQuery('#smartDonationsEmailSubject').css('background-color','#ddd');
         rnJQuery('#smartDonationsEmailSubject').val('');
+
+        rnJQuery('#smartDonationsEmailFrom').attr('disabled','disabled');
+        rnJQuery('#smartDonationsEmailFrom').css('background-color','#ddd');
+        rnJQuery('#smartDonationsEmailFrom').val('');
     }
 
 

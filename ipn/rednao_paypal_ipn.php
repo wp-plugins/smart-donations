@@ -2,6 +2,8 @@
 require_once('../../../../wp-config.php');
 require_once('wordpress_connection_provide.php');
 require_once('smart_donations_db_privider.php');
+
+global $rednaolog;
 class rednao_paypal_ipn
 {
 
@@ -21,7 +23,11 @@ class rednao_paypal_ipn
 
     public function ProcessCall()
     {
+        global $wpdb;
+        RedNaoAddMessage("Latest error:". $wpdb->last_error);
+        RedNaoAddMessage("Checking if it is valid");
         if ($this->connectionProvider->IsValid()) {
+            RedNaoAddMessage("Requiest is valid");
             $properties = array();
             if (isset($_POST['txn_id'])) {
                 $properties['txn_id'] = $_POST['txn_id'];
@@ -79,15 +85,19 @@ class rednao_paypal_ipn
             } else
                 $receiverEmail = '';
 
-
+            RedNaoAddMessage("Check if it is a donation or refund");
             if ($this->DonationWasReceived()) {
+                RedNaoAddMessage("It is a donation");
                 $txn_type = '';
                 if (isset($_POST['txn_type']))
                     $txn_type = $_POST['txn_type'];
+                RedNaoAddMessage("Checkhing if receiver email is valid");
                 if ($this->ReceiverEmailIsValid($receiverEmail)) {
+                    RedNaoAddMessage("Receiver is valid");
                     $properties['status'] = 'c';
                     $formId = "";
                     if (!is_numeric($properties['campaign_id'])) {
+                        RedNaoAddMessage("Is a form");
                         $formString = rawurldecode($properties['campaign_id']);
                         parse_str($formString, $formStringParameters);
                         if (sizeof($formStringParameters) == 2) {
@@ -104,17 +114,20 @@ class rednao_paypal_ipn
                         $this->ProcessThankYouEmailIfAny($properties);
                     else
                     {
+
                         $form="";
                         if($formId!=null)
                             $form = get_transient($formId);
 
                             $properties['form_information']=$form?$form:"";
 
-
+                        RedNaoAddMessage("Inserting transaction");
                         if ($this->dbProvider->InsertTransaction($properties)) {
+                            RedNaoAddMessage("Transaction was inserted sucessfully");
                             if($txn_type!='subscr_payment')
                                 $this->ProcessThankYouEmailIfAny($properties);
                         }
+                        RedNaoAddMessage("Latest error:". $wpdb->last_error);
                     }
 
                     if ($formId != null&&$txn_type!='subscr_payment') {
@@ -127,8 +140,9 @@ class rednao_paypal_ipn
 
 
             if ($this->DonationWasRefunded()) {
-
+                RedNaoAddMessage("Is a refund");
                 if (isset($_POST['parent_txn_id'])) {
+                    RedNaoAddMessage("Refunding transaction in the database");
                     $this->dbProvider->RefundTransaction($_POST['parent_txn_id']);
                 }
 
@@ -144,15 +158,18 @@ class rednao_paypal_ipn
                 delete_transient("rednao_smart_donations_wall_".$campaign_id);
             }
 
+        }else{
+            RedNaoAddMessage("Transaction is not valid");
         }
     }
 
     private function ProcessThankYouEmailIfAny($properties)
     {
+        RedNaoAddMessage("Processing thank you email");
         $campaign_id = $properties['campaign_id'];
         if ($campaign_id > 0) {
             global $wpdb;
-            $results = $wpdb->get_results($wpdb->prepare("SELECT email_subject,thank_you_email FROM " . SMART_DONATIONS_CAMPAIGN_TABLE . " where campaign_id=%d", $campaign_id));
+            $results = $wpdb->get_results($wpdb->prepare("SELECT email_subject,email_from,thank_you_email FROM " . SMART_DONATIONS_CAMPAIGN_TABLE . " where campaign_id=%d", $campaign_id));
 
             if (count($results) > 0) {
                 $result = $results[0];
@@ -160,6 +177,8 @@ class rednao_paypal_ipn
                     try {
                         $headers = 'MIME-Version: 1.0' . "\r\n";
                         $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+                        if($result->email_from!='')
+                            $headers= 'From: '.$result->email_from. "\r\n";
                         wp_mail($_POST['payer_email'], $result->email_subject, $result->thank_you_email, $headers);
                     } catch (Exception $e) {
                         $this->SendFormError($e->getMessage(), $properties);
@@ -200,6 +219,7 @@ class rednao_paypal_ipn
 
     private function ReceiverEmailIsValid($receiverEmail)
     {
+        RedNaoAddMessage($receiverEmail);
         global $wpdb;
         $count = $wpdb->get_var($wpdb->prepare("select count(*) from " . SMART_DONATIONS_TABLE_NAME . " where email=%s", $receiverEmail));
 
@@ -208,6 +228,7 @@ class rednao_paypal_ipn
 
     private function ProcessForm($properties, $formId)
     {
+        RedNaoAddMessage("Processing form");
         $form = get_transient($formId);
         if ($form == false) {
             this . SendFormError('The submitted form was not found, that means this transaction was processed 3 days after the payment', $properties);
@@ -230,7 +251,8 @@ class rednao_paypal_ipn
 
     private function SendFormError($error, $properties)
     {
-
+        global $rednaolog;
+        RedNaoAddMessage($error->getMessage());
     }
 
     private function SendFormEmail($formElementsValues, $properties, $notifyToEmails)
@@ -263,8 +285,15 @@ class rednao_paypal_ipn
 
         $email .= "</table>";
         try {
+            global $wpdb;
+            $email = $wpdb->get_var($wpdb->prepare("SELECT email_from FROM " . SMART_DONATIONS_CAMPAIGN_TABLE . " where campaign_id=%d", $properties['campaign_id']));
+
+
             $headers = 'MIME-Version: 1.0' . "\r\n";
             $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+            if($email!='')
+                $headers= 'From: '.$email. "\r\n";
+
             if ($notifyToEmails != null) {
                 $notifyEmail = str_replace(';', ',', $notifyToEmails);
             } else
@@ -278,6 +307,24 @@ class rednao_paypal_ipn
 }
 
 $ipn = new rednao_paypal_ipn(new wordpress_connection_provide(), new smart_donations_db_privider());
-$ipn->ProcessCall();
 
-?>
+try{
+    $ipn->ProcessCall();
+}catch(Exception $e)
+{
+    $rednaolog.=$e->getMessage();
+}
+
+
+function RedNaoAddMessage($message)
+{
+    global $rednaolog;
+    $rednaolog.=$message."<br/>";
+}
+
+
+$headers = 'MIME-Version: 1.0' . "\r\n";
+$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+
+
+
