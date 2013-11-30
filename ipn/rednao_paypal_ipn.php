@@ -286,13 +286,13 @@ class rednao_paypal_ipn
         $email .= "</table>";
         try {
             global $wpdb;
-            $email = $wpdb->get_var($wpdb->prepare("SELECT email_from FROM " . SMART_DONATIONS_CAMPAIGN_TABLE . " where campaign_id=%d", $properties['campaign_id']));
+            $emailFrom = $wpdb->get_var($wpdb->prepare("SELECT email_from FROM " . SMART_DONATIONS_CAMPAIGN_TABLE . " where campaign_id=%d", $properties['campaign_id']));
 
 
             $headers = 'MIME-Version: 1.0' . "\r\n";
             $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-            if($email!='')
-                $headers.= 'From: '.$email.' <'.$email. '>'. "\r\n";
+            if($emailFrom!='')
+                $headers.= 'From: '.$emailFrom.' <'.$emailFrom. '>'. "\r\n";
 
             if ($notifyToEmails != null) {
                 $notifyEmail = str_replace(';', ',', $notifyToEmails);
