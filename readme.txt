@@ -78,31 +78,35 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 11. Donation Wall
 
 == Changelog ==
-= 3.6 =
+= Smart Donations 3.7 =
+* Fixed donation wall issue
+* Fixing issue with classic donation button not being able to display a different image
+* Added a customizable donation text to the slider
+= Smart Donations 3.6 =
 * Added a field to define the email address
-= 3.4 =
+= Smart Donations 3.4 =
 * Fixing compatibility issues with wp 3.7.1
-= 3.2 =
+= Smart Donations 3.2 =
 * Added customization for cash sign in the paypal progress indicator, fixed a problem with the returning url of the donation buttons.
-= 3.1 =
+= Smart Donations 3.1 =
 * Added donation wall for paypal donations (pro feature)
-= 2.9.9 =
+= Smart Donations 2.9.9 =
 * Added feature to let you change the paypal donation description and the paypal button in the donation forms.
-= 2.9.5 =
+= Smart Donations 2.9.5 =
 * Fixed minor issues with the donation items.
-= 2.9 =
+= Smart Donations 2.9 =
 * Fixed a bug in Form donations, added thank you email to the donation campaigns and added the possibility to include amounts in the donation check, radio and combo boxes.
-= 2.5.6 =
+= Smart Donations 2.5.6 =
 * Fixing issue with manual donations.
-= 2.5.5 =
+= Smart Donations 2.5.5 =
 * Added Option to add required fields in a paypal donation form and fixing minor issues.
-= 2.5.1 =
+= Smart Donations 2.5.1 =
 * Added paypal Donation forms, now you can create custom forms in your donations.
-= 2.1.1 =
+= Smart Donations 2.1.1 =
 * Fixed Warnings in paypal donation ipn.
-= 2.0.1 =
+= Smart Donations 2.0.1 =
 * Fixed minnor issues with donation items
-= 2.0 =
+= Smart Donations 2.0 =
 * Added donation progress indicators and analytics to paypal.
 
 

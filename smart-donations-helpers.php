@@ -238,7 +238,7 @@ function rednao_smart_donations_load_wall($campaignId,$title,$numberOfRows,$curr
     {
         $options=null;
         global $wpdb;
-        $results=$wpdb->get_results($wpdb->prepare("select payer_email,first_name,last_name, sum(mc_fee+mc_gross) amount from ".SMART_DONATIONS_TRANSACTION_TABLE." where campaign_id=%d group by payer_email order by amount desc limit %d" ,$campaignId,$numberOfRows));
+        $results=$wpdb->get_results($wpdb->prepare("select payer_email,first_name,last_name, sum(mc_gross) amount from ".SMART_DONATIONS_TRANSACTION_TABLE." where campaign_id=%d group by payer_email order by amount desc limit %d" ,$campaignId,$numberOfRows));
         if(count($results)>0)
         {
 

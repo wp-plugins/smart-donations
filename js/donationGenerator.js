@@ -556,6 +556,11 @@ function smartDonationsSliderDonationGenerator(containerName,options,donationPro
         this.styles.SmileFillColor="FFFFFF";
     }
 
+    if(typeof options.smartDonationDonationText=='undefined')
+        this.smartDonationDonationText="Current Donation:";
+    else
+        this.smartDonationDonationText=options.smartDonationDonationText;
+
 }
 
 smartDonationsSliderDonationGenerator.prototype=Object.create(smartDonationsBaseGenerator.prototype);
@@ -800,7 +805,7 @@ smartDonationsSliderDonationGenerator.prototype.DonationGeneratedCode=function()
                 +                     this.GetDonationText()+
                     ' <table class="smartDonationsSliderTable" >\
                     <tr>                            \
-                        <td class="smartDonationsSliderTd"><span class="smartDonationsCurrentDonationText smartDonationsEditableItem">Current Donation:</span><strong  class="smartDonationsAmount smartDonationsSliderDonationText smartDonationsEditableItem">10</strong></td>             \
+                        <td class="smartDonationsSliderTd"><span class="smartDonationsCurrentDonationText smartDonationsEditableItem">'+this.smartDonationDonationText+'</span><strong  class="smartDonationsAmount smartDonationsSliderDonationText smartDonationsEditableItem">10</strong></td>             \
                         <td rowspan="2" class="smartDonationsSliderTd"><div class="smartDonationsSmile smartDonationsSliderSmile smartDonationsEditableItem"></div></td>                   \
                     </tr>                                                                                                                               \
                     <tr>      \

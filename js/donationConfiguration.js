@@ -87,7 +87,7 @@ smartDonationClassicConfiguration.prototype.FillOptionsForNewDonation=function(o
     options.smartDonationsdisplaycreditlogo=false;
 
 }
-
+/*
 
 smartDonationConfigurationBase.prototype.PropertyChanged=function(field,value){
     if(field=="smartDonationsdisplaycreditlogo")
@@ -97,7 +97,7 @@ smartDonationConfigurationBase.prototype.PropertyChanged=function(field,value){
             this.styles.smartDonationsDonationButton_src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
 }
 
-
+*/
 smartDonationClassicConfiguration.prototype.InitiateGenerator=function(options)
 {
     this.generator=new smartDonationsClassicDonationGenerator(this.containerName,options,null,this.styles);
@@ -309,6 +309,10 @@ smartDonationsSliderConfiguration.prototype.GetDonationConfigurationGeneratedCod
         "<tr>" +
         "<td><span>Text</span></td>"+
         "<td><input type='text' name='smartDonationText' class='smartDonationsSettingField smartDonationsCommentField' value='If you like it, please donate.'/></td>" +
+        "</tr>"+
+        "<tr>" +
+        "<td><span>Donation Text</span></td>"+
+        "<td><input type='text' name='smartDonationDonationText' class='smartDonationsSettingField smartDonationsCommentField' value='Current donation:'/></td>" +
         "</tr>"+
         "<tr style='height:15px'></tr><tr>" +
         "<td><span>Minimun Value</span></td>"+
