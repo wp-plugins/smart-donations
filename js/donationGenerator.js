@@ -188,16 +188,16 @@ smartDonationsClassicDonationGenerator.prototype=Object.create(smartDonationsBas
 
 smartDonationsClassicDonationGenerator.prototype.GenerateDefaultStyle=function()
 {
-    this.styles.smartDonationsDonationButton_src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
+    this.styles.smartDonationsDonationButton_src="";
 }
 
 smartDonationsClassicDonationGenerator.prototype.DonationGeneratedCode=function()
 {
     var imageToUse;
 
-    if(typeof this.styles=='undefined')
+    if(typeof this.styles=='undefined'||this.styles.smartDonationsDonationButton_src=="")
     {
-        if(this.smartDonationsdisplaycreditlogo)
+        if(this.smartDonationsdisplaycreditlogo||this.smartDonationsdisplaycreditlogo=='y')
             imageToUse="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif";
         else
             imageToUse="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
