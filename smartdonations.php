@@ -5,7 +5,7 @@
  * Description: Place diferent form of donations on your blog...
  * Author: RedNao
  * Author URI: http://rednao.com
- * Version: 3.7.1
+ * Version: 3.7.5
  * Text Domain: SmartDonations
  * Domain Path: /languages/
  * Network: true
@@ -80,7 +80,7 @@ function rednao_smart_donations_create_menu(){
     add_submenu_page(__FILE__,'Campaigns','Campaigns','manage_options',__FILE__.'campaigns', 'rednao_smart_donations_campaigns');
     add_submenu_page(__FILE__,'Progress Indicators','Progress Indicators','manage_options',__FILE__.'progress_indicators', 'rednao_smart_donations_progress_indicators');
     add_submenu_page(__FILE__,'Analytics','Analytics','manage_options',__FILE__.'analytics', 'rednao_smart_donations_analytics');
-    add_submenu_page(__FILE__,'Smart Donations - Wish List','Wish List','manage_options',__FILE__.'wishlist', 'rednao_smart_donations_wish_list');
+    add_submenu_page(__FILE__,'Smart Donations - Wish List','Wish List/Support','manage_options',__FILE__.'wishlist', 'rednao_smart_donations_wish_list');
 
 }
 

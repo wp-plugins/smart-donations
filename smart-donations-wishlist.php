@@ -22,13 +22,11 @@
 
 
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+<!-- UserVoice JavaScript SDK (only needed once on a page) -->
+<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/UYylxAGYPadp5jOdp3OLjw.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
+
+<!-- The Classic Widget will be embeded wherever this div is placed -->
+<div style="display: block; padding: 10px;" data-uv-inline="classic_widget" data-uv-mode="full" data-uv-primary-color="#cc6d00" data-uv-link-color="#007dbf" data-uv-default-mode="support" data-uv-forum-id="210516" data-uv-width="100%" data-uv-height="550px"></div>
 
 <br/>
 <div class="fb-comments" data-href="https://www.facebook.com/SmartDonations" data-width="700" data-num-posts="10"></div>
