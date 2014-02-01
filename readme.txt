@@ -80,6 +80,8 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 11. Donation Wall
 
 == Changelog ==
+= Smart Donations 3.7.7 =
+* Added logging feature to be able to detect paypal errors
 = Smart Donations 3.7.6 =
 * Fixed one issue with donation forms
 = Smart Donations 3.7 =
