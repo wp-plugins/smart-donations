@@ -322,9 +322,14 @@ function RedNaoAddMessage($message)
     $rednaolog.=$message."<br/>";
 }
 
-
+if(get_option('smartDonationsEnableDebug')=='y')
+{
+global $rednaolog;
 $headers = 'MIME-Version: 1.0' . "\r\n";
 $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+wp_mail(get_option('smartDonationsSendToLog'), 'Log',$rednaolog , $headers);
+update_option('smart_donations_latest_error', $rednaolog);
 
+}
 
 

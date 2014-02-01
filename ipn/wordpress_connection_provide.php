@@ -51,6 +51,9 @@ class wordpress_connection_provide  extends connection_provider_base
 
         $res=wp_remote_post('https://www.paypal.com/cgi-bin/webscr',$args);
 
+        global $rednaolog;
+        $rednaolog.="Payal response:".$res['body']."<br/>";;
+
         return strcmp ($res['body'], "VERIFIED") == 0;
 
 
