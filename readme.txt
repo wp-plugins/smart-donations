@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=edsev
 Tags: donations, donate, donation buttons, donation widget,widget, paypal, donations, donation page, donation plugin, nonprofit donations, campaign donations, political campaigns, donations, donation widget, donate page, donate plugin,charity, fundraising, shortcode, forms, widgets
 Requires at least: 3.1
 Tested up to: 3.5
-Stable tag: 3.7.5
+Stable tag: 3.7.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,8 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 11. Donation Wall
 
 == Changelog ==
+= Smart Donations 3.7.6 =
+* Fixed one issue with donation forms
 = Smart Donations 3.7 =
 * Fixed donation wall issue
 * Fixing issue with classic donation button not being able to display a different image

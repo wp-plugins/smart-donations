@@ -267,7 +267,7 @@ TextInputElement.prototype.CreateProperties=function()
     this.Properties.push(new SimpleTextProperty(this.Options,"Label","Label",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options,"Placeholder","Placeholder",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options,"Help","Help",'basic'));
-    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',class:'redNaoInputText'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',"class":'redNaoInputText'}));
     this.Properties.push(new CheckBoxProperty(this.Options,"IsRequired","Required",'basic'));
 
 }
@@ -332,7 +332,7 @@ DonationAmountElement.prototype.CreateProperties=function()
     this.Properties.push(new SimpleTextProperty(this.Options,"Label","Label",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options,"DefaultValue","Default Value",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options,"Help","Help",'basic'));
-    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',class:'redNaoInputText'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',"class":'redNaoInputText'}));
     this.Properties.push(new CheckBoxProperty(this.Options,"IsRequired","Required",'basic'));
     this.Properties.push(new CheckBoxProperty(this.Options,"Disabled","Read Only",'basic'));
 
@@ -417,7 +417,7 @@ PrependTexElement.prototype.CreateProperties=function()
     this.Properties.push(new SimpleTextProperty(this.Options,"Prepend","Prepend",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options,"Placeholder","Placeholder",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options,"Help","Help",'basic'));
-    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',class:'redNaoInputText'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',"class":'redNaoInputText'}));
     this.Properties.push(new CheckBoxProperty(this.Options,"IsRequired","Required",'basic'));
 
 }
@@ -483,7 +483,7 @@ AppendedTexElement.prototype.CreateProperties=function()
     this.Properties.push(new SimpleTextProperty(this.Options,"Append","Append",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options,"Placeholder","Placeholder",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options,"Help","Help",'basic'));
-    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',class:'redNaoInputText'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',"class":'redNaoInputText'}));
     this.Properties.push(new CheckBoxProperty(this.Options,"IsRequired","Required",'basic'));
 
 }
@@ -546,7 +546,7 @@ PrependCheckBoxElement.prototype.CreateProperties=function()
     this.Properties.push(new SimpleTextProperty(this.Options,"Label","Label",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options,"Placeholder","Placeholder",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options,"Help","Help",'basic'));
-    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',class:'redNaoInputText'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',"class":'redNaoInputText'}));
     this.Properties.push(new CheckBoxProperty(this.Options,"IsChecked","Is Checked",'basic'));
     this.Properties.push(new CheckBoxProperty(this.Options,"IsRequired","Required",'basic'));
 
@@ -615,7 +615,7 @@ AppendCheckBoxElement.prototype.CreateProperties=function()
     this.Properties.push(new SimpleTextProperty(this.Options,"Label","Label",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options,"Placeholder","Placeholder",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options,"Help","Help",'basic'));
-    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',class:'redNaoInputText'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',"class":'redNaoInputText'}));
     this.Properties.push(new CheckBoxProperty(this.Options,"IsChecked","Is Checked",'basic'));
     this.Properties.push(new CheckBoxProperty(this.Options,"IsRequired","Required",'basic'));
 
@@ -678,8 +678,8 @@ TextAreaElement.prototype.CreateProperties=function()
 {
     this.Properties.push(new SimpleTextProperty(this.Options,"Label","Label",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options,"DefaultText","Default Text",'basic'));
-    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',class:'redNaoTextArea'}));
-    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"height","Height",{type:'style',class:'redNaoTextArea'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',"class":'redNaoTextArea'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"height","Height",{type:'style',"class":'redNaoTextArea'}));
     this.Properties.push(new CheckBoxProperty(this.Options,"IsRequired","Required",'basic'));
 
 
@@ -1091,7 +1091,7 @@ SelectBasicElement.prototype.CreateProperties=function()
 {
     this.Properties.push(new SimpleTextProperty(this.Options,"Label","Label",'basic'));
     this.Properties.push(new ArrayProperty(this.Options,"Options","Options",'basic'));
-    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',class:'redNaoSelect'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',"class":'redNaoSelect'}));
     this.Properties.push(new CheckBoxProperty(this.Options,"IsRequired","Required",'basic'));
 
 
@@ -1175,8 +1175,8 @@ SelectMultipleElement.prototype.CreateProperties=function()
 {
     this.Properties.push(new SimpleTextProperty(this.Options,"Label","Label",'basic'));
     this.Properties.push(new ArrayProperty(this.Options,"Options","Options",'basic'));
-    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',class:'redNaoSelect'}));
-    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"height","Height",{type:'style',class:'redNaoSelect'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',"class":'redNaoSelect'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"height","Height",{type:'style',"class":'redNaoSelect'}));
     this.Properties.push(new CheckBoxProperty(this.Options,"IsRequired","Required",'basic'));
 
 
@@ -1258,9 +1258,9 @@ DonationButtonElement.prototype=Object.create(FormElementBase.prototype);
 DonationButtonElement.prototype.CreateProperties=function()
 {
     this.Properties.push(new SimpleTextProperty(this.Options,"Label","Label",'basic'));
-    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"margin-left","Spacing",{type:'style',class:'redNaoDonationButton'}));
-    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',class:'redNaoDonationButton',default:'auto'}));
-    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"height","Height",{type:'style',class:'redNaoDonationButton',default:'auto'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"margin-left","Spacing",{type:'style',"class":'redNaoDonationButton'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',"class":'redNaoDonationButton',"default":'auto'}));
+    this.Properties.push(new SimpleTextProperty(this.Options.Styles,"height","Height",{type:'style',"class":'redNaoDonationButton',"default":'auto'}));
     this.Properties.push(new SimpleTextProperty(this.Options,"Image","Image Url",'basic'));
 }
 
