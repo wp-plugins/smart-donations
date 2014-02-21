@@ -6,6 +6,9 @@ class wordpress_connection_provide  extends connection_provider_base
 
     public function IsValid()
     {
+		if(get_option('rednao_skippaypal')=='y')
+			return true;
+
         $raw_post_data = file_get_contents('php://input');
         $raw_post_array = explode('&', $raw_post_data);
         $myPost = array();
@@ -48,13 +51,16 @@ class wordpress_connection_provide  extends connection_provider_base
 
 
         // STEP 2: Post IPN data back to paypal to validate
+        $url="https://www.paypal.com/cgi-bin/webscr";
 
-        $res=wp_remote_post('https://www.paypal.com/cgi-bin/webscr',$args);
+        if(SMART_DONATIONS_SANDBOX=="y")
+            $url="https://www.sandbox.paypal.com/cgi-bin/webscr";
+        $res=wp_remote_post($url,$args);
 
         global $rednaolog;
         $rednaolog.="Payal response:".$res['body']."<br/>";;
 
-        return strcmp ($res['body'], "VERIFIED") == 0;
+       return strcmp ($res['body'], "VERIFIED") == 0;
 
 
     }

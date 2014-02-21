@@ -102,6 +102,7 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
 
     <script>
         var smartDonationsRootPath="<?php echo plugin_dir_url(__FILE__)?>";
+		var smartDonationsSandbox="<?php echo SMART_DONATIONS_SANDBOX ?>";
 
         if(!window.smartDonationsItemsToLoad)
             window.smartDonationsItemsToLoad=new Array();;
@@ -119,6 +120,7 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
         return "<div id='donationContainer$random'></div>
             <script>
                 var smartDonationsRootPath=\"".plugin_dir_url(__FILE__)."\";
+                 var smartDonationsSandbox=\"".SMART_DONATIONS_SANDBOX."\";
                 if(!window.smartDonationsItemsToLoad)
                     window.smartDonationsItemsToLoad=new Array();;
                 window.smartDonationsItemsToLoad.push({'options':$options,'element':'donationContainer$random'});

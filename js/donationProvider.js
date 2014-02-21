@@ -21,12 +21,18 @@ smartDonationsPayPalProvider.prototype=Object.create(smartDonationsBaseDonationP
 
 smartDonationsPayPalProvider.prototype.GetStartOfDonationForm=function(generator,defaultQuantity)
 {
+    var payPalUrl='';
+    if(smartDonationsSandbox=='y')
+        payPalUrl='https://www.sandbox.paypal.com/cgi-bin/webscr';
+    else
+        payPalUrl='action','https://www.paypal.com/cgi-bin/webscr';
+
     var itemName="Donation"
     if(typeof generator.donation_description!='undefined')
         itemName=generator.donation_description;
 
     var donationText= '<div class="smartDonationsDonationGeneratedItem"  >\
-                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="donationForm" target="_blank">      \
+                <form action="'+payPalUrl+'" method="post" class="donationForm" target="_blank">      \
                 <input type="hidden" name="cmd" class="smartDonationsPaypalCommand" value="_donations">\
                 <input type="hidden" name="item_name" value="'+itemName+'">\
                 <input type="hidden" name="business" value="'+generator.business+'">\

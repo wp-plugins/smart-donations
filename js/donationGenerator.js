@@ -978,7 +978,7 @@ smartDonationsFormDonationGenerator.prototype.SubmitForm=function(data,amount)
         form.attr('target','_self');
         form.find('input[name=custom]').val(encodeURI('campaign_id='+this.campaign_id+"&formId="+data.randomString))
         if(amount>0)
-            form.append('<input type="hidden" name="amount" class="amountToDonate" value="'+amount+'">')
+            form.append('<input type="hidden" name="amount" class="amountToDonate" value="'+amount+'">');
 
         if(this.IsRecurrentPayment(form))
         {

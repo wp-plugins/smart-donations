@@ -55,7 +55,7 @@ wp_enqueue_style('form-builder-custom',plugin_dir_url(__FILE__).'css/formBuilder
 
         var payPalCurrencies=new Array("USD","AUD","BRL","GBP","CAD","CZK","DKK","EUR","HKD","HUF","ILS","JPY","MXN","TWD","NZD","NOK","PHP","PLN","SGD","SEK","CHF","THB");
         var wePayCurrencies=new Array("USD");
-
+		var smartDonationsSandbox="<?php echo SMART_DONATIONS_SANDBOX ?>";
 
         var smartDonations_arrow_closed="<?php echo plugin_dir_url(__FILE__)?>images/arrow_right.png";
         var smartDonations_arrow_open="<?php echo plugin_dir_url(__FILE__)?>images/arrow_down.png";

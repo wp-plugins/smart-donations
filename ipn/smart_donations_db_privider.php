@@ -12,28 +12,37 @@ class smart_donations_db_privider {
 
     public function InsertTransaction($properties)
     {
-
-        if($this->TransactionIsRepeated($properties[txn_id]))
+		$donationId=0;
+        if($this->TransactionIsRepeated($properties))
             return false;
         $this->SanitizeProperties($properties);
         $this->InsertIntoDatabase($properties);
         return true;
     }
 
-    private function TransactionIsRepeated($txn_id)
+    public function TransactionIsRepeated($properties)
     {
+		RedNaoAddMessage("Checking if transaction is repeated");
         if($this->_TransactionIsRepeated===NULL)
         {
             global $wpdb;
-            $this->_TransactionIsRepeated=($wpdb->get_var($wpdb->prepare("select count(*) from ".SMART_DONATIONS_TRANSACTION_TABLE." where txn_id=%s",$txn_id))>0);
+			$query=$wpdb->prepare("select count(*) from ".SMART_DONATIONS_TRANSACTION_TABLE." where txn_id=%s",$properties['txn_id']);
+			$this->_TransactionIsRepeated=($wpdb->get_var($query)>0);
         }
         return $this->_TransactionIsRepeated;
     }
+
+	public function SubscriptionAlreadyExists($properties)
+	{
+		global $wpdb;
+		return $wpdb->get_var($wpdb->prepare("select count(*) from ".SMART_DONATIONS_TRANSACTION_TABLE." where subscr_id=%s ",$properties['subscr_id']))>0;
+	}
 
     private function InsertIntoDatabase($properties)
     {
         global $wpdb;
         $wpdb->insert(SMART_DONATIONS_TRANSACTION_TABLE,$properties);
+		return $wpdb->insert_id;
     }
 
     private function SanitizeProperties(& $properties)

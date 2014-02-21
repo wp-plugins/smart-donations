@@ -15,13 +15,21 @@ if(isset($_GET["posting"]))
     else
         $enableDebug='n';
 
+
+	if(isset($_GET["rednao_skippaypal"]))
+		$rednao_skippaypal='y';
+	else
+		$rednao_skippaypal='n';
+
     update_option('smartDonationsEnableDebug',$enableDebug);
     update_option('smartDonationsSendToLog',trim($sendlogto));
+	update_option('rednao_skippaypal',$rednao_skippaypal);
 
 }else
 {
     $enableDebug=get_option('smartDonationsEnableDebug');
     $sendlogto=get_option('smartDonationsSendToLog');
+	$rednao_skippaypal=get_option('rednao_skippaypal');
 }
 
 ?>
@@ -48,6 +56,15 @@ if(isset($_GET["posting"]))
                     <input type="text" style="width: 200px;" name="sendlogto" value="<?php echo $sendlogto ?>">
                 </td>
             </tr>
+
+			<tr>
+				<td>
+					<span>Skip PayPal request validation</span>
+				</td>
+				<td>
+					<input type="checkbox" name="rednao_skippaypal" value="y" <?php  echo $rednao_skippaypal=='y'?'checked="checked"':"" ?>>
+				</td>
+			</tr>
 
             <tr>
                 <td></td>
