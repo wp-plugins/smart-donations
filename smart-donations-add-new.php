@@ -37,6 +37,7 @@ wp_enqueue_script('smart-donations-style-manager',plugin_dir_url(__FILE__).'js/s
 wp_enqueue_script('smart-donations-formelements',plugin_dir_url(__FILE__).'js/formBuilder/formelements.js',array('isolated-slider'));
 wp_enqueue_script('smart-donations-elementsProperties',plugin_dir_url(__FILE__).'js/formBuilder/elementsproperties.js',array('smart-donations-formelements'));
 wp_enqueue_script('smart-donations-formBuilder',plugin_dir_url(__FILE__).'js/formBuilder/formbuilder.js',array('smart-donations-elementsProperties'));
+wp_enqueue_script('rednao-message-manager',plugin_dir_url(__FILE__).'js/rednao-message-manager.js',array('isolated-slider'));
 wp_enqueue_script('json2');
 
 
@@ -45,14 +46,16 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
 wp_enqueue_style('form-builder-boot-strap',plugin_dir_url(__FILE__).'css/formBuilder/bootstrap.min.css');
 wp_enqueue_style('form-builder-custom',plugin_dir_url(__FILE__).'css/formBuilder/custom.css');
 
-?>
 
+
+?>
 
 
 
 
     <script type="text/javascript">
 
+		var smartFormsIsActive=<?php echo (is_plugin_active("smart-forms/smartforms.php")?"true":"false");?>;
         var payPalCurrencies=new Array("USD","AUD","BRL","GBP","CAD","CZK","DKK","EUR","HKD","HUF","ILS","JPY","MXN","TWD","NZD","NOK","PHP","PLN","SGD","SEK","CHF","THB");
         var wePayCurrencies=new Array("USD");
 		var smartDonationsSandbox="<?php echo SMART_DONATIONS_SANDBOX ?>";
@@ -376,9 +379,9 @@ wp_enqueue_style('form-builder-custom',plugin_dir_url(__FILE__).'css/formBuilder
 
 
 
-
-
-
+<div style="width: 100%; display: block; margin: 5px 0 10px 0;padding: 0;height: 30px;">
+<div class="updated fade below-h2 rednaoMessageManager" style="margin: 5px 0 10px 0; height: 0px; display: none; background-color: #EAFFFD; border-color: #B7E9E4; border-style: dotted;"></div>
+</div>
 
 
 

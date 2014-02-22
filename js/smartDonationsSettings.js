@@ -34,6 +34,7 @@ function SmartDonations_backFromConfiguration() {
     rnJQuery('#smartdonationsItemsContainer').height(500);
     rnJQuery('#smartDonationsItemsContainerBody').css('overflow-y','hidden');
     rnJQuery('#smartDonationsPreviewContainer').parent().css('display','block');
+    RedNaoHiddeMessage();
 }
 
 
@@ -88,7 +89,8 @@ function SmartDonations_GetDonationTypeSelected(donationTypeSelected,donationPro
                 rnJQuery('#smartdonationsItemsContainer').width(1200);
                 rnJQuery('#smartdonationsItemsContainer').height(800);
                 rnJQuery('#smartDonationsItemsContainerBody').css('overflow-y','visible');
-
+                if(!smartFormsIsActive)
+                    RedNaoShowMessage("If you want to extend the power of the forms check out the free version of <a href='http://wordpress.org/plugins/smart-forms/' target='_blank' style='color:red; text-decoration: underline;'> Smart Forms!!</a> 100% compatible with Smart Donations");
                 return new smartDonationsFormConfiguration('smartDonationsPreviewContainer',donationOptions);
 
             }

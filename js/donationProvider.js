@@ -25,7 +25,7 @@ smartDonationsPayPalProvider.prototype.GetStartOfDonationForm=function(generator
     if(smartDonationsSandbox=='y')
         payPalUrl='https://www.sandbox.paypal.com/cgi-bin/webscr';
     else
-        payPalUrl='action','https://www.paypal.com/cgi-bin/webscr';
+        payPalUrl='https://www.paypal.com/cgi-bin/webscr';
 
     var itemName="Donation"
     if(typeof generator.donation_description!='undefined')
