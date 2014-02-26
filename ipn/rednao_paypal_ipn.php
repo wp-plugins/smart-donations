@@ -30,8 +30,8 @@ class rednao_paypal_ipn
 		if ($this->connectionProvider->IsValid()) {
 			RedNaoAddMessage("Request is valid");
 			$properties = $this->GetPropertiesArray();
-			if (isset($_POST["receiver_email"])) {
-				$receiverEmail = $_POST["receiver_email"];
+			if (isset($_POST["business"])) {
+				$receiverEmail = $_POST["business"];
 			} else
 				$receiverEmail = '';
 
@@ -333,7 +333,7 @@ class rednao_paypal_ipn
 			if ($notifyToEmails != null) {
 				$notifyEmail = str_replace(';', ',', $notifyToEmails);
 			} else
-				$notifyEmail = $_POST['receiver_email'];
+				$notifyEmail = $_POST['business'];
 			wp_mail($notifyEmail, 'Donation Received', $email, $headers);
 		} catch (Exception $e) {
 			$this->SendFormError($e->getMessage(), $properties);
