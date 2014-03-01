@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=edsev
 Tags: donations, donate, donation buttons, donation widget,widget, paypal, donations, donation page, donation plugin, nonprofit donations, campaign donations, political campaigns, donations, donation widget, donate page, donate plugin,charity, fundraising, shortcode, forms, widgets
 Requires at least: 3.1
 Tested up to: 3.5
-Stable tag: 4.0.1
+Stable tag: 4.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,8 @@ The progress indicators need to use "IPN Notifications" so make sure to use payp
 11. Donation Wall
 
 == Changelog ==
+= Smart Donations 4.0.2 =
+* Fixed issue with textarea placeholder
 = Smart Donations 4.0.1 =
 * Fixed issue with plugin only accepting donations comming to the primary paypal email.
 = Smart Donations 4.0 =

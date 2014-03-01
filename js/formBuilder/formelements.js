@@ -665,9 +665,16 @@ function TextAreaElement(options)
     if(this.IsNew)
     {
         this.Options.Label="Text Area";
-        this.Options.DefaultText="Default Text";
+        this.Options.DefaultText="";
         this.Options.ClassName="rednaotextarea";
+        this.Options.PlaceHolder="Placeholder";
+    }else
+    {
+        if(typeof this.Options.PlaceHolder=='undefined')
+            this.Options.PlaceHolder='';
     }
+
+
 
 
 }
@@ -678,6 +685,7 @@ TextAreaElement.prototype.CreateProperties=function()
 {
     this.Properties.push(new SimpleTextProperty(this.Options,"Label","Label",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options,"DefaultText","Default Text",'basic'));
+    this.Properties.push(new SimpleTextProperty(this.Options,"PlaceHolder","PlaceHolder",'basic'));
     this.Properties.push(new SimpleTextProperty(this.Options.Styles,"width","Width",{type:'style',"class":'redNaoTextArea'}));
     this.Properties.push(new SimpleTextProperty(this.Options.Styles,"height","Height",{type:'style',"class":'redNaoTextArea'}));
     this.Properties.push(new CheckBoxProperty(this.Options,"IsRequired","Required",'basic'));
@@ -690,7 +698,7 @@ TextAreaElement.prototype.GenerateInlineElement=function()
 
     return  '<label class="rednao_control_label" for="textarea">'+this.Options.Label+'</label>\
                 <div class="redNaoControls">\
-                <textarea  name="textarea" class="redNaoTextArea">'+this.Options.DefaultText+'</textarea>\
+                <textarea  name="textarea" class="redNaoTextArea" placeholder="'+this.Options.PlaceHolder+'">'+this.Options.DefaultText+'</textarea>\
             </div>';
 }
 
