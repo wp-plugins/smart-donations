@@ -42,13 +42,14 @@ class rednao_paypal_ipn
 				$formId = "";
 				$sFormId = "";
 				$type = "sd";
+				$additionalData=null;
 
-				$this->ProcessCustomField($properties, $formId, $sFormId, $type);
+				$this->ProcessCustomField($properties, $formId, $sFormId, $type,$additionalData);
 				if (($type == "sd" && $this->ReceiverEmailIsValid($receiverEmail)) || ($type == "sf" && SmartFormsEmailIsValid($receiverEmail))) {
 					if ($this->dbProvider->TransactionIsRepeated($properties))
 						return;
 
-					$this->ProcessValidPayPalRequest($properties, $formId, $sFormId, $type);
+					$this->ProcessValidPayPalRequest($properties, $formId, $sFormId, $type,$additionalData);
 				}
 			}
 
@@ -153,8 +154,9 @@ class rednao_paypal_ipn
 
 	}
 
-	private function ProcessCustomField(&$properties, &$formId, &$sFormId, &$type)
+	private function ProcessCustomField(&$properties, &$formId, &$sFormId, &$type,&$additionalData)
 	{
+		$additionalData=array();
 		if (!is_numeric($properties['campaign_id'])) {
 			RedNaoAddMessage("Is a form");
 			$formString = rawurldecode($properties['campaign_id']);
@@ -162,6 +164,11 @@ class rednao_paypal_ipn
 			if (sizeof($formStringParameters) == 2 || sizeof($formStringParameters) == 4) {
 				$properties['campaign_id'] = $formStringParameters['campaign_id'];
 				$formId = $formStringParameters['formId'];
+				$form = get_transient($formId);
+				$splittedFormOptions = explode('rednaosplitter', $form);
+				if(count($splittedFormOptions)==3)
+					$additionalData=json_decode($splittedFormOptions[2],true);
+
 				if (isset($formStringParameters['type']) && $formStringParameters['type'] == 'form') {
 					$type = 'sf';
 					$sFormId = $formStringParameters['sformid'];
@@ -189,12 +196,13 @@ class rednao_paypal_ipn
 		return $count > 0;
 	}
 
-	private  function ProcessValidPayPalRequest(&$properties, $formId, $sFormId, $type)
+	private  function ProcessValidPayPalRequest(&$properties, $formId, $sFormId, $type,$additionalData)
 	{
 		$sendThankYouEmailAndForm="";
 		$referenceId=0;
 		$this->InitializeValidPayPalRequestVariables($properties,$sendThankYouEmailAndForm,$referenceId,$formId);
 
+		$properties["is_anonymous"]=(!isset($additionalData['anonymousDonation'])||$additionalData['anonymousDonation']=="n")?0:1;
 		RedNaoAddMessage("Inserting transaction");
 		if ($this->dbProvider->InsertTransaction($properties)) {
 			RedNaoAddMessage("Transaction was inserted sucessfully");

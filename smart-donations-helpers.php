@@ -94,11 +94,12 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
             return;
 
         if($title)
-            echo "<div class='widget-wrapper'><h3 class='widgettitle'>$title</h3>"
+			echo "<div class='widget-wrapper widget'><div class='title-wrapper'><h3 class='widgettitle widget-title'>$title</h3><div class='clear'></div></div>";
+
 
     ?>
 
-    <div id="donationContainer<?php echo $random?>"></div>
+    <div id="donationContainer<?php echo $random?>" class='wcontainer'></div>
 
     <script>
         var smartDonationsRootPath="<?php echo plugin_dir_url(__FILE__)?>";
@@ -197,11 +198,11 @@ function rednao_smart_donations_load_progress($id,$title,$returnComponent)
             return;
 
         if($title)
-            echo "<div class='widget-wrapper'><h3 class='widgettitle'>$title</h3>"
+            echo "<div class='widget-wrapper widget'><div class='title-wrapper'><h3 class='widgettitle widget-title'>$title</h3><div class='clear'></div></div>"
         ?>
 
 
-        <div id="progressContainer<?php echo $random?>"></div>
+        <div id="progressContainer<?php echo $random?>" class='wcontainer'></div>
 
         <script>
             var smartDonationsRootPath="<?php echo plugin_dir_url(__FILE__)?>";
@@ -240,7 +241,7 @@ function rednao_smart_donations_load_wall($campaignId,$title,$numberOfRows,$curr
     {
         $options=null;
         global $wpdb;
-        $results=$wpdb->get_results($wpdb->prepare("select payer_email,first_name,last_name, sum(mc_gross) amount from ".SMART_DONATIONS_TRANSACTION_TABLE." where campaign_id=%d group by payer_email order by amount desc limit %d" ,$campaignId,$numberOfRows));
+        $results=$wpdb->get_results($wpdb->prepare("select case when is_anonymous=1 then 'anonymous' else payer_email end payer_email,case when is_anonymous=1 then 'anonymous' else first_name end first_name,case when is_anonymous=1 then '' else last_name end last_name, sum(mc_gross) amount from ".SMART_DONATIONS_TRANSACTION_TABLE." where campaign_id=%d group by payer_email,is_anonymous order by amount desc limit %d" ,$campaignId,$numberOfRows));
         if(count($results)>0)
         {
 

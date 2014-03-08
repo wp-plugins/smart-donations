@@ -17,9 +17,9 @@ define('SMART_DONATIONS_TABLE_NAME',$wpdb->prefix . "smart_donations_donation_it
 define('SMART_DONATIONS_TRANSACTION_TABLE',$wpdb->prefix . "smart_donations_transaction_table");
 define('SMART_DONATIONS_CAMPAIGN_TABLE',$wpdb->prefix . "smart_donations_campaign_table");
 define('SMART_DONATIONS_PROGRESS_TABLE',$wpdb->prefix . "smart_donations_progress_table");
-define('SMART_DONATIONS_LATEST_DB_VERSION',10);
+define('SMART_DONATIONS_LATEST_DB_VERSION',11);
 define('REDNAO_URL',"http://rednao.com/");
-define('SMART_DONATIONS_VERSION',10);
+define('SMART_DONATIONS_VERSION',11);
 define('SMART_DONATIONS_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('SMART_DONATIONS_SANDBOX','n');
 

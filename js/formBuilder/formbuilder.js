@@ -350,6 +350,8 @@ function SmartDonationsStartFormElements() {
             return 'rednaodonationbutton';
         if(rnJQuery(element).children().first().hasClass('rednaodonationrecurrence'))
             return 'rednaodonationrecurrence';
+        if(rnJQuery(element).children().first().hasClass('rednaoanonymousdonation'))
+            return 'rednaoanonymousdonation';
 
 
     }
@@ -390,6 +392,7 @@ function SmartDonationsStartFormElements() {
         RedNaoCreateFormElementByName('rednaodonationamount',null).GenerateHtml(rnJQuery("#components .rednaodonationamount"));
         RedNaoCreateFormElementByName('rednaodonationbutton',null).GenerateHtml(rnJQuery("#components .rednaodonationbutton"));
         RedNaoCreateFormElementByName('rednaodonationrecurrence',null).GenerateHtml(rnJQuery("#components .rednaodonationrecurrence"));
+        RedNaoCreateFormElementByName('rednaoanonymousdonation',null).GenerateHtml(rnJQuery("#components .rednaoanonymousdonation"));
 
 
 

@@ -49,6 +49,8 @@ function RedNaoCreateFormElementByName(elementName,options)
         return new DonationButtonElement(options);
     if(elementName=='rednaodonationrecurrence')
         return new RecurrenceElement(options);
+    if(elementName=='rednaoanonymousdonation')
+        return new AnonymousDonation(options);
 
 }
 
@@ -1378,3 +1380,57 @@ RecurrenceElement.prototype.GetValueString=function()
     return  encodeURI(this.Options.Label)+"="+encodeURI(jQueryElement.text());
 
 }
+
+
+/*************************************************************************************Anonymous Element ***************************************************************************************************/
+
+function AnonymousDonation(options)
+{
+    FormElementBase.call(this,options);
+    this.Title="Anonymous Checkboxes";
+
+    if(this.IsNew)
+    {
+        this.Options.Label="Make anonymous donation";
+        this.Options.ClassName="rednaoanonymousdonation";
+    }
+
+}
+
+AnonymousDonation.prototype=Object.create(FormElementBase.prototype);
+
+AnonymousDonation.prototype.CreateProperties=function()
+{
+    this.Properties.push(new SimpleTextProperty(this.Options,"Label","Label",'basic'));
+}
+
+AnonymousDonation.prototype.GenerateInlineElement=function()
+{
+    var html=  '<label class="rednao_control_label">'+this.Options.Label+'</label>\
+        <div class="redNaoControls">';
+
+    html+='<label class="redNaoCheckBox" >\
+                    <input  class="redNaoInputCheckBox redNaoAnonymousDonation" type="checkbox" name="'+this.GetPropertyName()+'"  value="y"/>\
+                </label>';
+    html+='</div>';
+    return html;
+}
+
+
+AnonymousDonation.prototype.GenerateDefaultStyle=function()
+{
+    this.Options.Styles.redNaoCheckBox='padding-top:5px;display:inline-block;padding-right:20px;';
+    this.Options.Styles.redNaoInputCheckBox='float:left;padding-right:20px;margin-right:5px;';
+}
+
+AnonymousDonation.prototype.GetValueString=function()
+{
+    return  encodeURI(this.Options.Label)+"="+(rnJQuery('#'+this.Id+ ' .redNaoAnonymousDonation').is(':checked')?'y':'n');
+
+}
+
+AnonymousDonation.prototype.IsValid=function()
+{
+    return true;
+}
+

@@ -40,10 +40,23 @@ class smart_donations_db_privider {
 
     private function InsertIntoDatabase($properties)
     {
+		if($properties['subscr_id']!="")
+		{
+			if($this->RecurrentDonationWasAnonymous($properties))
+				$properties['is_anonymous']=1;
+
+		}
         global $wpdb;
         $wpdb->insert(SMART_DONATIONS_TRANSACTION_TABLE,$properties);
 		return $wpdb->insert_id;
     }
+
+	private  function RecurrentDonationWasAnonymous($properties)
+	{
+		global $wpdb;
+		$isAnonymous= $wpdb->get_var($wpdb->prepare("select count(*) from ".SMART_DONATIONS_TRANSACTION_TABLE." where subscr_id=%s and is_anonymous=1 ",$properties['subscr_id']))>0;
+		return $isAnonymous;
+	}
 
     private function SanitizeProperties(& $properties)
     {

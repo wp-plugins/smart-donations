@@ -469,6 +469,10 @@ smartDonationsFormConfiguration.prototype.GetDonationConfigurationGeneratedCode=
                                                 <div class="control-group rednaodonationamount">\
                                                 </div>\
                                             </div>\
+                                            <div class="component">\
+                                                <div class="control-group rednaoanonymousdonation">\
+                                                </div>\
+                                            </div>\
                                              <div class="component">\
                                                 <div class="control-group rednaodonationbutton">\
                                                 </div>\
