@@ -35,6 +35,7 @@ smartDonationConfigurationBase.prototype.fillConfiguration=function()
     rnJQuery('.smartDonationsSettingField').change(function(){self.SettingChanged(self,this)});
     rnJQuery('#smartDonationsEmail').keyup(function(){self.SettingChanged(self,this)});
     rnJQuery('#smartDonationsCurrencyDropDown').change(function(){self.SettingChanged(self,this)});
+    rnJQuery('#smartDonationsSelectedCountryAndLanguage').change(function(){self.SettingChanged(self,this)});
 
     rnJQuery('.smartDonationsSettingField').change();
 

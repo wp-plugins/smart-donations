@@ -51,6 +51,7 @@ function SmartDonations_donationTypeClicked(div,donationOptions) {
         donationOptions.isNew=true;
         donationOptions.donation_currency=rnJQuery("#smartDonationsCurrency").val();
         donationOptions.donation_description=rnJQuery('#smartDonationsDescription').val();
+        donationOptions.selectedCountry=rnJQuery('#smartDonationsCountry').val();
         var donationTypeSelected= rnJQuery(div).find(':hidden').val();
     }
 

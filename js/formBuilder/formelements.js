@@ -5,32 +5,32 @@ function RedNaoFormElementEscape(property)
     return property.replace(' ','_');
 }
 
-function RedNaoCreateFormElementByName(elementName,options)
+function RedNaoCreateFormElementByName(elementName,options,generator)
 {
     if(elementName=='rednaotextinput')
-        return new TextInputElement(options);
+        return new TextInputElement(options,generator);
     if(elementName=='rednaodonationamount')
-        return new DonationAmountElement(options);
+        return new DonationAmountElement(options,generator);
     if(elementName=='rednaoprependedtext')
-        return new PrependTexElement(options);
+        return new PrependTexElement(options,generator);
     if(elementName=='rednaoappendedtext')
-        return new AppendedTexElement(options);
+        return new AppendedTexElement(options,generator);
     if(elementName=='rednaoprependedcheckbox')
-        return new PrependCheckBoxElement(options);
+        return new PrependCheckBoxElement(options,generator);
     if(elementName=='rednaoappendedcheckbox')
-        return new AppendCheckBoxElement(options);
+        return new AppendCheckBoxElement(options,generator);
     if(elementName=='rednaobuttondropdown')
         return 'rednaobuttondropdown';
     if(elementName=='tabradioscheckboxes')
         return 'tabradioscheckboxes';
     if(elementName=='rednaomultiplecheckboxes')
-        return new MultipleCheckBoxElement(options);
+        return new MultipleCheckBoxElement(options,generator);
     if(elementName=='rednaoinlinecheckboxes')
-        return new InlineCheckboxElement(options);
+        return new InlineCheckboxElement(options,generator);
     if(elementName=='rednaoselectbasic')
-        return new SelectBasicElement(options);
+        return new SelectBasicElement(options,generator);
     if(elementName=='rednaoselectmultiple')
-        return new SelectMultipleElement(options);
+        return new SelectMultipleElement(options,generator);
     if(elementName=='rednaofilebutton')
         return 'rednaofilebutton';
     if(elementName=='rednaosinglebutton')
@@ -38,33 +38,33 @@ function RedNaoCreateFormElementByName(elementName,options)
     if(elementName=='rednaodoublebutton')
         return 'rednaodoublebutton';
     if(elementName=='rednaotitle')
-        return new TitleElement(options);
+        return new TitleElement(options,generator);
     if(elementName=='rednaotextarea')
-        return  new TextAreaElement(options);
+        return  new TextAreaElement(options,generator);
     if(elementName=='rednaomultipleradios')
-        return new MultipleRadioElement(options);
+        return new MultipleRadioElement(options,generator);
     if(elementName=='rednaoinlineradios')
-        return new InlineRadioElement(options);
+        return new InlineRadioElement(options,generator);
     if(elementName=='rednaodonationbutton')
-        return new DonationButtonElement(options);
+        return new DonationButtonElement(options,generator);
     if(elementName=='rednaodonationrecurrence')
-        return new RecurrenceElement(options);
+        return new RecurrenceElement(options,generator);
     if(elementName=='rednaoanonymousdonation')
-        return new AnonymousDonation(options);
+        return new AnonymousDonation(options,generator);
 
 }
 
 
 
-function RedNaoCreateFormElementByOptions(options)
+function RedNaoCreateFormElementByOptions(options,generator)
 {
-    var element=RedNaoCreateFormElementByName(options.ClassName,options);
+    var element=RedNaoCreateFormElementByName(options.ClassName,options,generator);
     return element;
 
 }
 
 /************************************************************************************* Base Class  ***************************************************************************************************/
-function FormElementBase(options)
+function FormElementBase(options,generator)
 {
     if(options==null)
     {
@@ -87,6 +87,7 @@ function FormElementBase(options)
 
     }
     FormElementBase.IdCounter++;
+    this.generator=generator;
     this.Id='redNaoFormElement'+FormElementBase.IdCounter;
     this.Properties=null;
     this.amount=0;
@@ -201,9 +202,9 @@ FormElementBase.prototype.IsValid=function()
 
 /************************************************************************************* Title Element ***************************************************************************************************/
 
-function TitleElement(options)
+function TitleElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
 
 
 
@@ -244,9 +245,9 @@ TitleElement.prototype.GetValueString=function()
 
 /************************************************************************************* Text Element ***************************************************************************************************/
 
-function TextInputElement(options)
+function TextInputElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Text Input";
     if(this.IsNew)
     {
@@ -303,9 +304,9 @@ TextInputElement.prototype.IsValid=function()
 }
 /************************************************************************************* Donation Amount ***************************************************************************************************/
 
-function DonationAmountElement(options)
+function DonationAmountElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Donation Amount";
 
     if(this.IsNew)
@@ -393,9 +394,9 @@ DonationAmountElement.prototype.IsValid=function()
 
 /************************************************************************************* Prepend Text Element ***************************************************************************************************/
 
-function PrependTexElement(options)
+function PrependTexElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Prepend Text";
 
     if(this.IsNew)
@@ -458,9 +459,9 @@ PrependTexElement.prototype.IsValid=function()
 
 /************************************************************************************* Appended Text Element ***************************************************************************************************/
 
-function AppendedTexElement(options)
+function AppendedTexElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Appended Text";
 
     if(this.IsNew)
@@ -524,9 +525,9 @@ AppendedTexElement.prototype.IsValid=function()
 }
 /************************************************************************************* Prepend Checkbox Element ***************************************************************************************************/
 
-function PrependCheckBoxElement(options)
+function PrependCheckBoxElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Prepend Checkbox";
 
     if(this.IsNew)
@@ -593,9 +594,9 @@ PrependCheckBoxElement.prototype.IsValid=function()
 }
 /************************************************************************************* Append Checkbox Element ***************************************************************************************************/
 
-function AppendCheckBoxElement(options)
+function AppendCheckBoxElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Append Checkbox";
 
     if(this.IsNew)
@@ -659,9 +660,9 @@ AppendCheckBoxElement.prototype.IsValid=function()
 }
 /************************************************************************************* Text Area Element ***************************************************************************************************/
 
-function TextAreaElement(options)
+function TextAreaElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Text Area";
 
     if(this.IsNew)
@@ -722,9 +723,9 @@ TextAreaElement.prototype.IsValid=function()
 
 /*************************************************************************************Multiple Radio Element ***************************************************************************************************/
 
-function MultipleRadioElement(options)
+function MultipleRadioElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Multiple Radio";
 
     if(this.IsNew)
@@ -805,9 +806,9 @@ MultipleRadioElement.prototype.IsValid=function()
 }
 /*************************************************************************************Inline Radio Element ***************************************************************************************************/
 
-function InlineRadioElement(options)
+function InlineRadioElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Inline Radio";
 
     if(this.IsNew)
@@ -887,9 +888,9 @@ InlineRadioElement.prototype.IsValid=function()
 
 /*************************************************************************************Multiple Checkbox Element ***************************************************************************************************/
 
-function MultipleCheckBoxElement(options)
+function MultipleCheckBoxElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Multiple Checkboxes";
 
     if(this.IsNew)
@@ -980,9 +981,9 @@ MultipleCheckBoxElement.prototype.IsValid=function()
 
 /*************************************************************************************Inline Checkbox Element ***************************************************************************************************/
 
-function InlineCheckboxElement(options)
+function InlineCheckboxElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Inline Checkboxes";
 
     if(this.IsNew)
@@ -1068,9 +1069,9 @@ InlineCheckboxElement.prototype.IsValid=function()
 
 /*************************************************************************************Select Basic Element ***************************************************************************************************/
 
-function SelectBasicElement(options)
+function SelectBasicElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Select Basic";
 
     if(this.IsNew)
@@ -1151,9 +1152,9 @@ SelectBasicElement.prototype.IsValid=function()
 
 /*************************************************************************************Select Multiple Element ***************************************************************************************************/
 
-function SelectMultipleElement(options)
+function SelectMultipleElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Select Multiple Element";
 
 
@@ -1244,20 +1245,20 @@ SelectMultipleElement.prototype.IsValid=function()
 
 
 
-function DonationButtonElement(options)
+function DonationButtonElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Donation Button";
 
     if(this.IsNew)
     {
         this.Options.Label="Donation Button";
         this.Options.ClassName="rednaodonationbutton";
-        this.Options.Image='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif';
+        this.Options.Image='';
     }else
     {
         if(typeof this.Options.Image=='undefined')
-            this.Options.Image='https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif';
+            this.Options.Image='';
     }
 
 
@@ -1276,7 +1277,10 @@ DonationButtonElement.prototype.CreateProperties=function()
 
 DonationButtonElement.prototype.GenerateInlineElement=function()
 {
-    return '<div class="redNaoControls"><input type="image" class="redNaoDonationButton" src="'+this.Options.Image+'" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"></div>';
+    var imageToUse=this.Options.Image;
+    if(imageToUse=="")
+        imageToUse=this.generator.GetDonationImage();
+    return '<div class="redNaoControls"><input type="image" class="redNaoDonationButton" src="'+imageToUse+'" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"></div>';
 }
 
 DonationButtonElement.prototype.GenerateDefaultStyle=function()
@@ -1297,9 +1301,9 @@ DonationButtonElement.prototype.GetValueString=function()
 
 
 
-function RecurrenceElement(options)
+function RecurrenceElement(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Donation Button";
 
     if(this.IsNew)
@@ -1384,9 +1388,9 @@ RecurrenceElement.prototype.GetValueString=function()
 
 /*************************************************************************************Anonymous Element ***************************************************************************************************/
 
-function AnonymousDonation(options)
+function AnonymousDonation(options,generator)
 {
-    FormElementBase.call(this,options);
+    FormElementBase.call(this,options,generator);
     this.Title="Anonymous Checkboxes";
 
     if(this.IsNew)

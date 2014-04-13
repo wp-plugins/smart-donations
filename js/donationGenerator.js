@@ -82,6 +82,7 @@ function smartDonationsBaseGenerator(containerName2,options,donationProvider,sty
     this.business=options.business;
     this.returningUrl=options.returningUrl;
     this.donation_currency=SmartdonationsGetValueOrDefault(options.donation_currency,'USD');
+    this.selectedCountry=SmartdonationsGetValueOrDefault(options.selectedCountry,'en_US');
     this.DonationGeneratedListener=null;
     this.donation_description=options.donation_description;
 
@@ -171,6 +172,88 @@ smartDonationsBaseGenerator.prototype.GetEndOfDonationForm=function()
     return this.donationProvider.GetEndOfDonationForm();
 };
 
+smartDonationsBaseGenerator.prototype.GetDonationImage=function(usingCreditCardLogo)
+{
+
+    if(usingCreditCardLogo)
+    {
+        if(this.selectedCountry.indexOf("en_")==0)
+            return "https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("de_")==0)
+            return "https://www.paypalobjects.com/de_DE/AT/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("nl_")==0)
+            return "https://www.paypalobjects.com/nl_NL/BE/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("fr_")==0)
+            return "https://www.paypalobjects.com/fr_FR/BE/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("pt_")==0)
+            return "https://www.paypalobjects.com/pt_BR/BR/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("zh_")==0)
+            return "https://www.paypalobjects.com/zh_XC/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("da_")==0)
+            return "https://www.paypalobjects.com/da_DK/DK/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("ru_")==0)
+            return "https://www.paypalobjects.com/ru_RU/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("es_")==0)
+            return "https://www.paypalobjects.com/es_XC/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("he_")==0)
+            return "https://www.paypalobjects.com/he_IL/IL/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("it_")==0)
+            return "https://www.paypalobjects.com/it_IT/IT/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("ja_")==0)
+            return "https://www.paypalobjects.com/ja_JP/JP/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("no_")==0)
+            return "https://www.paypalobjects.com/no_NO/NO/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("pl_")==0)
+            return "https://www.paypalobjects.com/pl_PL/PL/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("sv_")==0)
+            return "https://www.paypalobjects.com/sv_SE/SE/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("th_")==0)
+            return "https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif";
+        if(this.selectedCountry.indexOf("tr_")==0)
+            return "https://www.paypalobjects.com/tr_TR/TR/i/btn/btn_donateCC_LG.gif";
+
+        return "https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif";
+    }
+
+
+
+    if(this.selectedCountry.indexOf("en_")==0)
+        return "https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("de_")==0)
+        return "https://www.paypalobjects.com/de_DE/AT/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("nl_")==0)
+        return "https://www.paypalobjects.com/nl_NL/BE/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("fr_")==0)
+        return "https://www.paypalobjects.com/fr_FR/BE/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("pt_")==0)
+        return "https://www.paypalobjects.com/pt_BR/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("zh_")==0)
+        return "https://www.paypalobjects.com/zh_XC/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("da_")==0)
+        return "https://www.paypalobjects.com/da_DK/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("ru_")==0)
+        return "https://www.paypalobjects.com/ru_RU/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("es_")==0)
+        return "https://www.paypalobjects.com/es_XC/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("he_")==0)
+        return "https://www.paypalobjects.com/he_IL/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("it_")==0)
+        return "https://www.paypalobjects.com/it_IT/IT/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("ja_")==0)
+        return "https://www.paypalobjects.com/ja_JP/JP/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("no_")==0)
+        return "https://www.paypalobjects.com/no_NO/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("pl_")==0)
+        return "https://www.paypalobjects.com/pl_PL/PL/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("sv_")==0)
+        return "https://www.paypalobjects.com/sv_SE/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("th_")==0)
+        return "https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
+    if(this.selectedCountry.indexOf("tr_")==0)
+        return "https://www.paypalobjects.com/tr_TR/i/btn/btn_donate_LG.gif";
+
+    return "https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif";
+};
 
 
 
@@ -198,9 +281,9 @@ smartDonationsClassicDonationGenerator.prototype.DonationGeneratedCode=function(
     if(typeof this.styles=='undefined'||this.styles.smartDonationsDonationButton_src=="")
     {
         if(this.smartDonationsdisplaycreditlogo||this.smartDonationsdisplaycreditlogo=='y')
-            imageToUse="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif";
+            imageToUse=this.GetDonationImage(true);
         else
-            imageToUse="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
+            imageToUse=this.GetDonationImage(false);
     }else
         imageToUse=this.styles.smartDonationsDonationButton_src;
 
@@ -237,7 +320,6 @@ smartDonationsTextBoxDonationGenerator.prototype.GenerateDefaultStyle=function()
     this.styles.smartDonationsCommentText="vertical-align:middle; margin-left:5px;font-family:verdana;";
     this.styles.smartDonationsDonationBox="vertical-align:middle; margin-left:5px;font-family:verdana;";
     this.styles.smartDonationsDonationButton="vertical-align:middle; margin-left:5px;";
-    this.styles.smartDonationsDonationButton_src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
 }
 
 smartDonationsTextBoxDonationGenerator.prototype.GetCommentTag=function()
@@ -253,8 +335,8 @@ smartDonationsTextBoxDonationGenerator.prototype.GetTextBoxTag=function()
 smartDonationsTextBoxDonationGenerator.prototype.GetButtonTag=function()
 {
     var imageToUse;
-    if(typeof this.styles=='undefined')
-        imageToUse="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
+    if(typeof this.styles=='undefined'||typeof this.styles.smartDonationsDonationButton_src=='undefined')
+        imageToUse=this.GetDonationImage(false);
     else
         imageToUse=this.styles.smartDonationsDonationButton_src;
 
@@ -568,7 +650,6 @@ smartDonationsSliderDonationGenerator.prototype=Object.create(smartDonationsBase
 
 smartDonationsSliderDonationGenerator.prototype.GenerateDefaultStyle=function()
 {
-    this.styles.smartDonationsDonationButton_src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
     this.styles.SmileStrokeColor="000000";
     this.styles.SmileFillColor="FFFFFF";
     this.styles.smartDonationsSliderTable="border-style: none;margin: 0;text-align: center;width: auto;margin: auto;";
@@ -789,8 +870,8 @@ smartDonationsSliderDonationGenerator.prototype.GetDonationText=function (){
 smartDonationsSliderDonationGenerator.prototype.GetButtonTag=function()
 {
     var imageToUse;
-    if(typeof this.styles=='undefined')
-       imageToUse="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif";
+    if(typeof this.styles=='undefined'||typeof this.styles.smartDonationsDonationButton_src=='undefined')
+       imageToUse=this.GetDonationImage(false);
     else
        imageToUse=this.styles.smartDonationsDonationButton_src;
 
@@ -871,7 +952,7 @@ smartDonationsFormDonationGenerator.prototype.GenerateFormElements=function(form
 
     for(var i=0;i<formElementsOptions.length;i++)
     {
-        this.FormElements.push(RedNaoCreateFormElementByOptions(formElementsOptions[i]));
+        this.FormElements.push(RedNaoCreateFormElementByOptions(formElementsOptions[i],this));
     }
 }
 

@@ -36,7 +36,7 @@ smartDonationsPayPalProvider.prototype.GetStartOfDonationForm=function(generator
                 <input type="hidden" name="cmd" class="smartDonationsPaypalCommand" value="_donations">\
                 <input type="hidden" name="item_name" value="'+itemName+'">\
                 <input type="hidden" name="business" value="'+generator.business+'">\
-                <input type="hidden" name="lc" value="US">                       \
+                <input type="hidden" name="lc" value="'+generator.selectedCountry+'">                       \
                 <input type="hidden" name="no_note" value="0">                    \
                 <input type="hidden" name="currency_code" value="'+generator.donation_currency+'">             \
                 <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">\

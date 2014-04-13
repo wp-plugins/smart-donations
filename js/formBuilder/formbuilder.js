@@ -299,7 +299,7 @@ function SmartDonationsStartFormElements() {
     function CreateNewInstanceOfElement(element)
     {
         var componentType=GetComponentType(element);
-        return RedNaoCreateFormElementByName(componentType);
+        return RedNaoCreateFormElementByName(componentType,null,smartDonationsDonationType.generator);
     }
 
     function GetComponentType(element)
@@ -376,23 +376,23 @@ function SmartDonationsStartFormElements() {
 
     function InitializeComponents()
     {
-        RedNaoCreateFormElementByName('rednaotitle',null).GenerateHtml(rnJQuery("#components .rednaotitle"));
-        RedNaoCreateFormElementByName('rednaotextinput',null).GenerateHtml(rnJQuery("#components .rednaotextinput"));
-        RedNaoCreateFormElementByName('rednaoprependedtext',null).GenerateHtml(rnJQuery("#components .rednaoprependedtext"));
-        RedNaoCreateFormElementByName('rednaoappendedtext',null).GenerateHtml(rnJQuery("#components .rednaoappendedtext"));
-        RedNaoCreateFormElementByName('rednaoprependedcheckbox',null).GenerateHtml(rnJQuery("#components .rednaoprependedcheckbox"));
-        RedNaoCreateFormElementByName('rednaoappendedcheckbox',null).GenerateHtml(rnJQuery("#components .rednaoappendedcheckbox"));
-        RedNaoCreateFormElementByName('rednaotextarea',null).GenerateHtml(rnJQuery("#components .rednaotextarea"));
-        RedNaoCreateFormElementByName('rednaomultipleradios',null).GenerateHtml(rnJQuery("#components .rednaomultipleradios"));
-        RedNaoCreateFormElementByName('rednaoinlineradios',null).GenerateHtml(rnJQuery("#components .rednaoinlineradios"));
-        RedNaoCreateFormElementByName('rednaomultiplecheckboxes',null).GenerateHtml(rnJQuery("#components .rednaomultiplecheckboxes"));
-        RedNaoCreateFormElementByName('rednaoinlinecheckboxes',null).GenerateHtml(rnJQuery("#components .rednaoinlinecheckboxes"));
-        RedNaoCreateFormElementByName('rednaoselectbasic',null).GenerateHtml(rnJQuery("#components .rednaoselectbasic"));
-        RedNaoCreateFormElementByName('rednaoselectmultiple',null).GenerateHtml(rnJQuery("#components .rednaoselectmultiple"));
-        RedNaoCreateFormElementByName('rednaodonationamount',null).GenerateHtml(rnJQuery("#components .rednaodonationamount"));
-        RedNaoCreateFormElementByName('rednaodonationbutton',null).GenerateHtml(rnJQuery("#components .rednaodonationbutton"));
-        RedNaoCreateFormElementByName('rednaodonationrecurrence',null).GenerateHtml(rnJQuery("#components .rednaodonationrecurrence"));
-        RedNaoCreateFormElementByName('rednaoanonymousdonation',null).GenerateHtml(rnJQuery("#components .rednaoanonymousdonation"));
+        RedNaoCreateFormElementByName('rednaotitle',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaotitle"));
+        RedNaoCreateFormElementByName('rednaotextinput',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaotextinput"));
+        RedNaoCreateFormElementByName('rednaoprependedtext',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaoprependedtext"));
+        RedNaoCreateFormElementByName('rednaoappendedtext',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaoappendedtext"));
+        RedNaoCreateFormElementByName('rednaoprependedcheckbox',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaoprependedcheckbox"));
+        RedNaoCreateFormElementByName('rednaoappendedcheckbox',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaoappendedcheckbox"));
+        RedNaoCreateFormElementByName('rednaotextarea',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaotextarea"));
+        RedNaoCreateFormElementByName('rednaomultipleradios',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaomultipleradios"));
+        RedNaoCreateFormElementByName('rednaoinlineradios',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaoinlineradios"));
+        RedNaoCreateFormElementByName('rednaomultiplecheckboxes',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaomultiplecheckboxes"));
+        RedNaoCreateFormElementByName('rednaoinlinecheckboxes',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaoinlinecheckboxes"));
+        RedNaoCreateFormElementByName('rednaoselectbasic',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaoselectbasic"));
+        RedNaoCreateFormElementByName('rednaoselectmultiple',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaoselectmultiple"));
+        RedNaoCreateFormElementByName('rednaodonationamount',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaodonationamount"));
+        RedNaoCreateFormElementByName('rednaodonationbutton',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaodonationbutton"));
+        RedNaoCreateFormElementByName('rednaodonationrecurrence',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaodonationrecurrence"));
+        RedNaoCreateFormElementByName('rednaoanonymousdonation',null,smartDonationsDonationType.generator).GenerateHtml(rnJQuery("#components .rednaoanonymousdonation"));
 
 
 
