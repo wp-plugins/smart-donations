@@ -1,4 +1,4 @@
-=== Donations for wordpress ===
+=== Donations For WordPress - Smart Donations ===
 Contributors: EDGARROJAS
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=edseventeen%40gmail.com
 Tags: donations, donate, donation buttons, donation widget,widget, paypal, donations, donation page, donation plugin, nonprofit donations, campaign donations, political campaigns, donations, donation widget, donate page, donate plugin,charity, fundraising, shortcode, forms, widgets
