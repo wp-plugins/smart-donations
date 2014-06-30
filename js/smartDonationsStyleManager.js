@@ -585,7 +585,7 @@ function SmartDonationsAddColorPicker(imageElement,eventListener,attribute)
         attribute +
         "</td>" +
         "<td>" +
-            "<input id='smartDonationsEditColor_"+attribute+"' class='color' value='"+RGBToEx(imageElement.css(attribute))+"'/>"
+            "<input id='smartDonationsEditColor_"+attribute+"' class='color' value='"+RGBToEx(imageElement.css(attribute))+"'/>"+
         "</td>" +
     "</tr>"
 }
@@ -611,9 +611,9 @@ function SmartDonationsAddColorPickerWithAlpha(imageElement,eventListener,attrib
         attribute +
         "</td>" +
         "<td>" +
-        "<input id='smartDonationsEditColor_"+attribute+"' class='color' value='"+RGBToEx(imageElement.css(attribute))+"'/>"
+        "<input id='smartDonationsEditColor_"+attribute+"' class='color' value='"+RGBToEx(imageElement.css(attribute))+"'/>"+
     "</td>" +
-    "</tr>"
+    "</tr>";
 }
 
 function hexToRgb(hex) {
@@ -645,9 +645,9 @@ function SmartDonationsAddColorPickerForRaphael(imageElement,eventListener,attri
         attribute +
         "</td>" +
         "<td>" +
-        "<input id='smartDonationsEditColor_"+attribute+"' class='color' value='"+selectedColor+"'/>"
+        "<input id='smartDonationsEditColor_"+attribute+"' class='color' value='"+selectedColor+"'/>"+
     "</td>" +
-    "</tr>"
+    "</tr>";
 }
 
 
