@@ -11,6 +11,10 @@
 if(!defined('ABSPATH'))
     die('Forbidden');
 
+wp_enqueue_style('smart-donations-bootstrap-theme',SMART_DONATIONS_PLUGIN_URL.'css/bootstrap/bootstrap-theme.css');
+wp_enqueue_style('smart-donations-bootstrap',SMART_DONATIONS_PLUGIN_URL.'css/bootstrap/bootstrap-scopped.css');
+
+
     global $wpdb;
 
     $campaigns=$wpdb->get_results("select campaign_id, name from ".SMART_DONATIONS_CAMPAIGN_TABLE);
@@ -28,41 +32,57 @@ wp_enqueue_script('smart-donations-style-manager',plugin_dir_url(__FILE__).'js/s
 
 wp_enqueue_style('smart-donations-main-style',plugin_dir_url(__FILE__).'css/mainStyle.css');
 wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css');
-
+wp_enqueue_style('smart-donations-ladda',SMART_DONATIONS_PLUGIN_URL.'css/bootstrap/ladda-themeless.min.css');
+wp_enqueue_script('smart-donations-bootstrap-theme',SMART_DONATIONS_PLUGIN_URL.'js/bootstrap/bootstrapUtils.js',array('isolated-slider'));
+wp_enqueue_script('smart-donations-bootstrap-js',SMART_DONATIONS_PLUGIN_URL.'js/bootstrap/bootstrap.min.js',array('isolated-slider'));
+wp_enqueue_script('smart-donations-spin-js',SMART_DONATIONS_PLUGIN_URL.'js/bootstrap/spin.min.js');
+wp_enqueue_script('smart-donations-ladda-js',SMART_DONATIONS_PLUGIN_URL.'js/bootstrap/ladda.min.js',array('smart-donations-spin-js'));
 
 ?>
-<h1 style="display: inline-block">Add New Progress Indicator</h1>
-<button style="margin-left: 288px;width:100px;cursor: hand;cursor: pointer;" id="smartDonationsSaveButton" >Save</button>
+<div class="bootstrap-wrapper">
+<h1 style="display: inline-block"></h1>
+<div id="RNNotifications"></div>
+<button style="margin-left: 530px;width:100px;cursor: hand;cursor: pointer;" class="btn btn-success ladda-button" id="smartDonationsSaveButton"  data-style="expand-left" onclick="return false;" >
+	<span class="glyphicon glyphicon-floppy-disk"></span><span class="ladda-label">Save</span>
+</button>
 <hr/>
 
+<style type="text/css">
+	#wpfooter{
+		display: none;
+	}
+</style>
 
 
-
-<form id='smart_donations_general_options'>
+<div class="category form-horizontal" id='smart_donations_general_options'>
     <div id="rednaoSmartDonaitions">
 
         <input type="hidden" name="progress_id" id="smartDonationsProgressId" value=""/>
-        <span>Name</span>
-        <input type="text" name="progress_name" id="tb_progress_name"/>
-        <span class="description" style="margin-bottom:5px;"> *The name of the progress indicator, this name is displayed in the progress list</span>
+		<div class='form-group'>
+			<label class='control-label col-xs-1'>Name</label>
+			<div class='col-xs-2'><input type="text" name="progress_name" class="form-control" id="tb_progress_name"/></div>
+			<span class="description" style="margin-bottom:5px;"> *The name of the progress indicator, this name is displayed in the progress list</span>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-xs-1">Campaign</label>
+			<div class='col-xs-2'>
+				<select name="campaign_id" id="select_campaign_id" class="form-control" style="margin-bottom:5px;">
+					<option value="0">Default</option>
+					<?php
+						foreach($campaigns  as $campaign)
+						{
+							echo "<option value='$campaign->campaign_id'>$campaign->name</option>";
+						}
+					?>
+				</select>
+			</div>
+		</div>
+	</div>
 
-        <br/>
-        <span>Campaign</span>
-        <select name="campaign_id" id="select_campaign_id" style="margin-bottom:5px;">
-            <option value="0">Default</option>
-            <?php
-                foreach($campaigns  as $campaign)
-                {
-                    echo "<option value='$campaign->campaign_id'>$campaign->name</option>";
-                }
-            ?>
-        </select>
+</div>
+</div>
 
-
-</form>
-
-
-<form id='smart_donations_component_options' action="https://www.paypal.com/cgi-bin/webscr" method="post" class="donationForm" target="_blank">
+<div id='smart_donations_component_options'  class="donationForm" >
 
 
     <!--Item Container--->
@@ -96,10 +116,11 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
                     <img id="smartDonationsBackFromConfiguration" src="<?php echo plugin_dir_url(__FILE__)?>images/arrow_back.png" alt="">
                     <span id="smartDonationsItemTitle">Test</span>
 
-
+<div class="bootstrap-wrapper">
                     <div id="smartDonationsConfigurationFields" class="smartDonationsCustomFields">
 
                     </div>
+</div>
 
 
                     <div id="smartDonationsPreview" >
@@ -126,7 +147,7 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
 
     </div>
 
-</form>
+</div>
 
 <?php  ?>
 

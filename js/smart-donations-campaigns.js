@@ -2,7 +2,8 @@ var smartDonationsEditCampaign;
 
 rnJQuery(function()
 {
-    var smartDonationsCampaignDialog=rnJQuery('#smart-donations-add-new-campaign-panel').dialog({
+    var notifications=rnJQuery('#rnNotification').RDNotifications();
+/*    var smartDonationsCampaignDialog=rnJQuery('#smart-donations-add-new-campaign-panel').dialog({
         modal:true,
         autoOpen:false,
         width:'530px',
@@ -15,7 +16,7 @@ rnJQuery(function()
         }
 
     });
-
+*/
 
     rnJQuery("#sDonationsAddNew").click(function(event)
     {
@@ -41,16 +42,18 @@ rnJQuery(function()
 
     function OpenCreateDialog()
     {
-        smartDonationsCampaignDialog.dialog('open');
-        smartDonationsCampaignDialog.dialog("option","title","Create Campaign");
-
+        notifications.Clear();
+        jQuery('#campaignModal').modal();
+        jQuery('#myModalTitle').text('Create Campaign');
         rnJQuery("#campaignSaveButton").unbind("click").click(function()
         {
+
             if(!EmailIsValid())
             {
                 alert("Invalid email address");
                 return;
             }
+            rnJQuery('#campaignSaveButton').RNWait('start');
            rnJQuery(this).attr('disabled', 'disabled');
             var data={
                 action:"rednao_smart_donations_add_campaign",
@@ -62,6 +65,7 @@ rnJQuery(function()
                 email_from:rnJQuery('#smartDonationsEmailFrom').val()
             };
 
+            notifications.Clear();
             rnJQuery.post(ajaxurl,data,ajaxCompleted);
         });
 
@@ -70,14 +74,15 @@ rnJQuery(function()
 
     function ajaxCompleted(result)
     {
+        rnJQuery('#campaignSaveButton').RNWait('stop');
         rnJQuery("#campaignSaveButton").removeAttr('disabled');
         if(result=="success")
         {
-            alert('Campaign saved successfully');
+            notifications.ShowSuccess('Campaign saved successfully');
             location.reload();
         }else
         {
-            alert(result);
+            notifications.ShowError(result);
         }
     }
 
@@ -92,9 +97,10 @@ rnJQuery(function()
 
 
     function OpenEditDialog(campaign) {
+        notifications.Clear();
         ClearDialog();
-        smartDonationsCampaignDialog.dialog('open');
-        smartDonationsCampaignDialog.dialog("option","title","Edit Campaign");
+        jQuery('#campaignModal').modal();
+        jQuery('#myModalTitle').text('Create Campaign');
 
         rnJQuery("#campaignSaveButton").unbind("click").click(function()
         {
@@ -103,6 +109,7 @@ rnJQuery(function()
                 alert("Invalid email address");
                 return;
             }
+            rnJQuery('#campaignSaveButton').RNWait('start');
             rnJQuery(this).attr('disabled', 'disabled');
             var data={
                 action:"rednao_smart_donations_edit_campaign",
@@ -115,6 +122,7 @@ rnJQuery(function()
                 email_from:rnJQuery('#smartDonationsEmailFrom').val()
             };
 
+            notifications.Clear();
             rnJQuery.post(ajaxurl,data,ajaxCompleted);
         });
 

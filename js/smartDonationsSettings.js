@@ -17,10 +17,6 @@ function SmartDonationSettings()
     var left = configurationOptions.offset().left-configurationSettings.offset().left;
 
     left+=configurationOptions.width()+2;
-
-   /* top += (image.height() / 2) - (text.height() / 2)-1;
-    left += (image.width() / 2) - (text.width() / 2);
-*/
     configurationSettings.css("top", top);
     configurationSettings.css("left", left);
 
@@ -52,6 +48,7 @@ function SmartDonations_donationTypeClicked(div,donationOptions) {
         donationOptions.donation_currency=rnJQuery("#smartDonationsCurrency").val();
         donationOptions.donation_description=rnJQuery('#smartDonationsDescription').val();
         donationOptions.selectedCountry=rnJQuery('#smartDonationsCountry').val();
+        donationOptions.donation_provider=rnJQuery("#smartDonationsProvider").val();
         var donationTypeSelected= rnJQuery(div).find(':hidden').val();
     }
 
@@ -64,9 +61,7 @@ function SmartDonations_donationTypeClicked(div,donationOptions) {
 
 function SmartDonations_GetDonationTypeSelected(donationTypeSelected,donationProvider,donationOptions)
 {
-    switch(donationProvider)
-    {
-        case "paypal":
+
             if(donationTypeSelected=='classic')
                 return new smartDonationClassicConfiguration('smartDonationsPreviewContainer',donationOptions);
             if(donationTypeSelected=='textbox')
@@ -95,24 +90,7 @@ function SmartDonations_GetDonationTypeSelected(donationTypeSelected,donationPro
                 return new smartDonationsFormConfiguration('smartDonationsPreviewContainer',donationOptions);
 
             }
-            break;
-        case "wepay":
-            if(donationTypeSelected=='classic')
-                return new smartDonationClassicConfiguration_wepay('smartDonationsPreviewContainer',donationOptions);
-            if(donationTypeSelected=='textbox')
-            {
-                rnJQuery('#smartDonationsPreviewContainer').css('margin-top','-5px');
-                return new smartDonationTextBoxConfiguration_wepay('smartDonationsPreviewContainer',donationOptions);
-            }
-            if(donationTypeSelected=="threeButtons")
-                return new smartDonationsThreeButtonsConfiguration_wepay('smartDonationsPreviewContainer',donationOptions);
-            if(donationTypeSelected=="slider")
-            {
-                rnJQuery('#smartDonationsPreviewContainer').css('margin-top','-10px');
-                return new smartDonationsSliderConfiguration_wepay('smartDonationsPreviewContainer',donationOptions);
 
-            }
-    }
 }
 
 function SmartDonations_SetSmartDonationConfiguration(rthis,div,donationTypeSelected,donationOptions)

@@ -1,7 +1,12 @@
 
 
-
+<div class="bootstrap-wrapper">
 <?php
+
+wp_enqueue_style('smart-donations-bootstrap-theme',SMART_DONATIONS_PLUGIN_URL.'css/bootstrap/bootstrap-theme.css');
+wp_enqueue_style('smart-donations-bootstrap',SMART_DONATIONS_PLUGIN_URL.'css/bootstrap/bootstrap-scopped.css');
+//wp_enqueue_style('smart-donations-bootstrap-theme',SMART_DONATIONS_PLUGIN_URL.'css/bootstrap/bootstrap-theme.min.css.min.css');
+
 if(!defined('ABSPATH'))
     die('Forbidden');
 
@@ -15,8 +20,14 @@ if($action==="add"){
 }
 require_once('smart-donations-messages.php');
 
-echo "<h1>Donation Buttons</h1>";
-echo sprintf('<h2 ><a style="color:blue; text-decoration: underline;" href="?page=%s&action=%s">Add New</a></h2>',$_REQUEST['page'],'add');
+if($action!="edit")
+{
+
+	echo "<h1>Donation Buttons</h1>";
+	echo sprintf(' <a href="?page=%s&action=%s" class="btn btn-default btn-success" ><span class="glyphicon glyphicon-plus" ></span>Add New</a>',$_REQUEST['page'],'add');
+	echo "</div>";
+}
+//<h2 ><a style="color:blue; text-decoration: underline;" href="?page=%s&action=%s">Add New</a></h2>',$_REQUEST['page'],'add');
 
 require_once("smart-donations-helpers.php");
 
@@ -122,7 +133,3 @@ $donationList->prepare_items();
 $donationList->display();
 
 ?>
-
-
-
-

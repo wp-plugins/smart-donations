@@ -89,23 +89,21 @@ SmartDonationsConfigurationProgressIndicator.prototype.PropertyChanged=function(
 }
 
 SmartDonationsConfigurationProgressIndicator.prototype.GetProgressConfigurationGeneratedCode=function(){
-    return  "<table> "+
-        "<tr>    "+
-        "<td>Orientation</td> "+
-        "<td><select class='smartDonationsSettingField' name='orientation'>" +
+    return  "<div  class='form-horizontal' style='padding:0;'> "+
+        "<div class='form-group' style='margin-bottom: 1px;'>    "+
+        "<label class='control-label col-xs-3'>Orientation</label> "+
+        "<div class='col-xs-3'><select class='smartDonationsSettingField form-control' name='orientation'>" +
         "   <option value='h' selected='selected'>Horizontal</option>" +
         "   <option  value='v'>Vertical</option>" +
-        "</select> </td> "+
-        "</tr>" +
-        "<tr>" +
-        "<td>Comment</td>" +
-        "<td><input type='text' class='smartDonationsSettingField smartDonationsCommentField' name='comment' value='Thank you, we are almost there!!'/></td>" +
-        "</tr>"+
-        "<tr>" +
-        "<td>Currency Sign</td>" +
-        "<td><input type='text' class='smartDonationsSettingField' style='width:50px;text-align: center;' name='currencySign' value='$'/></td>" +
-        "</tr>"+
-        "</table>";
+        "</select> </div> "+
+        "<label class='control-label col-xs-3'>Currency Sign</label>" +
+        "<div class='col-xs-3'><input type='text' class='smartDonationsSettingField form-control' style='width:50px;text-align: center;' name='currencySign' value='$'/></div>" +
+        "</div>" +
+        "<div class='form-group' style='margin-bottom: 1px;'>" +
+        "<label class='control-label col-xs-3'>Comment</label>" +
+        "<div class='col-xs-5'><input type='text' class='smartDonationsSettingField smartDonationsCommentField form-control' name='comment' value='Thank you, we are almost there!!'/></div>" +
+        "</div>"+
+        "</div>";
 
 };
 
@@ -140,20 +138,20 @@ SmartDonationsConfigurationPanels.prototype.PropertyChanged=function(field,value
 }
 
 SmartDonationsConfigurationPanels.prototype.GetProgressConfigurationGeneratedCode=function(){
-    return  "<table> "+
-        "<tr>    "+
-        "<td>Hide Current</td> "+
-        "<td><input name='hidecurrent' class='smartDonationsSettingField' type='checkbox' /> </td> "+
-        "</tr>"+
-        "<tr>    "+
-        "<tr>    "+
-        "<td>Hide Goals</td> "+
-        "<td><input name='hidegoals' class='smartDonationsSettingField' type='checkbox'  /> </td> "+
-        "</tr>"+
-        "<td>Hide Donors</td> "+
-        "<td><input name='hidedonators' class='smartDonationsSettingField' type='checkbox' /> </td> "+
-        "</tr>"+
-        "</table>";
+    return  "<div  class='form-horizontal' style='padding:30px;'> "+
+                "<div class='form-group'>     "+
+                    "<label class='control-label col-xs-2'>Hide Current</label> "+
+                    "<div class='col-xs-6'><input name='hidecurrent' class='smartDonationsSettingField' type='checkbox' /> </div> "+
+                "</div>"+
+                "<div class='form-group'>     "+
+                    "<label class='control-label col-xs-2'>Hide Goals</label> "+
+                    "<div class='col-xs-6'><input name='hidegoals' class='smartDonationsSettingField' type='checkbox'  /> </div> "+
+                "</div>"+
+                "<div class='form-group'>"+
+                    "<label class='control-label col-xs-2'>Hide Donors</label> "+
+                    "<div class='col-xs-6'><input name='hidedonators' class='smartDonationsSettingField' type='checkbox' /> </div> "+
+                "</div>"+
+        "</div>";
 
 };
 

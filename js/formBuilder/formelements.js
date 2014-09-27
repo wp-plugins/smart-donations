@@ -1280,7 +1280,15 @@ DonationButtonElement.prototype.GenerateInlineElement=function()
     var imageToUse=this.Options.Image;
     if(imageToUse=="")
         imageToUse=this.generator.GetDonationImage();
-    return '<div class="redNaoControls"><input type="image" class="redNaoDonationButton" src="'+imageToUse+'" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"></div>';
+    return '<div class="redNaoControls">'+this.generator.donationProvider.GetButton(imageToUse)+'</div>';
+}
+
+DonationButtonElement.prototype.GenerationCompleted=function()
+{
+    rnJQuery('#'+this.Id).find('.smartDonationsDonationButton').click(function()
+    {
+        event.preventDefault();
+    });
 }
 
 DonationButtonElement.prototype.GenerateDefaultStyle=function()

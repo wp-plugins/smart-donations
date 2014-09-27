@@ -3,6 +3,14 @@
 if(!defined('ABSPATH'))
     die('Forbidden');
 
+wp_enqueue_style('smart-donations-bootstrap-theme',SMART_DONATIONS_PLUGIN_URL.'css/bootstrap/bootstrap-theme.css');
+wp_enqueue_style('smart-donations-bootstrap',SMART_DONATIONS_PLUGIN_URL.'css/bootstrap/bootstrap-scopped.css');
+wp_enqueue_style('smart-donations-ladda',SMART_DONATIONS_PLUGIN_URL.'css/bootstrap/ladda-themeless.min.css');
+
+wp_enqueue_script('smart-donations-bootstrap-theme',SMART_DONATIONS_PLUGIN_URL.'js/bootstrap/bootstrapUtils.js',array('isolated-slider'));
+wp_enqueue_script('smart-donations-bootstrap-js',SMART_DONATIONS_PLUGIN_URL.'js/bootstrap/bootstrap.min.js',array('isolated-slider'));
+wp_enqueue_script('smart-donations-spin-js',SMART_DONATIONS_PLUGIN_URL.'js/bootstrap/spin.min.js');
+wp_enqueue_script('smart-donations-ladda-js',SMART_DONATIONS_PLUGIN_URL.'js/bootstrap/ladda.min.js',array('smart-donations-spin-js'));
 
 if (isset($_GET['action'])) {
     $action=$_GET['action'];
@@ -68,9 +76,13 @@ EOF;
 }
 
 require_once('smart-donations-messages.php');
-echo "<h1>Progress Indicators</h1>";
-echo sprintf('<h2 ><a id="sDonationsAddNew" style="color:blue; text-decoration: underline;" href="?page=%s&action=%s">Add New</a></h2>',$_REQUEST['page'],'add');
-
+if($action!="edit")
+{
+	echo "<div class='bootstrap-wrapper'>";
+	echo "<h1>Progress Indicators</h1>";
+	echo sprintf(' <a href="?page=%s&action=%s" id="sDonationsAddNew" class="btn btn-default btn-success" ><span class="glyphicon glyphicon-plus" ></span>Add New</a>',$_REQUEST['page'],'add');
+	echo "</div>";
+}
 class Donations extends WP_List_Table
 {
     function get_columns()

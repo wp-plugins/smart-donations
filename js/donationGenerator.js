@@ -21,8 +21,6 @@ function smartDonationsLoadDonation(options,containerName)
     if(typeof options.styles =='undefined'||options.styles!=null)
         this.styles=options.styles;
 
-    if(options.donation_provider=='paypal')
-    {
         if(donationTypeSelected=='classic')
             aux=new smartDonationsClassicDonationGenerator(containerName,options,null,styles);
         else
@@ -38,22 +36,6 @@ function smartDonationsLoadDonation(options,containerName)
             aux=new smartDonationsFormDonationGenerator(containerName,options,null,styles)
         else
             throw 'Undefined donation type';
-    }else
-    if(options.donation_provider=='wepay')
-    {
-        if(donationTypeSelected=='classic')
-            aux=new smartDonationsClassicDonationGenerator_wepay(containerName,options,styles);
-        else if(donationTypeSelected=='textbox')
-            aux=new smartDonationsTextBoxDonationGenerator_wepay(containerName,options,styles);
-        else if(donationTypeSelected=="threeButtons")
-            aux=new smartDonationsThreeButtonsDonationGenerator_wepay(containerName,options,styles);
-        else if(donationTypeSelected=="slider")
-            aux=new smartDonationsSliderDonationGenerator_wepay(containerName,options,styles);
-        else
-            throw 'Undefined donation type';
-    }else
-        throw 'Undefined provider';
-
 
     aux.GenerateDonationItem();
     return aux;
@@ -65,10 +47,16 @@ function smartDonationsLoadDonation(options,containerName)
 
 
 function smartDonationsBaseGenerator(containerName2,options,donationProvider,styles){
-    if(donationProvider)
-        this.donationProvider=donationProvider;
-    else
-        this.donationProvider=new smartDonationsPayPalProvider();
+
+    if(typeof options.donation_provider=='undefined')
+        options.donation_provider='paypal';
+    var args={donation_provider:options.donation_provider,provider:null};
+    RedNaoEventManager.Publish('GetProvider',args);
+
+    if(args.provider==null)
+        throw 'Invalid provider';
+
+    this.donationProvider=args.provider;
 
     if(styles!=null)
         this.styles=styles;
@@ -116,8 +104,16 @@ smartDonationsBaseGenerator.prototype.DonationGeneratedCode=function(){};
 smartDonationsBaseGenerator.prototype.GenerateDonationItem=function()
 {
     var generator=this;
+    var self=this;
     this.GetRootContainer().html('').append(this.DonationGeneratedCode());
-    this.GetRootContainer().find(".donationForm").submit(function(){generator.SubmitFired(generator)});
+    this.GetRootContainer().find(".donationForm").submit(function(event){
+        if(self instanceof smartDonationsFormDonationGenerator)
+            return;
+        generator.SubmitFired(generator);
+        var continueNormalSubmision=self.donationProvider.Submit();
+        if(!continueNormalSubmision)
+            event.preventDefault();
+    });
     this.GenerationCompleted();
     this.StyleItem();
     if(this.DonationGeneratedListener!=null)
@@ -137,6 +133,7 @@ smartDonationsBaseGenerator.prototype.StyleItem=function()
 
 smartDonationsBaseGenerator.prototype.GenerationCompleted=function()
 {
+
 
 }
 
@@ -159,7 +156,10 @@ smartDonationsBaseGenerator.prototype.ChangeAmountToDonate=function(amount)
     {
         var amount=parseFloat(amount);
         if(!isNaN(amount))
+        {
             this.GetRootContainer().find(".amountToDonate").val(amount);
+            this.donationProvider.SetAmount(amount);
+        }
     }catch(exception)
     {
 
@@ -174,6 +174,8 @@ smartDonationsBaseGenerator.prototype.GetEndOfDonationForm=function()
 
 smartDonationsBaseGenerator.prototype.GetDonationImage=function(usingCreditCardLogo)
 {
+    if(this.donationProvider.Id!='paypal')
+        return '';
 
     if(usingCreditCardLogo)
     {
@@ -289,8 +291,8 @@ smartDonationsClassicDonationGenerator.prototype.DonationGeneratedCode=function(
 
 
         return   this.GetStartOfDonationForm()+
-                '<input type="image" class="smartDonationsDonationButton smartDonationsEditableItem" src="'+imageToUse+'" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">\
-                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">'+this.GetEndOfDonationForm();
+                    this.donationProvider.GetButton(imageToUse)+
+                this.GetEndOfDonationForm();
 
 
 
@@ -341,7 +343,7 @@ smartDonationsTextBoxDonationGenerator.prototype.GetButtonTag=function()
         imageToUse=this.styles.smartDonationsDonationButton_src;
 
 
-    return  '<input type="image" class="smartDonationsDonationButton smartDonationsEditableItem" src="'+imageToUse+'" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">';
+    return  this.donationProvider.GetButton(imageToUse);
 
 }
 
@@ -598,6 +600,8 @@ smartDonationsThreeButtonsDonationGenerator.prototype.GenerationCompleted=functi
         generator.CreateAndLayoutImage('.smartDonationsThreeButtonImage2','.smartDonationsThreeButtonSpan2',generator.styles.smartDonationsThreeButtonImage2_src);
         generator.CreateAndLayoutImage('.smartDonationsThreeButtonImage3','.smartDonationsThreeButtonSpan3',generator.styles.smartDonationsThreeButtonImage3_src);
     });
+
+
 
 
 }
@@ -860,6 +864,7 @@ smartDonationsSliderDonationGenerator.prototype.GenerationCompleted=function()
 
 
 
+
 }
 
 smartDonationsSliderDonationGenerator.prototype.GetDonationText=function (){
@@ -875,7 +880,7 @@ smartDonationsSliderDonationGenerator.prototype.GetButtonTag=function()
     else
        imageToUse=this.styles.smartDonationsDonationButton_src;
 
-    return  '<input type="image" class="smartDonationsTextBoxDonationField smartDonationsDonationButton smartDonationsEditableItem" src="'+imageToUse+'" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"/>';
+    return  this.donationProvider.GetButton(imageToUse);
 
 }
 smartDonationsSliderDonationGenerator.prototype.DonationGeneratedCode=function()
@@ -926,11 +931,6 @@ smartDonationsSliderDonationGenerator.prototype.SubmitFired=function(generator)
 function smartDonationsFormDonationGenerator(containerName,options,donationProvider,styles){
     smartDonationsBaseGenerator.call(this,containerName,options,donationProvider,styles);
 
-    if(!this.returningUrl)
-    {
-        this.returningUrl=document.URL;
-    }
-
     if(options.isNew)
         this.FormElements=options.FormElements;
     else
@@ -974,7 +974,7 @@ smartDonationsFormDonationGenerator.prototype.GenerationCompleted=function()
     }
 
     var me=this;
-    form.find('.redNaoDonationButton').click(function()
+    form.find('.smartDonationsDonationButton').click(function()
                                                 {
                                                     try{
                                                     me.SaveForm();
@@ -988,6 +988,8 @@ smartDonationsFormDonationGenerator.prototype.GenerationCompleted=function()
                                                     }
                                                 }
                                             );
+
+
 
 }
 
@@ -1042,45 +1044,17 @@ smartDonationsFormDonationGenerator.prototype.SaveForm=function()
         action:"rednao_smart_donations_save_form_values",
         emailToNotify:this.emailToNotify,
         additionalData:JSON.stringify({anonymousDonation:(this.GetRootContainer().find('.redNaoAnonymousDonation').is(':checked')?'y':'n')}),
-        formString:formValues
+        formString:formValues,
+        provider:this.donationProvider.Id
     };
 
     var me=this;
 
 
-    rnJQuery.post(ajaxurl,data,function(data){me.SubmitForm(data,amount)},"json");
-}
+    rnJQuery.post(ajaxurl,data,function(data){me.donationProvider.FormSubmissionCompleted(data,me,amount);},"json");
+};
 
 
-smartDonationsFormDonationGenerator.prototype.SubmitForm=function(data,amount)
-{
-    if(data.status=="success")
-    {
-        var form=this.GetRootContainer().find('form');
-        form.attr('target','_self');
-        form.find('input[name=custom]').val(encodeURI('campaign_id='+this.campaign_id+"&formId="+data.randomString))
-        if(amount>0)
-            form.append('<input type="hidden" name="amount" class="amountToDonate" value="'+amount+'">');
-
-        if(this.IsRecurrentPayment(form))
-        {
-            if(amount<=0)
-            {
-                alert('Please set a donation amount before proceeding');
-                return;
-            }
-            this.TurnFormIntoRecurrentPayment(form);
-        }
-
-        form.submit();
-
-
-    }else
-    {
-        alert("An error occured, please try again");
-    }
-
-}
 
 smartDonationsFormDonationGenerator.prototype.TurnFormIntoRecurrentPayment=function(form)
 {

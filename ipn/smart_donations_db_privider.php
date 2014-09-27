@@ -7,6 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
+
+
 class smart_donations_db_privider {
     private $_TransactionIsRepeated=NULL;
 

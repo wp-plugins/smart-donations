@@ -76,10 +76,15 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
             $options="";
 
     }
+
+	require_once(SMART_DONATIONS_DIR.'/donation_provider/donation_provider_config.php');
+	$donationProviderNames=array();
+	$donationProviderNames=apply_filters('smart-donations-register-provider',$donationProviderNames);
     wp_enqueue_script('jquery');
     wp_enqueue_script('isolated-slider',plugin_dir_url(__FILE__).'js/rednao-isolated-jq.js');
     wp_enqueue_script('smart-donations-donation-provider',plugin_dir_url(__FILE__).'js/donationProvider.js',array('isolated-slider'));
-    wp_enqueue_script('smart-donations-generator',plugin_dir_url(__FILE__).'js/donationGenerator.js',array('isolated-slider','smart-donations-donation-provider'));
+	wp_enqueue_script('smart-donations-eventmanager',plugin_dir_url(__FILE__).'js/eventmanager.js');
+    wp_enqueue_script('smart-donations-generator',plugin_dir_url(__FILE__).'js/donationGenerator.js',array_merge(array('isolated-slider','smart-donations-donation-provider','smart-donations-eventmanager'),$donationProviderNames));
     wp_enqueue_script('smart-donations-generator-wepay',plugin_dir_url(__FILE__).'js/donationGenerator_wepay.js',array('smart-donations-generator'));
     wp_enqueue_script('smart-donations-raphael',plugin_dir_url(__FILE__).'js/raphael-min.js',array('isolated-slider'));
     wp_enqueue_script('smart-donations-formelements',plugin_dir_url(__FILE__).'js/formBuilder/formelements.js',array('isolated-slider'));

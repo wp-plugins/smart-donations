@@ -6,6 +6,7 @@
  * Time: 8:04 PM
  * To change this template use File | Settings | File Templates.
  */
+wp_enqueue_script('jquery');
 wp_enqueue_script('isolated-slider',plugin_dir_url(__FILE__).'js/rednao-isolated-jq.js');
 wp_enqueue_script('exCanvas',plugin_dir_url(__FILE__).'js/excanvas.min.js',array('isolated-slider'));
 wp_enqueue_script('jqPlot',plugin_dir_url(__FILE__).'js/jquery.jqplot.min.js',array('exCanvas'));
@@ -28,6 +29,18 @@ wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDon
 
 
 
+wp_enqueue_style('smart-donations-bootstrap-theme',SMART_DONATIONS_PLUGIN_URL.'css/bootstrap/bootstrap-theme.css');
+wp_enqueue_style('smart-donations-bootstrap',SMART_DONATIONS_PLUGIN_URL.'css/bootstrap/bootstrap-scopped.css');
+wp_enqueue_style('smart-donations-ladda',SMART_DONATIONS_PLUGIN_URL.'css/bootstrap/ladda-themeless.min.css');
+
+
+
+wp_enqueue_script('smart-donations-bootstrap-theme',SMART_DONATIONS_PLUGIN_URL.'js/bootstrap/bootstrapUtils.js',array('isolated-slider'));
+wp_enqueue_script('smart-donations-bootstrap-js',SMART_DONATIONS_PLUGIN_URL.'js/bootstrap/bootstrap.min.js',array('jquery'));
+wp_enqueue_script('smart-donations-spin-js',SMART_DONATIONS_PLUGIN_URL.'js/bootstrap/spin.min.js');
+wp_enqueue_script('smart-donations-ladda-js',SMART_DONATIONS_PLUGIN_URL.'js/bootstrap/ladda.min.js',array('smart-donations-spin-js'));
+
+
 
 if(!defined('ABSPATH'))
     die('Forbidden');
@@ -36,10 +49,12 @@ require_once('smart-donations-messages.php');
 ?>
 
 
-
+<div class="bootstrap-wrapper">
 <h1 >Analytics</h1>
 
-<hr/>
+<hr style="padding: 0;margin:0;"/>
+
+<div id="rnNotifications"></div>
 
 
 <div id="smartDonationRadio" class="smartDonationsSlider" style="margin-bottom: 20px;">
@@ -84,11 +99,13 @@ require_once('smart-donations-messages.php');
         <option value="y">Yearly</option>
     </select>
 
+	<button class="btn btn-success ladda-button" id="btnExecute"  data-style="expand-left" onclick="return false;" >
+		<span class="glyphicon glyphicon-search"></span><span class="ladda-label">Execute</span>
+	</button>
 
-    <Button style="margin-left:35px" id="btnExecute">
-        Execute
-    </Button>
 
+
+</div>
 </div>
 <div style="width:80%;overflow-x: scroll;padding:25px;">
 <div id="Chart"></div>

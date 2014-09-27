@@ -1,5 +1,6 @@
 rnJQuery(function () {
 
+    var Notifications=rnJQuery('#rnNotifications').RDNotifications();
     rnJQuery('#cbDisplayType').change(function () {
         FormatStartDate();
         FormatEndDate();
@@ -103,30 +104,30 @@ rnJQuery(function () {
 
     function ExecuteQuery() {
 
-
+        Notifications.Clear();
         var startDate = rnJQuery.datepicker.formatDate('yy-mm-dd', rnJQuery('#dpStartDate').datepicker('getDate'));
         var endDate = rnJQuery.datepicker.formatDate('yy-mm-dd', rnJQuery('#dpEndDate').datepicker('getDate'));
         var displayType = rnJQuery('#cbDisplayType').val();
         var campaign = rnJQuery('#cbCampaign').val();
 
         if (!startDate) {
-            alert('Start Date is Mandatory');
+            Notifications.ShowError('Start Date is Mandatory');
             return;
         }
 
 
         if (!endDate) {
-            alert('End Date is Mandatory');
+            Notifications.ShowError('End Date is Mandatory');
             return;
         }
 
         if (!displayType) {
-            alert('Display Format is mandatory');
+            Notifications.ShowError('Display Format is mandatory');
             return;
         }
 
         if (!campaign) {
-            alert('Campaign is mandatory');
+            Notifications.ShowError('Campaign is mandatory');
             return;
         }
 
@@ -155,6 +156,7 @@ rnJQuery(function () {
                 break;
 
         }
+        rnJQuery('#btnExecute').RNWait('start');
         rnJQuery.post(ajaxurl, data, function (result) {
             ajaxCompleted(result, tick,displayType,campaign)
         });
@@ -185,6 +187,7 @@ rnJQuery(function () {
     var GridDisplayType="";
     var Grid;
     function ajaxCompleted(result, tick, displayType, campaign_id) {
+        rnJQuery('#btnExecute').RNWait('stop');
         var values = rnJQuery.parseJSON(result);
         GridCampaign_Id=campaign_id;
         GridDisplayType=displayType;

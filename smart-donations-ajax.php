@@ -12,6 +12,7 @@ function rednao_smart_donations_save()
     $styles=$_REQUEST['styles'];
     $message="";
     $donationId=0;
+	$success=false;
 
     if($donation_provider==null)
     {
@@ -21,10 +22,10 @@ function rednao_smart_donations_save()
     {
         $message="Please pick a donation type first";
     }
-    else if($donationName==null||$email==null)
+    else if($donationName==null)
     {
 
-        $message= "Email and Name are mandatory";
+        $message= "Name is mandatory";
 
     }else
     {
@@ -52,6 +53,7 @@ function rednao_smart_donations_save()
                 $wpdb->insert(SMART_DONATIONS_TABLE_NAME,$values);
                 $donationId=$wpdb->insert_id;
                 $message="saved";
+				$success=true;
                 delete_transient("rednao_smart_donations_donation_$donationId");
             }
         }else
@@ -66,13 +68,14 @@ function rednao_smart_donations_save()
                 'styles'=>$styles
             ),array("donation_id"=>$donationId));
             $message="saved";
+			$success=true;
             delete_transient("rednao_smart_donations_donation_$donationId");
 
         }
 
     }
 
-    echo "{\"DonationId\":\"$donationId\",\"Message\":\"$message\"}";
+    echo "{\"DonationId\":\"$donationId\",\"Message\":\"$message\",\"Success\":\"".($success?'y':'n')."\"}";
 
     die();
 

@@ -2,7 +2,7 @@ var smartDonationsDonationType="";
 var smartDonationsProgressTypeSelected;
 rnJQuery(function()
 {
-
+    var Notification=rnJQuery('#RNNotifications').RDNotifications();
     rnJQuery('#smartDonationsBackFromConfiguration').click(SmartDonations_backFromConfiguration);
     rnJQuery('.smartDonationsItem').click(function(){SmartDonations_ProgressClicked(this)});
     rnJQuery( "#smartDonationRadio" ).buttonset();
@@ -127,7 +127,7 @@ rnJQuery(function()
     {
         if(typeof smartDonationsDonationType=='undefined'|| !smartDonationsDonationType)
         {
-            alert('Please select a progress indicator first');
+            Notification.ShowError('Please select a progress indicator first');
             return;
         }
 
@@ -161,14 +161,20 @@ rnJQuery(function()
             options:progressOptions
         };
 
+        rnJQuery("#smartDonationsSaveButton").RNWait('start');
         rnJQuery.post(ajaxurl,data,ajaxCompleted);
 
     }
 
     function ajaxCompleted(result,status)
     {
+        rnJQuery("#smartDonationsSaveButton").RNWait('stop');
         var obj=rnJQuery.parseJSON(result);
-        alert(obj.Message);
+        if(obj.Message=='saved')
+            Notification.ShowSuccess('Progress bar saved successfully');
+        else
+            Notification.ShowError(obj.Message);
+
         if(obj.progress_id!="0")
             rnJQuery("#smartDonationsProgressId").val(obj.progress_id)
 

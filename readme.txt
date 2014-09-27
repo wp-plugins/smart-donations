@@ -28,7 +28,7 @@ For support and feedback please visit http://rednao.uservoice.com/ i will be gla
     
  *  **Slider Donation**.- This has an slider that the user can scroll to donate more or less money (you define the minimun and maximun amount), it also has a happy face that gets happier or not that happy depending on the donation amount. (Paypal or wepay)
  
- * **Forms**.- You need to ask something to the donors? then Forms donations is the way to go, you can create a custom form the way you want it (you can add text boxes, drop downs, checkboxes etc). Once you get a donation you will get an email with all that information. (Paypal only)
+ * **Forms**.- (Pro feature) You need to ask something to the donors? then Forms donations is the way to go, you can create a custom form the way you want it (you can add text boxes, drop downs, checkboxes etc). Once you get a donation you will get an email with all that information. (Paypal only)
 
 PayPal also support IPN notifications so you can keep track of all the donations, you can show a donation goal meter or analize how well you have been doing in a period of time.
 

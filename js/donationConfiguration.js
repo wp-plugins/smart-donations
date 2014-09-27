@@ -28,6 +28,8 @@ smartDonationConfigurationBase.prototype.fillConfiguration=function()
 {
     rnJQuery('#smartDonationsItemTitle').text(this.title);
     rnJQuery('#smartDonationsConfigurationFields').html(this.GetDonationConfigurationGeneratedCode());
+
+
     this.DonationConfigurationCompleted();
     var self=this;
     rnJQuery('.smartDonationsSettingField').click(function(){self.SettingChanged(self,this)});
@@ -38,6 +40,9 @@ smartDonationConfigurationBase.prototype.fillConfiguration=function()
     rnJQuery('#smartDonationsSelectedCountryAndLanguage').change(function(){self.SettingChanged(self,this)});
 
     rnJQuery('.smartDonationsSettingField').change();
+
+    if(this instanceof smartDonationsFormConfiguration)
+        smartDonationsSelectedProvider.InitializeFormConfiguration();
 
 };
 
@@ -106,12 +111,12 @@ smartDonationClassicConfiguration.prototype.InitiateGenerator=function(options)
 }
 
 smartDonationClassicConfiguration.prototype.GetDonationConfigurationGeneratedCode=function(){
-    return  "<table> "+
-        "<tr>    "+
-        "<td>Display credit card logos</td> "+
-        "<td><input name='smartDonationsdisplaycreditlogo' class='smartDonationsSettingField' type='checkbox' /> </td> "+
+    return  "<div> "+
+        "<div class='form-group'>    "+
+        "<label class='control-label col-xs-2'>Display credit card logos</label> "+
+        "<div class='col-xs-10'><input name='smartDonationsdisplaycreditlogo' class='smartDonationsSettingField ' type='checkbox' /> </div> "+
         "</tr>"+
-        "</table>";
+        "</div>";
 
 };
 
@@ -148,20 +153,19 @@ smartDonationTextBoxConfiguration.prototype.InitiateGenerator=function(options)
 
 
 smartDonationTextBoxConfiguration.prototype.GetDonationConfigurationGeneratedCode=function(){
-    return  "<table> "+
-        "<tr>    "+
-        "<td>Comment</td> "+
-        "<td><input name='smartDonationsComment' class='smartDonationsSettingField smartDonationsCommentField' type='text' value='If you like this plugin, please donate' /> </td> "+
-        "</tr>"+
-        "<td>Recommended Donation</td> "+
-        "<td><input name='smartDonationsRecommendedDonation' class='smartDonationsSettingField smartDonationsNumericField' type='text' value='15' /> </td> "+
-        "</tr>"+
-        "<tr>    "+
-        "<tr>    "+
-        "<td>Style</td> "+
-        "<td><select name='smartDonationsStyle' class='smartDonationsSettingField' ><option value='1'>One Line</option> <option selected='sel' value='2'>Two Lines</option><option value='3' >Three Lines</option></select></td> "+
-        "</tr>"+
-        "</table>";
+    return  "<div  class='form-horizontal' style='padding:30px;'> "+
+        " <div class='form-group'>    "+
+        " <label class='control-label col-xs-3'>Comment</label> "+
+        "  <div class='col-xs-6'><input name='smartDonationsComment' class='smartDonationsSettingField smartDonationsCommentField form-control' type='text' value='If you like this plugin, please donate' /> </div> "+
+        "</div>"+
+        "<div class='form-group'><label class='control-label col-xs-3'>Recommended Donation</label> "+
+        "<div class='col-xs-6'><input name='smartDonationsRecommendedDonation' class='smartDonationsSettingField smartDonationsNumericField form-control' type='text' value='15' /> </div> "+
+        "</div>"+
+        "<div class='form-group'>    "+
+        " <label class='control-label col-xs-3'>Style</label> "+
+        "<div class='col-xs-6'><select name='smartDonationsStyle' class='smartDonationsSettingField form-control' ><option value='1'>One Line</option> <option selected='sel' value='2'>Two Lines</option><option value='3' >Three Lines</option></select></div> "+
+        "</div>"+
+        "</div>";
 
 };
 
@@ -306,34 +310,35 @@ smartDonationsSliderConfiguration.prototype.InitiateGenerator=function(options)
 
 smartDonationsSliderConfiguration.prototype.GetDonationConfigurationGeneratedCode=function(){
     return  "" +
-        "<table style='margin-left: -10px;' > "+
-        "<tr>" +
-        "<td><span>Text</span></td>"+
-        "<td><input type='text' name='smartDonationText' class='smartDonationsSettingField smartDonationsCommentField' value='If you like it, please donate.'/></td>" +
-        "</tr>"+
-        "<tr>" +
-        "<td><span>Donation Text</span></td>"+
-        "<td><input type='text' name='smartDonationDonationText' class='smartDonationsSettingField smartDonationsCommentField' value='Current donation:'/></td>" +
-        "</tr>"+
-        "<tr style='height:15px'></tr><tr>" +
-        "<td><span>Minimun Value</span></td>"+
-        "<td><input type='text' name='smartDonationsMinValue' class='smartDonationsSettingField smartDonationsNumericField' value='5'/></td>" +
-        "</tr>"+
-        "<tr>" +
-        "<td><span>Maximun Value</span></td>"+
-        "<td><input type='text' name='smartDonationsMaxValue' class='smartDonationsSettingField smartDonationsNumericField' value='50'/></td>" +
-        "</tr>"+
-        "<tr>" +
-        "<td><span>Default Value</span></td>"+
-        "<td><input type='text' name='smartDonationsDefaultValue' class='smartDonationsSettingField smartDonationsNumericField' value='25'/></td>" +
-        "</tr><tr style='height:15px'></tr>"+
-        "<td><span>Increments Of</span></td>"+
-        "<td><input type='text' name='smartDonationIncrementOf' class='smartDonationsSettingField smartDonationsNumericField' value='1'/></td>" +
-        "</tr>"+
-        "</tr><tr style='height:15px'></tr>"+
-        "<td><span >Allowed Values</span></td>"+
-        "<td><input type='text' name='smartDonationAllowedValues' class='smartDonationsSettingField smartDonationsNumericField' value=''/><span class='description'>*Example 10,20,30,40</span></td>" +
-        "</tr>"+
+        "<div style='margin-left: -10px;padding:0;' class='form-horizontal' > "+
+        "<div class='form-group' style='margin-bottom: 5px'>" +
+        " <label class='control-label col-xs-3'>Text</label>"+
+        "<div class='col-xs-6'><input type='text' name='smartDonationText' class='smartDonationsSettingField smartDonationsCommentField form-control' value='If you like it, please donate.'/></div>" +
+        "</div>"+
+        "<div class='form-group' style='margin-bottom: 5px'>" +
+        " <label class='control-label col-xs-3'>Donation Text</label>"+
+        "<div class='col-xs-6'><input type='text' name='smartDonationDonationText' class='smartDonationsSettingField smartDonationsCommentField form-control' value='Current donation:'/></div>" +
+        "</div>"+
+        "<div class='form-group' style='margin-bottom: 5px'>" +
+        " <label class='control-label col-xs-3'>Minimun Value</label>"+
+        "<div class='col-xs-6'><input type='text' name='smartDonationsMinValue' class='smartDonationsSettingField smartDonationsNumericField form-control' value='5'/></div>" +
+        "</div>"+
+        "<div class='form-group' style='margin-bottom: 5px'>" +
+        " <label class='control-label col-xs-3'>Maximun Value</label>"+
+        "<div class='col-xs-6'><input type='text' name='smartDonationsMaxValue' class='smartDonationsSettingField smartDonationsNumericField form-control' value='50'/></div>" +
+        "</div>"+
+        "<div class='form-group' style='margin-bottom: 5px'>" +
+        " <label class='control-label col-xs-3'>Default Value</label>"+
+        "<div class='col-xs-6'><input type='text' name='smartDonationsDefaultValue' class='smartDonationsSettingField smartDonationsNumericField form-control' value='25'/></div>" +
+        "</div>"+
+        "<div class='form-group' style='margin-bottom: 5px'>" +
+        " <label class='control-label col-xs-3'>Increments Of</label>"+
+        "<div class='col-xs-6'><input type='text' name='smartDonationIncrementOf' class='smartDonationsSettingField smartDonationsNumericField form-control' value='1'/></div>" +
+        "</div>"+
+        "<div class='form-group' style='margin-bottom: 5px'>"+
+        " <label class='control-label col-xs-3'>Allowed Values</label>"+
+        "<div class='col-xs-6'><input type='text' name='smartDonationAllowedValues' class='smartDonationsSettingField smartDonationsNumericField form-control' value=''/><span class='description'>*Example 10,20,30,40</span></div>" +
+        "</div>"+
         "</table>";
 
 };
@@ -398,7 +403,7 @@ smartDonationsFormConfiguration.prototype.GetDonationConfigurationGeneratedCode=
                                 <li id="atabinput" class="formtab"><a href="#input">Input</a></li>\
                                 <li><a id="atabradioscheckboxes" class="formtab">Radios / Checkboxes</a></li>\
                                 <li><a id="atabselect" class="formtab">Select</a></li>\
-                                <li><a id="atabbuttons" class="formtab">Paypal</a></li>\
+                                <li><a id="atabbuttons" class="formtab">Donation</a></li>\
                             </ul>\
                             <div class="form-horizontal" id="components">\
                                 <fieldset  >\

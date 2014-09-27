@@ -21,6 +21,6 @@ define('SMART_DONATIONS_LATEST_DB_VERSION',11);
 define('REDNAO_URL',"http://rednao.com/");
 define('SMART_DONATIONS_VERSION',11);
 define('SMART_DONATIONS_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('SMART_DONATIONS_SANDBOX','n');
-
+define('SMART_DONATIONS_SANDBOX','y');
+define('SMART_DONATIONS_REQUIRED_ROLE','manage_options')
 ?>
