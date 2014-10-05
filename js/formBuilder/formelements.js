@@ -1285,7 +1285,7 @@ DonationButtonElement.prototype.GenerateInlineElement=function()
 
 DonationButtonElement.prototype.GenerationCompleted=function()
 {
-    rnJQuery('#'+this.Id).find('.smartDonationsDonationButton').click(function()
+    rnJQuery('#'+this.Id).find('.smartDonationsDonationButton').click(function(event)
     {
         event.preventDefault();
     });

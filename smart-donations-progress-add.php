@@ -82,7 +82,7 @@ wp_enqueue_script('smart-donations-ladda-js',SMART_DONATIONS_PLUGIN_URL.'js/boot
 </div>
 </div>
 
-<div id='smart_donations_component_options'  class="donationForm" >
+<form id='smart_donations_component_options'  class="donationForm" >
 
 
     <!--Item Container--->
@@ -145,9 +145,9 @@ wp_enqueue_script('smart-donations-ladda-js',SMART_DONATIONS_PLUGIN_URL.'js/boot
         </div>
     </div>
 
-    </div>
+    </form>
 
-</div>
+
 
 <?php  ?>
 
