@@ -81,7 +81,7 @@ function rednao_smart_donations_create_menu(){
     add_submenu_page('smart_donations_menu','Progress Indicators','Progress Indicators',SMART_DONATIONS_REQUIRED_ROLE,__FILE__.'progress_indicators', 'rednao_smart_donations_progress_indicators');
     add_submenu_page('smart_donations_menu','Analytics','Analytics',SMART_DONATIONS_REQUIRED_ROLE,__FILE__.'analytics', 'rednao_smart_donations_analytics');
     add_submenu_page('smart_donations_menu','Smart Donations - Wish List','Wish List/Support',SMART_DONATIONS_REQUIRED_ROLE,__FILE__.'wishlist', 'rednao_smart_donations_wish_list');
-    //add_submenu_page('smart_donations_menu','Settings','Settings',SMART_DONATIONS_REQUIRED_ROLE,__FILE__.'settings', 'rednao_smart_donations_settings');
+    add_submenu_page('smart_donations_menu','Settings','Settings',SMART_DONATIONS_REQUIRED_ROLE,__FILE__.'settings', 'rednao_smart_donations_settings');
 
 
 	do_action('add_smart_donations_screens');
