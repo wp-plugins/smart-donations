@@ -127,6 +127,8 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
             <script>
                 var smartDonationsRootPath=\"".plugin_dir_url(__FILE__)."\";
                  var smartDonationsSandbox=\"".SMART_DONATIONS_SANDBOX."\";
+                  var smartDonationsIPNUrl=\"".site_url().'?sd_ipn_trigger=1'."\";
+
                 if(!window.smartDonationsItemsToLoad)
                     window.smartDonationsItemsToLoad=new Array();;
                 window.smartDonationsItemsToLoad.push({'options':$options,'element':'donationContainer$random'});
