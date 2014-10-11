@@ -1,5 +1,6 @@
 <?php
-require_once('../../../../wp-config.php');
+
+include_once('../../../../wp-config.php');
 require_once('wordpress_connection_provide.php');
 require_once('smart_donations_db_privider.php');
 require_once('rednao_paypal_provider.php');

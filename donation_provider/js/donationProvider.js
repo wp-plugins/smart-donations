@@ -44,7 +44,7 @@ smartDonationsPayPalProvider.prototype.GetStartOfDonationForm=function(generator
                 <input type="hidden" name="custom" value="'+generator.campaign_id+'">';
 
     if(typeof smartDonationsRootPath != 'undefined')
-        donationText+='<input type="hidden" name="notify_url" value="'+smartDonationsRootPath+'ipn/rednao_paypal_ipn.php">';
+        donationText+='<input type="hidden" name="notify_url" value="'+smartDonationsIPNUrl+'">';
 
     if(generator.returningUrl)
         donationText+='<input type="hidden" name="return" value="'+generator.returningUrl+'">';

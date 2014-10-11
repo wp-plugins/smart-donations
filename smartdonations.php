@@ -257,3 +257,19 @@ if(smart_donations_check_license_with_options($error)||$error!=null)
 }
 
 
+
+add_filter('query_vars','smart_donations_add_trigger');
+function smart_donations_add_trigger($vars) {
+	$vars[] = 'smart_donation_ipn_trigger';
+	return $vars;
+}
+
+add_action('template_redirect', 'smart_donations_check_if_ipn');
+function smart_donations_check_if_ipn()
+{
+	$val=get_query_var('sd_ipn_trigger')?get_query_var('sd_ipn_trigger'):$_GET["sd_ipn_trigger"];
+	if(intval($val)==1) {
+		require_once SMART_DONATIONS_DIR.'/ipn/rednao_paypal_ipn.php';
+		exit;
+	}
+}
