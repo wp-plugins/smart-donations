@@ -76,6 +76,7 @@ wp_enqueue_style('form-builder-custom',plugin_dir_url(__FILE__).'css/formBuilder
 </div>
 
     <script type="text/javascript">
+		var smartDonationsIPNUrl="<?php echo site_url().'?sd_ipn_trigger=1' ?>";
         var smartDonationsPluginUrl="<?php echo SMART_DONATIONS_PLUGIN_URL ?>";
 		var smartFormsIsActive=<?php echo (is_plugin_active("smart-forms/smartforms.php")?"true":"false");?>;
 
