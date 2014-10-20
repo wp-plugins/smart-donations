@@ -96,7 +96,7 @@ smartDonationsPayPalProvider.prototype.FormSubmissionCompleted=function(data,gen
     {
         var form=generator.GetRootContainer().find('form');
         form.attr('target','_self');
-        form.find('input[name=custom]').val(encodeURI('campaign_id='+this.campaign_id+"&formId="+data.randomString))
+        form.find('input[name=custom]').val(encodeURI('campaign_id='+generator.campaign_id+"&formId="+data.randomString))
         if(amount>0)
             form.append('<input type="hidden" name="amount" class="amountToDonate" value="'+amount+'">');
 

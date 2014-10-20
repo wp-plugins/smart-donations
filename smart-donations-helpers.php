@@ -92,6 +92,9 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
     wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css');
     echo "<script type=\"text/javascript\">var ajaxurl = '".admin_url('admin-ajax.php')."';</script>";
     $random=rand();
+	$ipnUrl=trim(site_url());
+	if(substr($ipnUrl, -1)!=="/")
+		$ipnUrl.="/";
 
     if($returnComponent==false)
     {
@@ -109,7 +112,7 @@ function rednao_smart_donations_load_donation($id,$title,$returnComponent)
     <script>
         var smartDonationsRootPath="<?php echo plugin_dir_url(__FILE__)?>";
 		var smartDonationsSandbox="<?php echo SMART_DONATIONS_SANDBOX ?>";
-		var smartDonationsIPNUrl="<?php echo site_url().'?sd_ipn_trigger=1' ?>";
+		var smartDonationsIPNUrl="<?php echo $ipnUrl.'?sd_ipn_trigger=1' ?>";
         if(!window.smartDonationsItemsToLoad)
             window.smartDonationsItemsToLoad=new Array();;
 
