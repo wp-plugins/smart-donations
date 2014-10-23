@@ -14,6 +14,7 @@ try {
 	$ipn->ProcessCall();
 } catch (Exception $e) {
 	$rednaolog .= $e->getMessage();
+	$ipn->SendLogIfNeeded();
 }
 
 

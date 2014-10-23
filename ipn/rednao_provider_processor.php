@@ -284,7 +284,7 @@ class rednao_provider_processor
 		return false;
 	}
 
-	private function SendLogIfNeeded()
+	public function SendLogIfNeeded()
 	{
 		if (get_option('smartDonationsEnableDebug') == 'y') {
 			global $rednaolog;
