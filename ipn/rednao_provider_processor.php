@@ -210,7 +210,7 @@ class rednao_provider_processor
 
 		if ($formType == 'sf') {
 
-			$this->SmartFormsSaveDonationForm($sFormId, $splittedFormOptions[1], $referenceId);
+			SmartFormsSaveDonationForm($sFormId, $splittedFormOptions[1], $referenceId);
 			return;
 		}
 
