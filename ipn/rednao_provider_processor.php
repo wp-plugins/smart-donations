@@ -204,13 +204,13 @@ class rednao_provider_processor
 
 		$splittedFormOptions = explode('rednaosplitter', $form);
 		if ($form == false) {
-			this . SendFormError('The submitted form was not found, that means this transaction was processed 3 days after the payment', $properties);
+			$this->SendFormError('The submitted form was not found, that means this transaction was processed 3 days after the payment', $properties);
 			return;
 		}
 
 		if ($formType == 'sf') {
 
-			SmartFormsSaveDonationForm($sFormId, $splittedFormOptions[1], $referenceId);
+			$this->SmartFormsSaveDonationForm($sFormId, $splittedFormOptions[1], $referenceId);
 			return;
 		}
 
