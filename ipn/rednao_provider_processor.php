@@ -50,8 +50,14 @@ class rednao_provider_processor
 						return false;
 
 					$this->ProcessValidPayPalRequest($properties, $formId, $sFormId, $type,$additionalData);
+					delete_transient($formId);
+					delete_option($formId);
 				}else
+				{
+					delete_transient($formId);
+					delete_option($formId);
 					return false;
+				}
 			}
 
 
@@ -96,6 +102,8 @@ class rednao_provider_processor
 				$properties['campaign_id'] = $formStringParameters['campaign_id'];
 				$formId = $formStringParameters['formId'];
 				$form = get_transient($formId);
+				if($form===false)
+					$form=get_option($formId);
 				$splittedFormOptions = explode('rednaosplitter', $form);
 				if(count($splittedFormOptions)==3)
 					$additionalData=json_decode($splittedFormOptions[2],true);
@@ -166,7 +174,11 @@ class rednao_provider_processor
 
 		$form = "";
 		if ($formId != null)
+		{
 			$form = get_transient($formId);
+			if($form===false)
+				$form=get_option($formId);
+		}
 
 		$properties['form_information'] = $form ? $form : "";
 	}
@@ -200,6 +212,8 @@ class rednao_provider_processor
 	private function ProcessForm($properties, $formId, $formType, $referenceId, $sFormId)
 	{
 		$form = get_transient($formId);
+		if($form===false)
+			$form=get_option($formId);
 		RedNaoAddMessage("Processing form");
 
 		$splittedFormOptions = explode('rednaosplitter', $form);
