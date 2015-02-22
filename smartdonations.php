@@ -5,7 +5,7 @@
  * Description: Place diferent form of donations on your blog...
  * Author: RedNao
  * Author URI: http://rednao.com
- * Version: 4.0.8
+ * Version: 4.0.9
  * Text Domain: SmartDonations
  * Domain Path: /languages/
  * Network: true
@@ -267,7 +267,9 @@ function smart_donations_add_trigger($vars) {
 add_action('template_redirect', 'smart_donations_check_if_ipn');
 function smart_donations_check_if_ipn()
 {
-	$val=get_query_var('sd_ipn_trigger')?get_query_var('sd_ipn_trigger'):$_GET["sd_ipn_trigger"];
+	$val=get_query_var('sd_ipn_trigger')?get_query_var('sd_ipn_trigger'):"";
+	if($val==""&&isset($_GET["sd_ipn_trigger"]))
+		$val=$_GET["sd_ipn_trigger"];
 	if(intval($val)==1) {
 		require_once SMART_DONATIONS_DIR.'/ipn/rednao_paypal_ipn.php';
 		exit;

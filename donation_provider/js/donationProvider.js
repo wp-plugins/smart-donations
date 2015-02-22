@@ -41,6 +41,7 @@ smartDonationsPayPalProvider.prototype.GetStartOfDonationForm=function(generator
                 <input type="hidden" name="no_note" value="0">                    \
                 <input type="hidden" name="currency_code" value="'+generator.donation_currency+'">             \
                 <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">\
+                <input name="bn" value="Rednao_SP" type="hidden">\
                 <input type="hidden" name="custom" value="'+generator.campaign_id+'">';
 
     if(typeof smartDonationsRootPath != 'undefined')

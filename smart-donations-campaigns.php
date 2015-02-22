@@ -89,6 +89,11 @@ echo "<div class='bootstrap-wrapper'>";
 
 <?php
 
+if (isset($_GET['action'])) {
+    $action=$_GET['action'];
+}else
+    $action="";
+
 if($action!="edit")
 {
 
@@ -102,10 +107,7 @@ if (isset($_GET['id'])) {
     $campaign_id=$_GET['id'];
 }else
     $campaign_id="";
-if (isset($_GET['action'])) {
-    $action=$_GET['action'];
-}else
-    $action="";
+
 
 if($action!=null&&$campaign_id!=null)
 {
