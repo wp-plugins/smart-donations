@@ -91,7 +91,7 @@ class rednao_smart_donations_wall_widget extends WP_Widget
     }
 
     function widget($args, $instance) { // displays the widget
-        return rednao_smart_donations_load_wall($instance['campaign_id'],$instance['title'],$instance['number_of_records'],$instance['currency_sign'],$instance['decimal_sign'],$instance['thousand_separator']);
+        return rednao_smart_donations_load_wall($instance['campaign_id'],$instance['title'],$instance['number_of_records'],$instance['currency_sign'],$instance['decimal_sign'],$instance['thousand_separator'],false);
 
     }
 

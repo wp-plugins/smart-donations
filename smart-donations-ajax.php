@@ -122,6 +122,27 @@ function rednao_smart_progress_donations_list()
 }
 
 
+function rednao_smart_donations_campaign_list()
+{
+    if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') ) {
+        return;
+    }
+
+    global $wpdb;
+    $result=$wpdb->get_results("SELECT campaign_id,name  FROM ".SMART_DONATIONS_CAMPAIGN_TABLE);
+
+    echo "[{\"Id\":\"0\",\"Name\":\"Select a campaign\"}";
+    foreach($result as $key=>$row)
+    {
+        echo ",{\"Id\":\"$row->campaign_id\",\"Name\":\"$row->name\"}";
+    }
+    echo"]";
+    die();
+
+}
+
+
+
 function rednao_smart_donations_add_campaign()
 {
     if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') ) {

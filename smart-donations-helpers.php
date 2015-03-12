@@ -242,11 +242,12 @@ function rednao_smart_donations_load_progress($id,$title,$returnComponent)
 
 
 
-function rednao_smart_donations_load_wall($campaignId,$title,$numberOfRows,$currency,$decimalSign,$thousandSeparator)
+function rednao_smart_donations_load_wall($campaignId,$title,$numberOfRows,$currency,$decimalSign,$thousandSeparator,$returnComponent)
 {
 
     $rows=Array();
     $options=get_transient("rednao_smart_donations_wall_$campaignId");
+    $options=false;
     if($options==false)
     {
         $options=null;
@@ -269,17 +270,36 @@ function rednao_smart_donations_load_wall($campaignId,$title,$numberOfRows,$curr
 
     }else
         $rows=$options;
-    echo "<div class='widget-wrapper'><h3 class='widgettitle'>$title</h3><table class='smartDonationsWallTable'>";
-    $count=1;
-    foreach($rows as $row)
+
+    if($returnComponent==false)
     {
-        echo "<tr class='smartDonationsWallRow'>";
-        echo " <td><span class='smartdonationsWallCounter'>$count. </span><span class='smartDonationsWallDonatorName'>".$row['first_name']." ".$row['last_name']."<span></td>";
-        echo "<td style='text-align:right'><span class='smartDonationsWallDonatorAmount' >".$currency." ".number_format($row['amount'],2,$decimalSign,$thousandSeparator);$row['amount']."<span></td>";
-        echo "</tr>";
-        $count+=1;
+        echo "<div class='widget-wrapper'><h3 class='widgettitle'>$title</h3><table class='smartDonationsWallTable'>";
+        $count = 1;
+        foreach ($rows as $row)
+        {
+            echo "<tr class='smartDonationsWallRow'>";
+            echo " <td><span class='smartdonationsWallCounter'>$count. </span><span class='smartDonationsWallDonatorName'>" . $row['first_name'] . " " . $row['last_name'] . "<span></td>";
+            echo "<td style='text-align:right'><span class='smartDonationsWallDonatorAmount' >" . $currency . " " . number_format($row['amount'], 2, $decimalSign, $thousandSeparator);
+            $row['amount'] . "<span></td>";
+            echo "</tr>";
+            $count += 1;
+        }
+        echo "</table></div>";
+    }else{
+        $table="<table class='smartDonationsWallTable'>";
+        $count = 1;
+        foreach ($rows as $row)
+        {
+            $table.= "<tr class='smartDonationsWallRow'>";
+            $table.= " <td><span class='smartdonationsWallCounter'>$count. </span><span class='smartDonationsWallDonatorName'>" . $row['first_name'] . " " . $row['last_name'] . "<span></td>";
+            $table.= "<td style='text-align:right'><span class='smartDonationsWallDonatorAmount' >" . $currency . " " . number_format($row['amount'], 2, $decimalSign, $thousandSeparator);
+            $row['amount'] . "<span></td>";
+            $table.= "</tr>";
+            $count += 1;
+        }
+        $table.= "</table>";
+        return $table;
     }
-    echo"</table></div>";
     wp_enqueue_style('smart-donations-main-style',plugin_dir_url(__FILE__).'css/mainStyle.css');
     /*wp_enqueue_script('jquery');
     wp_enqueue_script('isolated-slider',plugin_dir_url(__FILE__).'js/rednao-isolated-jq.js');

@@ -49,6 +49,7 @@ register_activation_hook(__FILE__,'rednao_smart_donations_plugin_was_activated')
 add_action('admin_init','rednao_smart_donations_plugin_was_activated');
 add_shortcode('sdonations','rednao_smart_donations_short_code');
 add_shortcode('sdprogress','rednao_smart_donations_progress_short_code');
+add_shortcode('sddonwall','rednao_smart_donations_wall_short_code');
 
 add_action('init', 'rednao_smart_donations_init');
 add_action('admin_menu','rednao_smart_donations_create_menu');
@@ -63,6 +64,7 @@ add_action( 'wp_ajax_rednao_smart_donations_execute_analytics_op','rednao_smart_
 add_action( 'wp_ajax_rednao_smart_progress_donations_list','rednao_smart_progress_donations_list');
 add_action( 'wp_ajax_rednao_smart_donations_save_form_values','rednao_smart_donations_save_form_values');
 add_action( 'wp_ajax_nopriv_rednao_smart_donations_save_form_values','rednao_smart_donations_save_form_values');
+add_action( 'wp_ajax_rednao_smart_donations_campaign_list','rednao_smart_donations_campaign_list');
 
 add_action('http_request_args', 'no_ssl_http_request_args', 10, 2);
 function no_ssl_http_request_args($args, $url) {
@@ -101,6 +103,11 @@ function rednao_smart_donations_init()
 
 function rednao_smart_donations_add_plugin($plugin_array)
 {
+    if(smart_donations_check_license_with_options($error)||$error!=null)
+        echo '<script type="application/javascript">var smartDonationsLc=1;</script>';
+    else
+        echo '<script type="application/javascript">var smartDonationsLc=0;</script>';
+
     wp_enqueue_script('isolated-slider',plugin_dir_url(__FILE__).'js/rednao-isolated-jq.js');
     wp_enqueue_style('smart-donations-Slider',plugin_dir_url(__FILE__).'css/smartDonationsSlider/jquery-ui-1.10.2.custom.min.css');
     $plugin_array['rednao_smart_donations_button']=plugin_dir_url(__FILE__).'js/smartDonationsShortCodeButton.js';
@@ -202,6 +209,11 @@ function rednao_smart_donations_short_code($attr,$content)
 function rednao_smart_donations_progress_short_code($attr,$content)
 {
     return rednao_smart_donations_load_progress($content,null,true);
+}
+
+function rednao_smart_donations_wall_short_code($attr,$content)
+{
+    return rednao_smart_donations_load_wall($content,"",$attr["numberofdonors"],$attr["currencysign"],$attr["decimalsign"],$attr["thousandseparator"],true);
 }
 
 function rednao_smart_donations_settings()
