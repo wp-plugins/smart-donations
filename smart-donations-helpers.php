@@ -147,6 +147,7 @@ function rednao_smart_donations_load_progress($id,$title,$returnComponent)
 {
 
     $options=get_transient("rednao_smart_donations_progress_$id");
+    $options=false;
     if($options==false)
     {
         $options=null;
