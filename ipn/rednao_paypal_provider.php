@@ -73,8 +73,8 @@ class rednao_paypal_provider extends   rednao_provider_base{
 
 	public function GetDonorEmail()
 	{
-		if (isset($_POST["business"])) {
-			return $_POST["business"];
+		if (isset($_POST["receiver_email"])) {
+			return $_POST["receiver_email"];
 		} else
 			return '';
 	}
