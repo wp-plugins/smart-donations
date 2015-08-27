@@ -21,7 +21,7 @@ class rednao_smart_donations_wall_widget extends WP_Widget
         $widget_ops = array(
             'classname' => 'rednao_smart_donations_wall_widget', 'description' => __('Create a donation wall')
         );
-        $this->WP_Widget( 'rednao_smart_donations_wall_widget', __('Smart Donations - Donation Wall'),$widget_ops );
+        parent::__construct('rednao_smart_donations_wall_widget', __('Smart Donations - Donation Wall'),$widget_ops );
     }
 
     function form($instance)

@@ -21,7 +21,7 @@ class rednao_smart_donations_progress_widget extends WP_Widget
         $widget_ops = array(
             'classname' => 'rednao_smart_donations_progress_widget', 'description' => 'Let you insert an progress indicator in any area'
         );
-        $this->WP_Widget( 'rednao_smart_donations_progress_widget', 'Smart Donations - Progress Indicator',$widget_ops );
+        parent::__construct('rednao_smart_donations_progress_widget', 'Smart Donations - Progress Indicator',$widget_ops );
     }
 
     function form($instance)

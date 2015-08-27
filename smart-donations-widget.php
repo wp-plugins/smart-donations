@@ -21,7 +21,7 @@ class rednao_smart_donations_widget extends WP_Widget
         $widget_ops = array(
             'classname' => 'rednao_smart_donations_widget', 'description' => 'Let you insert an smart donation in any area'
         );
-        $this->WP_Widget( 'rednao_smart_donations_widget', 'Smart Donations - Donation Button',$widget_ops );
+        parent::__construct('rednao_smart_donations_widget', 'Smart Donations - Donation Button',$widget_ops );
     }
 
     function form($instance)
