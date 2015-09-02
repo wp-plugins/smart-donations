@@ -176,8 +176,10 @@ class rednao_paypal_provider extends   rednao_provider_base{
 	{
 		RedNaoAddMessage($receiverEmail);
 		global $wpdb;
-		$count = $wpdb->get_var($wpdb->prepare("select count(*) from " . SMART_DONATIONS_TABLE_NAME . " where email=%s", $receiverEmail));
+		$count = $wpdb->get_var($wpdb->prepare("select count(*) from " . SMART_DONATIONS_TABLE_NAME . " where email=%s", $_POST["receiver_email"]));
 
+		if($count<=0)
+			$count=$wpdb->get_var($wpdb->prepare("select count(*) from " . SMART_DONATIONS_TABLE_NAME . " where email=%s", $_POST["business"]));
 		return $count > 0;
 	}
 
